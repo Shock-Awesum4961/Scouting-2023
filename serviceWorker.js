@@ -6,6 +6,7 @@ const assets = [
   "/js/app.js",
   "/js/bootstrap.min.js",
   "/js/jquery-3.6.3.min.js",
+  "/js/umd.js",
   "/images/coffee1.jpg",
   "/images/coffee2.jpg",
   "/images/coffee3.jpg",
