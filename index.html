@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="manifest" href="src/manifest.json">
+    <!-- ios support -->
+    <link rel="apple-touch-icon" href="images/icons/icon-72x72.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-96x96.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-128x128.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-144x144.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-384x384.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-512x512.png">
+    <meta name="apple-mobile-web-app-status-bar" content="#db4938">
+    <meta name="theme-color" content="#db4938">
+    <title>4961 Scouting</title>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <nav>
+          <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
+            <button class="nav-link nav-fill active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+            <button class="nav-link nav-fill " id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false">Record</button>
+            <button class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</button>
+            <button class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <!-- Home Tab -->
+          <div class="tab-pane show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            <div class="row mt-2">
+              <input type="text" class="form-control" placeholder="Name" aria-label="Name">
+            </div>
+            <div class="row mt-4">
+              <button class="btn btn-danger" onclick="$('#nav-record-tab' ).trigger('click');">Start Recording</button>
+            </div>
+          </div>
+          <div class="tab-pane" id="nav-record" role="tabpanel" aria-labelledby="nav-record-tab" tabindex="0">
+            <!-- Match # / Team # / Alliance / Match Date / Match Type -->
+            <div class="info-section" id="record-info">
+              <div class="row">
+                <div class="mb-3">
+                  <label class="form-label" for="matchDate">Match Date</label>
+                  <input class="form-control" type="date" name="matchDate" id="matchDate" placeholder="Match Date" disabled>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" for="matchType">Match Type</label>
+                  <select class="form-select" name="matchType" id="matchType">
+                    <option value="" selected></option>
+                    <option value="Test">Test</option>
+                    <option value="Practice">Practice</option>
+                    <option value="Qualifications">Qualifications</option>
+                    <option value="Semi-Finals">Semi-Finals</option>
+                    <option value="Finals">Finals</option>
+                  </select>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="mb-2">
+                  <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="Match Number">
+                </div>
+                <div class="mb-2">
+                  <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="Team Number">
+                </div>
+              </div>
+              <div class="my-2 ms-auto">
+                <button class="btn btn-outline-primary" onclick="showAuton()";>Continue</button>
+              </div>
+
+            </div>
+
+
+
+            <!-- Auton -->
+            <div class="auton-section" id="record-auton" style="display:none">
+              <h4>Auton</h4>
+              <div class="row">
+                <div class="col">
+                  <input type="checkbox" class="btn-check" id="moibilty" autocomplete="off">
+                  <label class="btn btn-outline-success btn-lg py-auto " for="moibilty">Mobility</label>
+                </div>
+                <div class="col">
+                  <h6>Charger</h6>
+                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="auton_charger" id="auton_nocharger" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary btn-lg flex-fill" for="auton_nocharger">No</label>
+      
+                    <input type="radio" class="btn-check" name="auton_charger" id="auton_docked" autocomplete="off">
+                    <label class="btn btn-outline-primary btn-lg flex-fill" for="auton_docked">Docked</label>
+                    
+                    <input type="radio" class="btn-check" name="auton_charger" id="auton_engaged" autocomplete="off">
+                    <label class="btn btn-outline-primary btn-lg flex-fill" for="auton_engaged">Engaged</label>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex w-100 mt-4">
+                <button class="btn btn-outline-secondary btn-lg flex-fill" id="auton_bot">Bottom</button>
+                <button class="btn btn-outline-warning btn-lg flex-fill" id="auton_mid">Middle</button>
+                <button class="btn btn-outline-success btn-lg flex-fill" id="auton_top">Top</button>
+              </div>
+              <div class="d-flex mt-4 justify-content-between">
+                <button class="btn btn-outline-secondary" onclick="showInfo()">Back</button>
+                <button class="btn btn-outline-warning" onclick="showTeleop()">Teleop</button>
+              </div>
+            </div>
+          
+          <!-- Tele-op -->
+            <div class="teleop-section" id="record-teleop" style="display:none">
+              <h4>Teleop</h4>
+              <div class="col">
+                <input type="checkbox" class="btn-check" id="teleop_defensive" autocomplete="off">
+                <label class="btn btn-outline-info btn-lg py-auto " for="teleop_defensive">Defensive</label>
+              </div>
+              <div class="row mt-2">
+                <h4>Game Piece pick-up</h4>
+                <div class="d-flex w-100">
+                  <button class="btn btn-outline-secondary btn-lg flex-fill" id="">Portal</button>
+                  <button class="btn btn-outline-warning btn-lg flex-fill" id="auton_mid">Ground</button>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <h4>Score</h4>
+                <div class="d-flex w-100">
+                  <button class="btn btn-outline-secondary btn-lg flex-fill" id="teleop_bot">Bottom</button>
+                  <button class="btn btn-outline-warning btn-lg flex-fill" id="teleop_mid">Middle</button>
+                  <button class="btn btn-outline-success btn-lg flex-fill" id="teleop_top">Top</button>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-4">
+                <h4>Endgame</h4>
+                <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_nocharger" autocomplete="off" checked>
+                  <label class="btn btn-outline-primary  flex-fill" for="endgame_nocharger">No</label>
+        
+                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_community" autocomplete="off">
+                  <label class="btn btn-outline-primary  flex-fill" for="endgame_community">Community</label>
+        
+                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_docked" autocomplete="off">
+                  <label class="btn btn-outline-primary  flex-fill" for="endgame_docked">Docked</label>
+                  
+                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_engaged" autocomplete="off">
+                  <label class="btn btn-outline-primary flex-fill" for="endgame_engaged">Engaged</label>
+                </div>
+              </div>
+            <div class="form-floating mt-4">
+              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+              <label for="floatingTextarea2">Comments</label>
+            </div>
+            <div class="row mt-4">
+              <div class="col"><button class="btn btn-outline-secondary" onclick="showAuton()">Auton</button></div>
+              <div class="col"><button class="btn btn-outline-primary" onclick="saveRecording()">Save</button></div>
+            </div>
+            </div>
+          </div>
+          <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">...</div>
+          <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">...</div>
+        </div>
+    </div>
+    </main>
+    <script src="js/app.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.6.3.min.js"></script>
+    <script>
+        $().ready(function(){
+          $('#matchDate').val(new Date().toISOString().slice(0, 10) );
+        });
+
+        function showAuton(){
+          $('#record-info').hide();
+          $('#record-teleop').hide();
+          $('#record-auton').show();
+        }
+
+        function showTeleop(){
+          $('#record-info').hide();
+          $('#record-auton').hide();
+          $('#record-teleop').show();
+        }
+
+        function showInfo(){
+          $('#record-auton').hide();
+          $('#record-teleop ').hide();
+          $('#record-info').show();
+        }
+
+        function saveRecording(){
+
+        }
+
+    </script>
+
+  </body>
+</html>
