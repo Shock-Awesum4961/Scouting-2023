@@ -4,6 +4,35 @@
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#fdfdfd",
-  "theme_color": "#ff6600",
-  "orientation": "portrait-primary"
+  "theme_color": "#db4938",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/icons/arrow-counterclockwise.svg",
+      "type": "image/svg+xml",
+      "sizes": "16x16"
+    },
+    {
+      "src": "/images/icons/pause-fill.svg",
+      "type": "image/svg+xml",
+      "sizes": "16x16"
+    },
+    {
+      "src": "/images/icons/play-fill.svg",
+      "type": "image/svg+xml",
+      "sizes": "16x16"
+    },
+    {
+      "src": "/images/icons/4961_logo_512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icons/4961_logo_192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    }    
+  ]
 }
