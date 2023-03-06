@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome_all.min.css">
     <link rel="manifest" href="src/manifest.json">
 
     <!-- ios support -->
@@ -23,185 +24,494 @@
   </head>
   <body>
     <main>
-      <div class="container">
+      <div class="main-container">
         <nav>
           <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
             <button class="nav-link nav-fill active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-            <button class="nav-link nav-fill " id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false">Record</button>
+            <button class="nav-link nav-fill " id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false" disabled>Scout</button>
             <button class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</button>
             <button class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</button>
           </div>
         </nav>
-        <div class="tab-content" id="nav-tabContent">
-          <!-- Home Tab -->
-          <div class="tab-pane show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-            <div class="row mt-2">
-              <input type="text" class="form-control" placeholder="Name" aria-label="Name">
-            </div>
-            <div class="row mt-4">
-              <button class="btn btn-danger" onclick="$('#nav-record-tab' ).trigger('click');">Start Recording</button>
-            </div>
-          </div>
-          <div class="tab-pane" id="nav-record" role="tabpanel" aria-labelledby="nav-record-tab" tabindex="0">
-            <!-- Match # / Team # / Alliance / Match Date / Match Type -->
-            <div class="info-section" id="record-info">
-              <div class="row">
-                <div class="mb-3">
-                  <label class="form-label" for="matchDate">Match Date</label>
-                  <input class="form-control" type="date" name="matchDate" id="matchDate" placeholder="Match Date" disabled>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label" for="matchType">Match Type</label>
-                  <select class="form-select" name="matchType" id="matchType">
-                    <option value="" selected></option>
-                    <option value="Test">Test</option>
-                    <option value="Practice">Practice</option>
-                    <option value="Qualifications">Qualifications</option>
-                    <option value="Semi-Finals">Semi-Finals</option>
-                    <option value="Finals">Finals</option>
-                  </select>
-                </div>
-
+        <div class="container">
+          <div class="tab-content" id="nav-tabContent">
+            <!-- Home Tab -->
+            <div class="tab-pane show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+              <div class=" mt-4">
+                <h4 type="text" class="text-secondary text-center">4961 Scouting 2023</h4>
               </div>
-              <div class="row">
-                <div class="mb-2">
-                  <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="Match Number">
-                </div>
-                <div class="mb-2">
-                  <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="Team Number">
-                </div>
+              <div class=" mt-4">
+                <input type="text" class="form-control" placeholder="Name (Required)" aria-label="Name" id="scout_name">
               </div>
-              <div class="my-2 ms-auto">
-                <button class="btn btn-outline-primary" onclick="showAuton()";>Continue</button>
+              <div class=" mt-4">
+                <button class="btn btn-primary btn-lg" onclick="$('#nav-record-tab' ).trigger('click');saveScoutName();" id="startScouting" disabled>Start Scouting</button>
               </div>
-
             </div>
 
+            <!-- Scouting Tab -->
+            <div class="tab-pane" id="nav-record" role="tabpanel" aria-labelledby="nav-record-tab" tabindex="0">
 
+              <!-- Match # / Team # / Alliance / Match Date / Match Type -->
+              <div class="info-section mt-4" id="record-info">
+                <h4>Match Details</h4>
+                <div class="d-flex w-100 justify-content-around">
 
-            <!-- Auton -->
-            <div class="auton-section" id="record-auton" style="display:none">
-              <h4>Auton</h4>
-              <div class="row">
-                <div class="col">
-                  <input type="checkbox" class="btn-check" id="moibilty" autocomplete="off">
-                  <label class="btn btn-outline-success btn-lg py-auto " for="moibilty">Mobility</label>
-                </div>
-                <div class="col">
-                  <h6>Charger</h6>
-                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="auton_charger" id="auton_nocharger" autocomplete="off" checked>
-                    <label class="btn btn-outline-primary btn-lg flex-fill" for="auton_nocharger">No</label>
-      
-                    <input type="radio" class="btn-check" name="auton_charger" id="auton_docked" autocomplete="off">
-                    <label class="btn btn-outline-primary btn-lg flex-fill" for="auton_docked">Docked</label>
-                    
-                    <input type="radio" class="btn-check" name="auton_charger" id="auton_engaged" autocomplete="off">
-                    <label class="btn btn-outline-primary btn-lg flex-fill" for="auton_engaged">Engaged</label>
+                  <div class="mb-3">
+                    <label class="form-label" for="matchDate">Date</label>
+                    <input class="form-control" type="date" name="matchDate" id="matchDate" placeholder="Match Date" disabled>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label" for="matchType">Type<span class="text-danger">*</span></label>
+                    <select class="form-select" name="matchType" id="matchType">
+                      <option value="" selected disabled class="text-secondary">Required</option>
+                      <option value="Test">Test</option>
+                      <option value="Practice">Practice</option>
+                      <option value="Qualifications">Qualifications</option>
+                      <option value="Semi-Finals">Semi-Finals</option>
+                      <option value="Finals">Finals</option>
+                    </select>
                   </div>
                 </div>
+
+                <div class="d-flex  justify-content-around">
+                  <div class="mb-2">
+                    <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="Match Number*">
+                  </div>
+                  <div class="mb-2">
+                    <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="Team Number*">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center my-4">
+                  <label class="form-check-label me-2" >Blue</label>
+                  <label class="switch">
+                    <input type="checkbox" id="allianceSwitch">
+                    <span class="slider round"></span>
+                  </label>
+                  <label class="form-check-label ms-2" >Red</label>
+                </div>
+                <div class="d-flex justify-content-around my-2">
+                  <button class="btn btn-danger" onclick="resetData()"; style="display:none;">Reset</button>
+                  <button class="btn btn-primary" onclick="showAuton()";>Continue</button>
+                </div>
+
               </div>
-              <div class="d-flex w-100 mt-4">
-                <button class="btn btn-outline-secondary btn-lg flex-fill" id="auton_bot">Bottom</button>
-                <button class="btn btn-outline-warning btn-lg flex-fill" id="auton_mid">Middle</button>
-                <button class="btn btn-outline-success btn-lg flex-fill" id="auton_top">Top</button>
+
+              <!-- Timer Section -->
+              <div class="timer-section mt-4" style="display:none">
+                <div class="start-button">
+                  <button class="btn btn-danger" onclick="startTimer()" id="startTimer">Start Match Timer</button>
+                  <button class="btn btn-outline-secondary" onclick="stopTimer()" id="stopTimer" style="display:none"><i class="fa-solid fa-pause"></i></button>
+                  <button class="btn btn-outline-secondary" onclick="resumeTimer()" id="resumeTimer" style="display:none"><i class="fa-solid fa-play"></i></button>
+                  <button class="btn btn-outline-secondary" onclick="restartTimer()" id="restartRecording" style="display:none"><i class="fa-solid fa-rotate-left"></i></button>
+                </div>
+                <div class="countdown" style="display:none">
+                  <div id="progressBar">
+                    <div><span id="countdownTime" style="padding: 10px"></span></div>
+                  </div>
+                  Match Period: <span id="currentMatchPeriod" class="fw-bolder"></span> 
+                </div>
+                <hr>
               </div>
-              <div class="d-flex mt-4 justify-content-between">
-                <button class="btn btn-outline-secondary" onclick="showInfo()">Back</button>
-                <button class="btn btn-outline-warning" onclick="showTeleop()">Teleop</button>
+
+
+
+              <!-- Auton -->
+              <div class="auton-section mt-4" id="record-auton" style="display:none">
+                <h4>Auton Scoring</h4>
+                <div class="d-flex w-100 justify-content-around">
+                  <div class="me-2" style="margin-top:1.75rem!important">
+                    <input type="checkbox" class="btn-check flex-fill " id="mobility" autocomplete="off">
+                    <label class="btn btn-outline-success flex-fill " for="mobility">Mobility</label>
+                  </div>
+                  <div class="flex-grow-1 flex-fill">
+                    <h6>Charger</h6>
+                    <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="auton_charger_container">
+                      <input type="radio" class="btn-check" name="auton_charger" id="auton_nocharger" value="no" autocomplete="off" checked>
+                      <label class="btn btn-outline-warning flex-fill " for="auton_nocharger">No</label>
+        
+                      <input type="radio" class="btn-check" name="auton_charger" id="auton_docked" value="docked" autocomplete="off">
+                      <label class="btn btn-outline-primary flex-fill " for="auton_docked">Docked</label>
+                      
+                      <input type="radio" class="btn-check" name="auton_charger" id="auton_engaged" value="engaged" autocomplete="off">
+                      <label class="btn btn-outline-primary flex-fill " for="auton_engaged">Engaged</label>
+                      <input type="radio" class="btn-check" name="auton_charger" id="auton_failed" value="failed" autocomplete="off">
+                      <label class="btn btn-outline-danger flex-fill " for="auton_failed">Failed</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex w-100 mt-4">
+                  <button class="btn btn-dark btn-lg flex-fill" id="auton_bot">Bottom</button>
+                  <button class="btn btn-warning btn-lg flex-fill" id="auton_mid">Middle</button>
+                  <button class="btn btn-success btn-lg flex-fill" id="auton_top">Top</button>
+                </div>
+                <div class="d-flex mt-4 justify-content-between">
+                  <button class="btn btn-primary" onclick="showInfo()">Back</button>
+                  <button class="btn btn-primary" onclick="showTeleop()">Teleop</button>
+                </div>
               </div>
-            </div>
+            
+            <!-- Tele-op -->
+              <div class="teleop-section mt-4" id="record-teleop" style="display:none">
+                <h4>Teleop Scoring</h4>
+                <div class="">
+                  <input type="checkbox" class="btn-check" id="teleop_defensive" autocomplete="off">
+                  <label class="btn btn-outline-info " for="teleop_defensive">Defensive</label>
+                </div>
+                <div class=" mt-2">
+                  <h4>Game Piece pick-up</h4>
+                  <div class="d-flex w-100">
+                    <button class="btn btn-secondary btn-lg flex-fill" id="teleop_pickup_portal_slide">Portal Slide</button>
+                    <button class="btn btn-info btn-lg flex-fill" id="teleop_pickup_portal_shelf">Portal Shelf</button>
+                    <button class="btn btn-warning btn-lg flex-fill" id="teleop_pickup_ground">Ground</button>
+                  </div>
+                </div>
+                <div class=" mt-2">
+                  <h4>Score</h4>
+                  <div class="d-flex w-100">
+                    <button class="btn btn-dark btn-lg flex-fill" id="teleop_bot">Bottom</button>
+                    <button class="btn btn-warning btn-lg flex-fill" id="teleop_mid">Middle</button>
+                    <button class="btn btn-success btn-lg flex-fill" id="teleop_top">Top</button>
+                  </div>
+                </div>
+                <hr>
+                <div class="mt-4">
+                  <h4>Endgame</h4>
+                  <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="teleop_charger_container">
+                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_nocharger" value="no" autocomplete="off" checked>
+                    <label class="btn btn-outline-warning  flex-fill " for="endgame_nocharger">No</label>
           
-          <!-- Tele-op -->
-            <div class="teleop-section" id="record-teleop" style="display:none">
-              <h4>Teleop</h4>
-              <div class="col">
-                <input type="checkbox" class="btn-check" id="teleop_defensive" autocomplete="off">
-                <label class="btn btn-outline-info btn-lg py-auto " for="teleop_defensive">Defensive</label>
-              </div>
-              <div class="row mt-2">
-                <h4>Game Piece pick-up</h4>
-                <div class="d-flex w-100">
-                  <button class="btn btn-outline-secondary btn-lg flex-fill" id="">Portal</button>
-                  <button class="btn btn-outline-warning btn-lg flex-fill" id="auton_mid">Ground</button>
+                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_community"  value="park" autocomplete="off">
+                    <label class="btn btn-outline-primary  flex-fill " for="endgame_community">Park</label>
+          
+                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_docked" value="docked" autocomplete="off">
+                    <label class="btn btn-outline-primary flex-fill " for="endgame_docked">Docked</label>
+                    
+                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_engaged" value="engaged" autocomplete="off">
+                    <label class="btn btn-outline-primary flex-fill " for="endgame_engaged">Engaged</label>
+                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_failed" value="failed" autocomplete="off">
+                    <label class="btn btn-outline-danger flex-fill " for="endgame_failed">Failed</label>
+                  </div>
                 </div>
+              <div class="form-floating mt-4">
+                <textarea class="form-control" placeholder="Leave a comment here" id="comments" style="height: 100px"></textarea>
+                <label for="comments">Comments</label>
               </div>
-              <div class="row mt-2">
-                <h4>Score</h4>
-                <div class="d-flex w-100">
-                  <button class="btn btn-outline-secondary btn-lg flex-fill" id="teleop_bot">Bottom</button>
-                  <button class="btn btn-outline-warning btn-lg flex-fill" id="teleop_mid">Middle</button>
-                  <button class="btn btn-outline-success btn-lg flex-fill" id="teleop_top">Top</button>
-                </div>
+              <div class="d-flex justify-content-between mt-4">
+                <div class="col"><button class="btn btn-primary" onclick="showAuton()">Auton</button></div>
+                <div class="col"><button class="btn btn-primary" onclick="saveRecording()">Save</button></div>
               </div>
-              <hr>
-              <div class="row mt-4">
-                <h4>Endgame</h4>
-                <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
-                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_nocharger" autocomplete="off" checked>
-                  <label class="btn btn-outline-primary  flex-fill" for="endgame_nocharger">No</label>
-        
-                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_community" autocomplete="off">
-                  <label class="btn btn-outline-primary  flex-fill" for="endgame_community">Community</label>
-        
-                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_docked" autocomplete="off">
-                  <label class="btn btn-outline-primary  flex-fill" for="endgame_docked">Docked</label>
-                  
-                  <input type="radio" class="btn-check" name="endgame_charger" id="endgame_engaged" autocomplete="off">
-                  <label class="btn btn-outline-primary flex-fill" for="endgame_engaged">Engaged</label>
-                </div>
               </div>
-            <div class="form-floating mt-4">
-              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-              <label for="floatingTextarea2">Comments</label>
+
+
             </div>
-            <div class="row mt-4">
-              <div class="col"><button class="btn btn-outline-secondary" onclick="showAuton()">Auton</button></div>
-              <div class="col"><button class="btn btn-outline-primary" onclick="saveRecording()">Save</button></div>
-            </div>
-            </div>
+            <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">Select * from matches DB and display here</div>
+            <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">Accept Transfers here</div>
           </div>
-          <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">...</div>
-          <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">...</div>
         </div>
-    </div>
+      </div>
     </main>
     <script src="js/app.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-3.6.3.min.js"></script>
     <script src="js/umd.js"></script>
+    <script src="js/fontawesome_all.js"></script>
+
+    <!-- Databases -->
     <script>
-      async function doDatabaseStuff() {
-        const db = await idb.openDB(…);
+      let db;
+      const request = idb.openDB("scouting_2023", 3);
+      request.onerror = (event) => {
+        console.error("Why didn't you allow my web app to use IndexedDB?!");
+      };
+      request.onsuccess = (event) => {
+        console.log("connected to db")
+        db = event.target.result;
+      };
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        const matchesStore = db.createObjectStore("matches", {keyPath: "uuid"})
+
+        matchesStore.createIndex("team_number", "team_number", {unique: false})
+
       }
     </script>
+
+    <!-- Current Match data -->
     <script>
-        $().ready(function(){
-          $('#matchDate').val(new Date().toISOString().slice(0, 10) );
-        });
+      var currentMatchData = {};
 
-        function showAuton(){
-          $('#record-info').hide();
-          $('#record-teleop').hide();
-          $('#record-auton').show();
+      $().ready(function(){
+        $('#scout_name').val(getCookie('scout_name') || '');
+        if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
+          $('#startScouting').prop('disabled', false);
+          $('#nav-record-tab').prop('disabled', false);
         }
 
-        function showTeleop(){
-          $('#record-info').hide();
-          $('#record-auton').hide();
-          $('#record-teleop').show();
-        }
+        initData()
+      });
 
-        function showInfo(){
-          $('#record-auton').hide();
-          $('#record-teleop ').hide();
-          $('#record-info').show();
+      $('#scout_name').on('keyup', function(){
+        if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
+          $('#startScouting').prop('disabled', false);
+          $('#nav-record-tab').prop('disabled', false);
         }
+      });
 
-        function saveRecording(){
-
+      $('#scout_name').change(function(){
+        if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
+          $('#startScouting').prop('disabled', false);
+          $('#nav-record-tab').prop('disabled', false);
         }
+        setCookie('scout_name', $('#scout_name').val(), 4);
+        
+      });
+
+      function initData(){
+        currentMatchData['mobility'] = $("#mobility").is(':checked');
+        currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
+        currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
+        currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
+        currentMatchData['auton_bottom'] = 0;
+        currentMatchData['auton_middle'] = 0;
+        currentMatchData['auton_top'] = 0;
+        currentMatchData['teleop_bottom'] = 0;
+        currentMatchData['teleop_middle'] = 0;
+        currentMatchData['teleop_top'] = 0;
+        currentMatchData['events'] = [];
+
+      }
+
+      function saveScoutName(){
+        currentMatchData['scout'] = $('#scout_name').val();
+      }
+      
+      function saveInfo(){
+        currentMatchData['scout'] = $('#scout_name').val();
+        currentMatchData['date'] = $('#matchDate').val()
+        currentMatchData['type'] = $('#matchType').val();
+        currentMatchData['match_number'] = $('#matchNumber').val();
+        currentMatchData['team_number'] = $('#teamNumber').val();
+        if($("#allianceSwitch").is(':checked')){
+          currentMatchData['alliance'] = "red"
+        } else {
+          currentMatchData['alliance'] = "blue"
+        }
+      }
+
+      $('#mobility').change(function(){
+        currentMatchData['mobility'] = $("#mobility").is(':checked');
+
+      });
+
+      $('input[name=auton_charger]').change(function(){
+        currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
+      });
+
+      $('#auton_bot').click(function(){
+        currentMatchData['auton_bottom'] += 1;
+      });
+      $('#auton_mid').click(function(){
+        currentMatchData['auton_middle'] += 1;
+      });
+      $('#auton_bot').click(function(){
+        currentMatchData['auton_top'] += 1;
+      });
+
+      $('#teleop_defensive').change(function(){
+        currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
+      });
+
+      $('input[name=teleop_charger]').change(function(){
+        currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
+      });
+
+      $('#teleop_pickup_portal_slide').click(function(){
+        currentMatchData['teleop_pickup_portal_slide'] += 1;
+      });
+      $('#teleop_pickup_portal_shelf').click(function(){
+        currentMatchData['teleop_pickup_portal_shelf'] += 1;
+      });
+      $('#teleop_pickup_ground').click(function(){
+        currentMatchData['teleop_pickup_ground'] += 1;
+      });
+
+      $('#teleop_bot').click(function(){
+        currentMatchData['teleop_bot'] += 1;
+      });
+      $('#teleop_mid').click(function(){
+        currentMatchData['teleop_mid'] += 1;
+      });
+      $('#teleop_bot').click(function(){
+        currentMatchData['teleop_bot'] += 1;
+      });
+
+
+
+      function saveRecording(){
+        currentMatchData['comments'] = $('#comments').val()
+        //Interact with DB
+
+      }
+
+    </script>
+
+    <!-- All Timings & UI Stuff -->
+    <script>
+      // Constants of durations of match events
+      const autoDuration = 15;
+      const autoEnd = 3;
+      const teleopDuration = 105;
+      const endgameDuration = 30;
+      const totalDuration = autoDuration + autoEnd + teleopDuration + endgameDuration;
+
+      var timerPaused = false;
+      var timerPausedAt;
+      var timerTotalPausedAt;
+      var currentMatchTime;
+
+      var archivedNavRecord;
+      
+
+      $().ready(function(){
+        $('#matchDate').val(new Date().toISOString().slice(0, 10) );
+        archivedNavRecord = $('#nav-record').clone();
+      });
+
+      function showAuton(){
+        $('.timer-section').show();
+        $('#record-info').hide();
+        $('#record-teleop').hide();
+        $('#record-auton').show();
+
+        saveInfo();
+      }
+
+      function showTeleop(){
+        $('#record-info').hide();
+        $('#record-auton').hide();
+        $('#record-teleop').show();
+      }
+
+      function showInfo(){
+        $('.timer-section').hide();
+        $('#record-auton').hide();
+        $('#record-teleop ').hide();
+        $('#record-info').show();
+      }
+
+      function startTimer(){
+        // initData(); When should we set everything to 0?
+
+        $('.countdown').show();
+        $('#startTimer').hide();
+        $('#stopTimer').show();
+        $("#restartRecording").show();
+
+        timerPaused = false;
+        progress(totalDuration, totalDuration, $('#progressBar'));
+        //  startAutoTimer();
+      //  autoEndTimer();
+      //  teleopTimer();
+      //  endgameTimer();
+      }
+
+      function stopTimer(){
+        timerPaused = true;
+        $('#stopTimer').hide();
+        $("#resumeTimer").show();
+      }
+      function resumeTimer(){
+        timerPaused = false;
+        $("#resumeTimer").hide();
+        $('#stopTimer').show();
+
+        progress(timerPausedAt, timerTotalPausedAt, $('#progressBar'));
+      }
+
+      function restartTimer(){
+        timerPaused = true;
+        timerPausedAt = 0
+        timerTotalPausedAt = 0
+        $("#restartRecording").hide();
+        $('.countdown').hide();
+        $('#stopTimer').hide();
+        $("#resumeTimer").hide();
+        $('#startTimer').show();
+      }
+
+      function progress(timeleft, timetotal, $element) {
+        if(!timerPaused){
+          var progressBarWidth = timeleft * $element.width() / timetotal;
+          $element.find('div').animate({ width: progressBarWidth }, 500);
+          $("#countdownTime").html(Math.floor(timeleft/60) + ":"+ pad(timeleft%60, 2));
+          currentMatchTime = timetotal - timeleft;
+
+          if(timeleft > (totalDuration - autoDuration)){
+            $('#currentMatchPeriod').html("AUTONOMOUS")
+          } else if(timeleft > (totalDuration - autoDuration - autoEnd)){
+            $('#currentMatchPeriod').html("AUTONOMOUS SCORING")
+          } else if(timeleft > (totalDuration - autoDuration - autoEnd - teleopDuration)){
+            $('#currentMatchPeriod').html("TELEOPERATED")
+          } else if(timeleft > 0){
+            $('#currentMatchPeriod').html("ENDGAME")
+          } else {
+            $('#currentMatchPeriod').html("MATCH OVER")
+          }
+
+          if(timeleft > 0) {
+              setTimeout(function() {
+                  progress(timeleft - 1, timetotal, $element);
+              }, 1000);
+          }
+        } else {
+          timerPausedAt = timeleft;
+          timerTotalPausedAt = timetotal;
+          return;
+        }
+      };
+
+
+    </script>
+
+    <!-- Button event handling -->
+    <script>
+      //Auton
+      $('#mobility').click(function(){
+
+      })
+      $('#auton_bot').click(function(){
+
+      })
+
+    </script>
+    
+    <!-- Helper Functions -->
+    <script>
+      function setCookie(cName, cValue, expHours) {
+        let date = new Date();
+        date.setTime(date.getTime() + (expHours * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+      }  
+
+      function deleteCookie(cName) {
+        const expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
+        document.cookie = cName + "=" + expires + "; path=/";
+      }  
+
+      function getCookie(cName) {
+        const name = cName + "=";
+        const cDecoded = decodeURIComponent(document.cookie); //to be careful
+        const cArr = cDecoded.split('; ');
+        let res;
+        cArr.forEach(val => {
+            if (val.indexOf(name) === 0) res = val.substring(name.length);
+        })
+        return res;
+  }
+      
+      function pad(num, size){     return ('000000000' + num).substr(-size); }
 
     </script>
 
