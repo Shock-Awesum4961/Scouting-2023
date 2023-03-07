@@ -255,6 +255,7 @@
 
       $().ready(function(){
         $('#scout_name').val(getCookie('scout_name') || '');
+        $('#matchType').val()(getCookie('matchType') || '');
         if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
           $('#startScouting').prop('disabled', false);
           $('#pitScouting').prop('disabled', false);
@@ -287,6 +288,7 @@
           $('#matchType').addClass("text-secondary");
         }else{
           $('#matchType').removeClass("text-secondary");
+          setCookie('matchType', $('#matchType').val(), 4);
         }
       });
 
