@@ -25,6 +25,7 @@ req.onupgradeneeded = function (evt) {
     DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
 
     store.createIndex('team_number', 'team_number', { unique: false });
+    store.createIndex('match_number', 'match_number', { unique: false });
 };
 }
 

@@ -3,6 +3,8 @@ const assets = [
   "/",
   "/index.html",
   "/css/style.css",
+  "/css/bootstrap.min.css",
+  "/css/bootstrap.min.css.map",
   "/js/bootstrap.min.js",
   "/js/bootstrap.min.js.map",
   "/js/jquery-3.6.3.min.js",
