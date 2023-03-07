@@ -10,6 +10,7 @@ const assets = [
   "/Scouting-2023/js/jquery-3.6.3.min.js",
   "/Scouting-2023/js/umd.js",
   "/Scouting-2023/js/qrcode.min.js",
+  "/Scouting-2023/js/html5-qrcode.min.js",
   "/Scouting-2023/js/app.js",
   "/Scouting-2023/js/database.js",
   "/Scouting-2023/images/icons/4961_logo_192.png",
