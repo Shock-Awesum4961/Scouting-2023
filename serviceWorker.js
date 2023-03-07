@@ -10,7 +10,12 @@ const assets = [
   "/js/jquery-3.6.3.min.js",
   "/js/umd.js",
   "/js/app.js",
-  "/js/database.js"
+  "/js/database.js",
+  "images/icons/4961_logo_192.png",
+  "images/icons/4961_logo_512.png",
+  "images/icons/arrow-counterclockwise.svg",
+  "images/icons/pause-fill.svg",
+  "images/icons/play-fill.svg",
 ];
 
 self.addEventListener("install", installEvent => {
