@@ -355,40 +355,20 @@
       });
 
       $('#teleop_bot').click(function(){
-        currentMatchData['teleop_bot'] += 1;
+        currentMatchData['teleop_bottom'] += 1;
       });
       $('#teleop_mid').click(function(){
-        currentMatchData['teleop_mid'] += 1;
+        currentMatchData['teleop_middle'] += 1;
       });
-      $('#teleop_bot').click(function(){
-        currentMatchData['teleop_bot'] += 1;
+      $('#teleop_top').click(function(){
+        currentMatchData['teleop_top'] += 1;
       });
 
 
 
       function saveRecording(){
         currentMatchData['comments'] = $('#comments').val()
-        //Interact with DB
-        // const transaction = db.transaction(["scouting_2023"], "readwrite");
-
-        // // Do something when all the data is added to the database.
-        // transaction.oncomplete = (event) => {
-        //   console.log("All done!");
-        // };
-
-        // transaction.onerror = (event) => {
-        //   // Don't forget to handle errors!
-        // };
-
-        // const objectStore = transaction.objectStore("matches");
-        // const request = objectStore.add(currentMatchData);
-        // request.onsuccess = (event) => {
-        //   // event.target.result === customer.ssn;
-        //   console.log(event);
-        // };
-
-        
-
+        addMatch(currentMatchData);
       }
 
     </script>
