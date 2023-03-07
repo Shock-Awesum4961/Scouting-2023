@@ -1,38 +1,45 @@
 {
   "name": "4961 2023 Scouting",
   "short_name": "4961Scout",
-  "start_url": "index.html",
+  "scope": "/Scouting-2023/",
+  "start_url": "/Scouting-2023/index.html",
   "display": "standalone",
   "background_color": "#fdfdfd",
   "theme_color": "#db4938",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/images/icons/arrow-counterclockwise.svg",
+      "src": "/Scouting-2023/images/icons/arrow-counterclockwise.svg",
       "type": "image/svg+xml",
       "sizes": "16x16"
     },
     {
-      "src": "/images/icons/pause-fill.svg",
+      "src": "/Scouting-2023/images/icons/pause-fill.svg",
       "type": "image/svg+xml",
       "sizes": "16x16"
     },
     {
-      "src": "/images/icons/play-fill.svg",
+      "src": "/Scouting-2023/images/icons/play-fill.svg",
       "type": "image/svg+xml",
       "sizes": "16x16"
     },
     {
-      "src": "/images/icons/4961_logo_512.png",
+      "src": "/Scouting-2023/images/icons/4961_logo_512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
-      "src": "/images/icons/4961_logo_192.png",
+      "src": "/Scouting-2023/images/icons/4961_logo_192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any"
-    }    
+    },
+    {
+      "src": "/Scouting-2023/favicon.ico",
+      "type": "image/icp",
+      "sizes": "16x16",
+      "purpose": "any"
+    }       
   ]
 }
