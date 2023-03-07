@@ -76,10 +76,13 @@ req.onupgradeneeded = function (evt) {
     }
 
     function getAllMatches(){
-      var store = getMatchesStore();
-      store.getAll().onsuccess = function(event) {
-        return event.target.result;
-      }; 
+      return new Promise((resolve, reject) =>{
+        var store = getMatchesStore();
+        req = store.getAll();
+        req.onsuccess = function(event) {
+          resolve(event.target.result);
+        };
+      });
     }
 
 

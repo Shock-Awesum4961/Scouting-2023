@@ -45,8 +45,9 @@
               <div class=" mt-4">
                 <input type="text" class="form-control" placeholder="Name (Required)" aria-label="Name" id="scout_name">
               </div>
-              <div class=" mt-4">
-                <button class="btn btn-primary btn-lg" onclick="$('#nav-record-tab' ).trigger('click');saveScoutName();" id="startScouting" disabled>Start Scouting</button>
+              <div class=" mt-4 d-flex justify-content-around">
+                <button class="btn btn-primary btn-lg" onclick="$('#nav-record-tab' ).trigger('click');saveScoutName();" id="startScouting" disabled>Match Scouting</button>
+                <button class="btn btn-success btn-lg" onclick="$('#nav-record-tab' ).trigger('click');saveScoutName();" id="pitScouting" disabled>Pit Scouting</button>
               </div>
             </div>
 
@@ -78,10 +79,12 @@
 
                 <div class="d-flex  justify-content-around">
                   <div class="mb-2">
-                    <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="Match Number*">
+                    <label class="form-label" for="teamNumber">Match Number<span class="text-danger">*</span></label>
+                    <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="#">
                   </div>
                   <div class="mb-2">
-                    <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="Team Number*">
+                    <label class="form-label" for="teamNumber">Team Number<span class="text-danger">*</span></label>
+                    <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="#">
                   </div>
                 </div>
                 <div class="d-flex justify-content-center my-4">
@@ -94,13 +97,13 @@
                 </div>
                 <div class="d-flex justify-content-around my-2">
                   <button class="btn btn-danger" onclick="resetData()"; style="display:none;">Reset</button>
-                  <button class="btn btn-primary" onclick="showAuton()";>Continue</button>
+                  <button class="btn btn-primary" onclick="showAuton()"; id="continueMatchInfo" disabled>Continue</button>
                 </div>
 
               </div>
 
               <!-- Timer Section -->
-              <div class="timer-section mt-4" style="display:none">
+              <div class="timer-section mt-4 text-center" style="display:none">
                 <div class="start-button">
                   <button class="btn btn-danger" onclick="startTimer()" id="startTimer">Start Match Timer</button>
                   <button class="btn btn-outline-secondary" onclick="stopTimer()" id="stopTimer" style="display:none"><img src="images/icons/pause-fill.svg"/></button>
@@ -119,26 +122,28 @@
 
 
               <!-- Auton -->
-              <div class="auton-section mt-4" id="record-auton" style="display:none">
+              <div class="auton-section mt-4 text-center" id="record-auton" style="display:none">
                 <h4>Auton Scoring</h4>
                 <div class="d-flex w-100 justify-content-around">
-                  <div class="me-2" style="margin-top:1.75rem!important">
+                  <div class="me-2 flex-fill" style="margin-top:1.75rem!important">
                     <input type="checkbox" class="btn-check flex-fill " id="mobility" autocomplete="off">
                     <label class="btn btn-outline-success flex-fill " for="mobility">Mobility</label>
                   </div>
                   <div class="flex-grow-1 flex-fill">
                     <h6>Charger</h6>
-                    <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="auton_charger_container">
-                      <input type="radio" class="btn-check" name="auton_charger" id="auton_nocharger" value="no" autocomplete="off" checked>
-                      <label class="btn btn-outline-warning flex-fill " for="auton_nocharger">No</label>
-        
-                      <input type="radio" class="btn-check" name="auton_charger" id="auton_docked" value="docked" autocomplete="off">
-                      <label class="btn btn-outline-primary flex-fill " for="auton_docked">Docked</label>
-                      
-                      <input type="radio" class="btn-check" name="auton_charger" id="auton_engaged" value="engaged" autocomplete="off">
-                      <label class="btn btn-outline-primary flex-fill " for="auton_engaged">Engaged</label>
-                      <input type="radio" class="btn-check" name="auton_charger" id="auton_failed" value="failed" autocomplete="off">
-                      <label class="btn btn-outline-danger flex-fill " for="auton_failed">Failed</label>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="auton_charger_container">
+                      <div class="btn-group-vertical flex-grow">
+                        <input type="radio" class="btn-check" name="auton_charger" id="auton_docked" value="docked" autocomplete="off">
+                        <label class="btn btn-outline-primary flex-fill " for="auton_docked">Docked</label>
+                        <input type="radio" class="btn-check" name="auton_charger" id="auton_nocharger" value="no" autocomplete="off" checked>
+                        <label class="btn btn-outline-warning flex-fill " for="auton_nocharger">No</label>
+                      </div>
+                      <div class="btn-group-vertical flex-grow">
+                        <input type="radio" class="btn-check" name="auton_charger" id="auton_engaged" value="engaged" autocomplete="off">
+                        <label class="btn btn-outline-primary flex-fill " for="auton_engaged">Engaged</label>
+                        <input type="radio" class="btn-check" name="auton_charger" id="auton_failed" value="failed" autocomplete="off">
+                        <label class="btn btn-outline-danger flex-fill " for="auton_failed">Failed</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -154,7 +159,7 @@
               </div>
             
             <!-- Tele-op -->
-              <div class="teleop-section mt-4" id="record-teleop" style="display:none">
+              <div class="teleop-section mt-4 text-center" id="record-teleop" style="display:none">
                 <h4>Teleop Scoring</h4>
                 <div class="">
                   <input type="checkbox" class="btn-check" id="teleop_defensive" autocomplete="off">
@@ -180,9 +185,13 @@
                 <div class="mt-4">
                   <h4>Endgame</h4>
                   <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="teleop_charger_container">
-                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_nocharger" value="no" autocomplete="off" checked>
-                    <label class="btn btn-outline-warning  flex-fill " for="endgame_nocharger">No</label>
-          
+                    <div class="btn-group-vertical flex-fill">
+                      <input type="radio" class="btn-check" name="endgame_charger" id="endgame_nocharger" value="no" autocomplete="off" checked>
+                      <label class="btn btn-outline-warning  flex-fill " for="endgame_nocharger">No</label>
+                      <input type="radio" class="btn-check" name="endgame_charger" id="endgame_failed" value="failed" autocomplete="off">
+                      <label class="btn btn-outline-danger flex-fill " for="endgame_failed">Failed</label>
+                    </div>
+
                     <input type="radio" class="btn-check" name="endgame_charger" id="endgame_community"  value="park" autocomplete="off">
                     <label class="btn btn-outline-primary  flex-fill " for="endgame_community">Park</label>
           
@@ -191,8 +200,6 @@
                     
                     <input type="radio" class="btn-check" name="endgame_charger" id="endgame_engaged" value="engaged" autocomplete="off">
                     <label class="btn btn-outline-primary flex-fill " for="endgame_engaged">Engaged</label>
-                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_failed" value="failed" autocomplete="off">
-                    <label class="btn btn-outline-danger flex-fill " for="endgame_failed">Failed</label>
                   </div>
                 </div>
               <div class="form-floating mt-4">
@@ -209,8 +216,27 @@
             </div>
 
             <!-- Saved Tab -->
-            <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">Select * from matches DB and display here</div>
-            <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">Accept Transfers here</div>
+            <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">
+              <div class="mt-4">
+                <h4>Saved Matches</h4>
+                <div class="list-group mt-4" id="savedMatchesList">
+              </div>
+              </div>
+            </div>
+            <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">
+              <div class="btn-group w-100 mt-4" role="group" aria-label="Basic radio toggle button group" id="transfer_choice">
+                <input type="radio" class="btn-check" name="transfer_choice" id="transfer_send" value="Send" autocomplete="off" checked>
+                <label class="btn btn-outline-primary  flex-fill " for="transfer_send">Send</label>
+                <input type="radio" class="btn-check" name="transfer_choice" id="transfer_receive" value="Receive" autocomplete="off">
+                <label class="btn btn-outline-primary flex-fill " for="transfer_receive">Receive</label>
+              </div>
+              <div class="send-data-section mt-4 text-center" id="send-data-section">
+                Send
+              </div>
+              <div class="recieve-data-section mt-4 text-center" id="receive-data-section" style="display:none">
+                Receive
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -229,6 +255,7 @@
         $('#scout_name').val(getCookie('scout_name') || '');
         if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
           $('#startScouting').prop('disabled', false);
+          $('#pitScouting').prop('disabled', false);
           $('#nav-record-tab').prop('disabled', false);
         }
 
@@ -238,6 +265,7 @@
       $('#scout_name').on('keyup', function(){
         if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
           $('#startScouting').prop('disabled', false);
+          $('#pitScouting').prop('disabled', false);
           $('#nav-record-tab').prop('disabled', false);
         }
       });
@@ -245,6 +273,7 @@
       $('#scout_name').change(function(){
         if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
           $('#startScouting').prop('disabled', false);
+          $('#pitScouting').prop('disabled', false);
           $('#nav-record-tab').prop('disabled', false);
         }
         setCookie('scout_name', $('#scout_name').val(), 4);
@@ -341,8 +370,17 @@
 
 
       function saveRecording(){
-        currentMatchData['comments'] = $('#comments').val()
+        currentMatchData['comments'] = $('#comments').val();
+        currentMatchData['recorded_date'] = new Date();
         addMatch(currentMatchData);
+
+        currentMatchData = [];
+        $('#matchType').val("");
+        $('#matchNumber').val("");
+        $('#teamNumber').val("");
+
+        showInfo();
+        $('#nav-matches-tab' ).trigger('click');
       }
 
     </script>
@@ -361,12 +399,11 @@
       var timerTotalPausedAt;
       var currentMatchTime;
 
-      var archivedNavRecord;
+      var validMatchInfo = false;
       
 
       $().ready(function(){
         $('#matchDate').val(new Date().toISOString().slice(0, 10) );
-        archivedNavRecord = $('#nav-record').clone();
 
         if($('#matchType').find(":selected").is(":disabled")){
           $('#matchType').addClass("text-secondary");
@@ -374,6 +411,22 @@
           $('#matchType').removeClass("text-secondary");
         }
       });
+
+      $('#matchType,#matchNumber,#teamNumber').change(function(){
+        validateMatchInfo();
+      })
+
+      function validateMatchInfo(){
+        validMatchInfo = true;
+        if($('#matchType').val() == "" || $('#matchType').val() == null){validMatchInfo = false;console.log("invalid match type")}
+        if($('#matchNumber').val() == "" || $('#matchNumber').val() == null && $('#matchNumber').val() > 0){validMatchInfo = false;console.log("invalid match number")}
+        if($('#teamNumber').val() == "" || $('#teamNumber').val() == null && $('#teamNumber').val() > 0){validMatchInfo = false;console.log("invalid team number")}
+
+        if(validMatchInfo){$('#continueMatchInfo').prop('disabled', false)} else { $('#continueMatchInfo').prop('disabled', true);}
+
+
+      }
+
 
       function showAuton(){
         $('.timer-section').show();
@@ -471,22 +524,46 @@
 
     </script>
 
-    <!-- Button event handling -->
+    <!-- Saved Tab -->
     <script>
-      //Auton
-      $('#mobility').click(function(){
+      var savedTabPanel = document.getElementById("nav-matches-tab");
+      savedTabPanel.addEventListener('shown.bs.tab', function(event){
 
-      })
-      $('#auton_bot').click(function(){
+        getAllMatches().then(data =>{
+          if(data.length == $("#savedMatchesList").children().length){return;}
+          let sortedData = data.sort(
+            (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
+          data.forEach(match => {
+            $('#savedMatchesList').append(
+              '<div class="list-group-item text-align-left">' +
+                  '<div class="d-flex">' +  
+                    //'<div class="form-check">' +
+                    //  '<input class="form-check-input" type="checkbox" id="transfer'+match.id+'">'+
+                    //'</div>' + 
+                    '<div>Team ' + match.team_number + '</div>'+
+                    '<div class="mx-2"> - </div>' + 
+                    '<div>'+match.type+': ' + match.match_number + '</div>' +
+                  '</div>'+
+                  '<div class="text-secondary">'+match.date+'</div>'+ 
+                  '<div class="text-secondary ms-auto">'+match.recorded_date+'</div>'+ 
+                '</div>')
+          })
 
-      })
+        })
+
+      });
 
     </script>
 
-    <!-- Saved Tab -->
+    <!-- Transfer Tab -->
     <script>
-      $('#nav-matches').bind('afterShow', function() {
-        console.log('afterShow');
+      $('#transfer_send').click(function(){
+        $('#receive-data-section').hide()
+        $('#send-data-section').show()
+      })
+      $('#transfer_receive').click(function(){
+        $('#send-data-section').hide()
+        $('#receive-data-section').show()
       })
     </script>
     
