@@ -75,10 +75,13 @@ req.onupgradeneeded = function (evt) {
         };
     }
 
-    function populateSavedData(){
-        store = getMatchesStore();
-
+    function getAllMatches(){
+      var store = getMatchesStore();
+      store.getAll().onsuccess = function(event) {
+        return event.target.result;
+      }; 
     }
+
 
     /**
    * @param {IDBObjectStore=} store

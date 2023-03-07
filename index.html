@@ -207,6 +207,8 @@
 
 
             </div>
+
+            <!-- Saved Tab -->
             <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">Select * from matches DB and display here</div>
             <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">Accept Transfers here</div>
           </div>
@@ -218,37 +220,6 @@
     <script src="js/umd.js"></script>
     <script src="js/app.js"></script>
     <script src="js/database.js"></script>
-
-    <!-- Databases -->
-    <!-- <script>
-      let db;
-      const request = idb.openDB("scouting_2023", 3);
-      request.onerror = (event) => {
-        console.error("Why didn't you allow my web app to use IndexedDB?!");
-      };
-      request.onsuccess = (event) => {
-        console.log("connected to db")
-        db = event.target.result;
-      };
-      request.onupgradeneeded = (event) => {
-        console.log("update needed")
-        db = event.target.result;
-        const matchesStore = db.createObjectStore("matches");
-
-        matchesStore.createIndex("team_number", "team_number", {unique: false});
-
-        matchesStore.transaction.oncomplete = (event) => {
-          // Store values in the newly created objectStore.
-          console.log("Transaction complete")
-        };
-
-        matchesStore.transaction.onerror = (event) => {
-          console.log("Error: ", event)
-        }
-
-      }
-
-    </script> -->
 
     <!-- Current Match data -->
     <script>
@@ -510,6 +481,13 @@
 
       })
 
+    </script>
+
+    <!-- Saved Tab -->
+    <script>
+      $('#nav-matches').bind('afterShow', function() {
+        alert('afterShow');
+      })
     </script>
     
     <!-- Helper Functions -->
