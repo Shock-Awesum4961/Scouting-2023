@@ -118,6 +118,16 @@ req.onupgradeneeded = function (evt) {
       });
     }
 
+    function getAllPitsIndexed(index, qry){
+      return new Promise((resolve, reject) =>{
+        let store = getPitStore().index(index);
+        req = store.getAll(qry);
+        req.onsuccess = function(event) {
+          resolve(event.target.result);
+        };
+      });
+    }
+
     function updateMatch(id, data){
       return new Promise((resolve, reject) =>{
         let store = getMatchesStore();

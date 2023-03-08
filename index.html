@@ -225,7 +225,7 @@
                 <div class="d-flex w-100 justify-content-around">
                   <div class="mx-2">
                     <div class="mb-2">
-                      <label class="form-label" for="pitTeamNumber">Team #</label>
+                      <label class="form-label" for="pitTeamNumber">Team #<span class="text-danger">*</span></label>
                       <input class="form-control" type="tel" name="pitTeamNumber" id="pitTeamNumber" placeholder="" value="" autocomplete="off">
                     </div>
                                       <!-- 
@@ -307,9 +307,9 @@
                       <label class="form-label" for="pitBestGamePiece">Human player preffered substation</label>
                       <select class="form-select" name="pitBestGamePiece" id="pitBestGamePiece">
                         <option value="" selected disabled class="text-secondary"></option>
-                        <option value="cone" class="text-black">drawer</option>
-                        <option value="cube" class="text-black">portal</option>
-                        <option value="both" class="text-black">either</option>
+                        <option value="cone" class="text-black">Single</option>
+                        <option value="cube" class="text-black">Double</option>
+                        <option value="both" class="text-black">Either</option>
                       </select>
                     </div>
 
@@ -348,12 +348,24 @@
                 <label class="btn btn-outline-primary flex-fill " for="transfer_receive">Receive</label>
               </div>
               <div class="send-data-section mt-4" id="send-data-section">
-                <div class="row">
-                  <div class="col">
-                    <h4>Matches Needing Transfer</h4>
-                    <div class="list-group mt-4 text-left" id="sendSavedMatchesList"></div>
+                <div class="d-flex">
+                  <div class="">
+                    <!-- <div class="btn-group w-100 mt-2" role="group" aria-label="Basic radio toggle button group" id="send_choice">
+                      <input type="radio" class="btn-check" name="send_choice" id="transfer_send_matches" value="SendMatches" autocomplete="off" checked>
+                      <label class="btn btn-outline-primary  flex-fill " for="transfer_send_matches">Matches</label>
+                      <input type="radio" class="btn-check" name="send_choice" id="transfer_send_pits" value="SendPits" autocomplete="off">
+                      <label class="btn btn-outline-primary flex-fill " for="transfer_send_pits">Pits</label>
+                    </div> -->
+                    <div class="send-matches-section" id="send-matches-section">
+                      <h4>Matches Needing Transfer</h4>
+                      <div class="list-group mt-4 text-left" id="sendSavedMatchesList"></div>
+                    </div>
+                    <div class="send-pits-section" style="display:none!important" id="send-pits-section">
+                      <h4>Pit Info Needing Transfer</h4>
+                      <div class="list-group mt-4 text-left" id="sendSavedPitsList"></div>
+                    </div>
                   </div>
-                  <div class="col">
+                  <div class="">
                     <div class="text-center">
                       <button class="btn btn-primary" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
                     </div>
@@ -600,10 +612,28 @@
 
       $('#pitScoutingForm').submit(function(event){
         event.preventDefault();
+        if($('#pitTeamNumber').val() == ""){alert("Enter a team number");return;}
         let value = $(('#pitScoutingForm')).serializeArray();
         value.push({name:"pitComments",value:$('#pitComments').val()});
-
+        value.push({name:"recorded_date",value:new Date()});
+        value.push({name:"type",value:"pit"});
+        addPit(value);
+        resetPitScout();
       });
+
+      function resetPitScout(){
+        $('#pitScoutingForm')[0].reset();
+      }
+
+      $('#transfer_send_pits').click(function(){
+        $('#send-pits-section').show();
+        $('#send-matches-section').hide();
+      })
+
+      $('#transfer_send_matches').click(function(){
+        $('#send-matches-section').show();
+        $('#send-pits-section').hide();
+      })
     </script>
 
     <!-- All Timings & UI Stuff -->
@@ -760,12 +790,14 @@
 
       var dataToTransfer = {};
       var matchesNotTransfered = {};
+      var pitNotTransfered = {};
       var splitDataToTransfer = [];
       var currQrCode = 0;
 
       var transferTabPanel = document.getElementById("nav-transfer-tab");
       transferTabPanel.addEventListener('shown.bs.tab', function(event){
         populateTransferList('sendSavedMatchesList');
+        // populateTransferPitList('sendSavedPitsList');
 
       });
 
@@ -1024,6 +1056,28 @@
         })
       }
 
+      function populateTransferPitList(eleId){
+        getAllPitsIndexed('transfered',0).then(data =>{
+          if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
+          let sortedData = data.sort(
+            (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
+          data.forEach(pit => {
+            pitNotTransfered[pit.id] = pit;
+              var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+pit.id+'">' +
+                  '<div class="form-check" >'+
+                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+pit.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
+                    '<label class="w-100" for="transferMatch_'+pit.id+'">'+
+                      '<div class="d-flex">' +
+                        '<div>Team ' + pit.team_number + '</div>'+
+                      '</div>'+
+                    '</label>'+
+                  '</div>' +
+                '</div>';
+                $('#'  +eleId).append(divStr);
+          })
+
+        })
+      }
       function populateTransferList(eleId){
         getAllMatchesIndexed('transfered',0).then(data =>{
           if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
@@ -1033,8 +1087,8 @@
             matchesNotTransfered[match.id] = match;
               var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+match.id+'">' +
                   '<div class="form-check" >'+
-                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
-                    '<label class="w-100" for="transferMatch_'+match.id+'">'+
+                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" id="matchCheck_'+match.id+'" name="matchCheck_'+match.id+'"onclick="handleTransferCheckbox(this, '+match.id+')">' +
+                    '<label class="form-check-label" for="matchCheck_'+match.id+'">'+
                       '<div class="d-flex">' +
                         '<div>Team ' + match.team_number + '</div>'+
                         '<div class="mx-2"> - </div>' + 
