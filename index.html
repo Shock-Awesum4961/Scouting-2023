@@ -20,9 +20,11 @@
         <nav>
           <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
             <button class="nav-link nav-fill active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-            <button class="nav-link nav-fill " id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false" disabled>Scout</button>
+            <button class="nav-link nav-fill " id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false" disabled>Match Scout</button>
+            <button class="nav-link nav-fill " id="nav-pit-tab" data-bs-toggle="tab" data-bs-target="#nav-pit" type="button" role="tab" aria-controls="nav-pit" aria-selected="false" disabled>Pit Scout</button>
             <button class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</button>
             <button class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</button>
+            <button class="nav-link nav-fill " id="nav-analyze-tab" data-bs-toggle="tab" data-bs-target="#nav-analyze" type="button" role="tab" aria-controls="nav-analyze" aria-selected="false" >Analyze</button>
           </div>
         </nav>
         <div class="container">
@@ -37,7 +39,7 @@
               </div>
               <div class=" mt-4 d-flex justify-content-around">
                 <button class="btn btn-primary btn-lg" onclick="$('#nav-record-tab' ).trigger('click');saveScoutName();" id="startScouting" disabled>Match Scouting</button>
-                <button class="btn btn-success btn-lg" onclick="$('#nav-record-tab' ).trigger('click');saveScoutName();" id="pitScouting" disabled>Pit Scouting</button>
+                <button class="btn btn-success btn-lg" onclick="$('#nav-pit-tab' ).trigger('click');saveScoutName();" id="pitScouting" disabled>Pit Scouting</button>
               </div>
             </div>
 
@@ -70,11 +72,11 @@
                 <div class="d-flex  justify-content-around">
                   <div class="mb-2">
                     <label class="form-label" for="teamNumber">Match Number<span class="text-danger">*</span></label>
-                    <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="#">
+                    <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="#" autocomplete="off">
                   </div>
                   <div class="mb-2">
                     <label class="form-label" for="teamNumber">Team Number<span class="text-danger">*</span></label>
-                    <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="#">
+                    <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="#" autocomplete="off">
                   </div>
                 </div>
                 <div class="d-flex justify-content-center my-4">
@@ -116,7 +118,7 @@
                 <h4>Auton Scoring</h4>
                 <div class="d-flex w-100 justify-content-around">
                   <div class="me-2 flex-fill" style="margin-top:1.75rem!important">
-                    <input type="checkbox" class="btn-check flex-fill " id="mobility" autocomplete="off">
+                    <input type="checkbox" class="btn-check flex-fill " id="mobility" name="mobility" autocomplete="off">
                     <label class="btn btn-outline-success flex-fill " for="mobility">Mobility</label>
                   </div>
                   <div class="flex-grow-1 flex-fill">
@@ -137,10 +139,16 @@
                     </div>
                   </div>
                 </div>
-                <div class="d-flex w-100 mt-4">
+                <div class="btn-group-vertical flex-fill mt-4">
+                  <div class="d-flex w-100">
+                    <button class="btn btn-success btn-lg flex-fill" id="auton_top_cone">Cone Top</button>
+                    <button class="btn btn-success btn-lg flex-fill" id="auton_top_cube">Cube Top</button>
+                  </div>
+                  <div class="d-flex w-100">
+                    <button class="btn btn-warning btn-lg flex-fill" id="auton_mid_cone"> Cone Mid</button>
+                    <button class="btn btn-warning btn-lg flex-fill" id="auton_mid_cube">Cube Mid</button>
+                  </div>
                   <button class="btn btn-dark btn-lg flex-fill" id="auton_bot">Bottom</button>
-                  <button class="btn btn-warning btn-lg flex-fill" id="auton_mid">Middle</button>
-                  <button class="btn btn-success btn-lg flex-fill" id="auton_top">Top</button>
                 </div>
                 <div class="d-flex mt-4 justify-content-between">
                   <button class="btn btn-primary" onclick="showInfo()">Back</button>
@@ -152,7 +160,7 @@
               <div class="teleop-section mt-4 text-center" id="record-teleop" style="display:none">
                 <h4>Teleop Scoring</h4>
                 <div class="">
-                  <input type="checkbox" class="btn-check" id="teleop_defensive" autocomplete="off">
+                  <input type="checkbox" class="btn-check" id="teleop_defensive" name="teleop_defensive" autocomplete="off">
                   <label class="btn btn-outline-info " for="teleop_defensive">Defensive</label>
                 </div>
                 <div class=" mt-2">
@@ -165,10 +173,16 @@
                 </div>
                 <div class=" mt-2">
                   <h4>Score</h4>
-                  <div class="d-flex w-100">
+                  <div class="btn-group-vertical flex-fill">
+                    <div class="d-flex w-100">
+                      <button class="btn btn-success btn-lg flex-fill" id="teleop_top_cone">Cone Top</button>
+                      <button class="btn btn-success btn-lg flex-fill" id="teleop_top_cube">Cube Top</button>
+                    </div>
+                    <div class="d-flex w-100">
+                      <button class="btn btn-warning btn-lg flex-fill" id="teleop_mid_cone"> Cone Mid</button>
+                      <button class="btn btn-warning btn-lg flex-fill" id="teleop_mid_cube">Cube Mid</button>
+                    </div>
                     <button class="btn btn-dark btn-lg flex-fill" id="teleop_bot">Bottom</button>
-                    <button class="btn btn-warning btn-lg flex-fill" id="teleop_mid">Middle</button>
-                    <button class="btn btn-success btn-lg flex-fill" id="teleop_top">Top</button>
                   </div>
                 </div>
                 <hr>
@@ -205,6 +219,12 @@
 
             </div>
 
+            <div class="tab-pane" id="nav-pit" role="tabpanel" aria-labelledby="nav-pit-tab" tabindex="0">
+              <div>
+                Pit Scouting
+              </div>
+            </div>
+
             <!-- Saved Tab -->
             <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">
               <div class="mt-4">
@@ -213,6 +233,8 @@
               </div>
               </div>
             </div>
+
+            <!-- Transfer Tab -->
             <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">
               <div class="btn-group w-100 mt-4" role="group" aria-label="Basic radio toggle button group" id="transfer_choice">
                 <input type="radio" class="btn-check" name="transfer_choice" id="transfer_send" value="Send" autocomplete="off" checked>
@@ -222,15 +244,39 @@
               </div>
               <div class="send-data-section mt-4 text-center" id="send-data-section">
                 Send
+                <div class="row">
+                  <div class="col">
+                    <div class="list-group mt-4" id="sendSavedMatchesList"></div>
+                  </div>
+                  <div class="col">
+                    <div>
+                      <button class="btn btn-primary" onClick="generateQRCodeToTransfer('qrCodeBlock')"  id="generateQrCodeBtn">Generate QR Code</button>
+                    </div>
+                    <div id="numtransferInfo" style="display:none">
+                      Transfering <span id="numberOfMatches"></span> matches
+                    </div>
+                  </div>
+                </div>
+                <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
+                <div id="qrCodeBlock">
+
+                </div>
               </div>
               <div class="recieve-data-section mt-4 text-center" id="receive-data-section" style="display:none">
                 Receive
+              </div>
+            </div>
+
+            <div class="tab-pane" id="nav-analyze" role="tabpanel" aria-labelledby="nav-analyze-tab" tabindex="0">
+              <div>
+                Analyze Data  
               </div>
             </div>
           </div>
         </div>
       </div>
     </main>
+    
     <script src="js/jquery-3.6.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/umd.js"></script>
@@ -245,30 +291,27 @@
 
       $().ready(function(){
         $('#scout_name').val(getCookie('scout_name') || '');
-        $('#matchType').val()(getCookie('matchType') || '');
-        if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
-          $('#startScouting').prop('disabled', false);
-          $('#pitScouting').prop('disabled', false);
-          $('#nav-record-tab').prop('disabled', false);
-        }
+        $('#matchType').val(getCookie('matchType') || '');
+        validateScoutName()
 
         initData()
       });
 
-      $('#scout_name').on('keyup', function(){
+      function validateScoutName(){
         if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
           $('#startScouting').prop('disabled', false);
           $('#pitScouting').prop('disabled', false);
           $('#nav-record-tab').prop('disabled', false);
+          $('#nav-pit-tab').prop('disabled', false);
         }
+      }
+
+      $('#scout_name').on('keyup', function(){
+        validateScoutName()
       });
 
       $('#scout_name').change(function(){
-        if($('#scout_name').val() !== "" && $('#scout_name').val() !== null){
-          $('#startScouting').prop('disabled', false);
-          $('#pitScouting').prop('disabled', false);
-          $('#nav-record-tab').prop('disabled', false);
-        }
+        validateScoutName()
         setCookie('scout_name', $('#scout_name').val(), 4);
         
       });
@@ -288,11 +331,15 @@
         currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
         currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
         currentMatchData['auton_bottom'] = 0;
-        currentMatchData['auton_middle'] = 0;
-        currentMatchData['auton_top'] = 0;
+        currentMatchData['auton_middle_cone'] = 0;
+        currentMatchData['auton_top_cone'] = 0;
+        currentMatchData['auton_middle_cube'] = 0;
+        currentMatchData['auton_top_cube'] = 0;
         currentMatchData['teleop_bottom'] = 0;
-        currentMatchData['teleop_middle'] = 0;
-        currentMatchData['teleop_top'] = 0;
+        currentMatchData['teleop_middle_cone'] = 0;
+        currentMatchData['teleop_top_cone'] = 0;
+        currentMatchData['teleop_middle_cube'] = 0;
+        currentMatchData['teleop_top_cube'] = 0;
         currentMatchData['events'] = [];
 
       }
@@ -321,16 +368,32 @@
 
       $('input[name=auton_charger]').change(function(){
         currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
+        addEvent('auton_charger: ' + $('input[name=auton_charger]:checked', "#auton_charger_container").val());
+
       });
 
       $('#auton_bot').click(function(){
         currentMatchData['auton_bottom'] += 1;
+        addEvent('auton_bottom');
+
       });
-      $('#auton_mid').click(function(){
-        currentMatchData['auton_middle'] += 1;
+      $('#auton_mid_cube').click(function(){
+        currentMatchData['auton_middle_cube'] += 1;
+        addEvent('auton_middle_cube');
       });
-      $('#auton_bot').click(function(){
-        currentMatchData['auton_top'] += 1;
+      $('#auton_top_cube').click(function(){
+        currentMatchData['auton_top_cube'] += 1;
+        addEvent('auton_top_cube');
+      });
+      $('#auton_mid_cone').click(function(){
+        currentMatchData['auton_middle_cone'] += 1;
+        addEvent('auton_middle_cone');
+
+      });
+      $('#auton_top_cone').click(function(){
+        currentMatchData['auton_top_cone'] += 1;
+        addEvent('auton_top_cone');
+
       });
 
       $('#teleop_defensive').change(function(){
@@ -339,27 +402,51 @@
 
       $('input[name=teleop_charger]').change(function(){
         currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
+        addEvent('teleop_charger: '+ $('input[name=teleop_charger]:checked', "#teleop_charger_container").val());
+
       });
 
       $('#teleop_pickup_portal_slide').click(function(){
         currentMatchData['teleop_pickup_portal_slide'] += 1;
+        addEvent('teleop_pickup_portal_slide');
       });
       $('#teleop_pickup_portal_shelf').click(function(){
         currentMatchData['teleop_pickup_portal_shelf'] += 1;
+        addEvent('teleop_pickup_portal_shelf');
       });
       $('#teleop_pickup_ground').click(function(){
         currentMatchData['teleop_pickup_ground'] += 1;
+        addEvent('teleop_pickup_ground');
       });
 
       $('#teleop_bot').click(function(){
         currentMatchData['teleop_bottom'] += 1;
+        addEvent('teleop_bottom');
       });
-      $('#teleop_mid').click(function(){
-        currentMatchData['teleop_middle'] += 1;
+      $('#teleop_mid_cone').click(function(){
+        currentMatchData['teleop_middle_cone'] += 1;
+        addEvent('teleop_middle_cone');
       });
-      $('#teleop_top').click(function(){
-        currentMatchData['teleop_top'] += 1;
+      $('#teleop_top_cone').click(function(){
+        currentMatchData['teleop_top_cone'] += 1;
+        addEvent('teleop_top_cone');
       });
+      $('#teleop_mid_cube').click(function(){
+        currentMatchData['teleop_middle_cube'] += 1;
+        addEvent('teleop_middle_cube');
+      });
+      $('#teleop_top_cube').click(function(){
+        currentMatchData['teleop_top_cube'] += 1;
+        addEvent('teleop_top_cube');
+      });
+
+      function addEvent(type){
+        var newEvent ={
+          type: type,
+          time: new Date()
+        };
+        currentMatchData['events'].push(newEvent);
+      }
 
 
 
@@ -372,6 +459,12 @@
         $('#matchType').val("");
         $('#matchNumber').val("");
         $('#teamNumber').val("");
+        $('input[name=endgame_charger]').prop('checked',false);
+        $('input[name=auton_charger]').prop('checked',false);
+        $('input[name=mobility]').prop('checked',false);
+        $('input[name=defensive]').prop('checked',false);
+        restartTimer();
+
 
         showInfo();
         $('#nav-matches-tab' ).trigger('click');
@@ -412,9 +505,9 @@
 
       function validateMatchInfo(){
         validMatchInfo = true;
-        if($('#matchType').val() == "" || $('#matchType').val() == null){validMatchInfo = false;console.log("invalid match type")}
-        if($('#matchNumber').val() == "" || $('#matchNumber').val() == null && $('#matchNumber').val() > 0){validMatchInfo = false;console.log("invalid match number")}
-        if($('#teamNumber').val() == "" || $('#teamNumber').val() == null && $('#teamNumber').val() > 0){validMatchInfo = false;console.log("invalid team number")}
+        if($('#matchType').val() == "" || $('#matchType').val() == null){validMatchInfo = false;}
+        if($('#matchNumber').val() == "" || $('#matchNumber').val() == null && $('#matchNumber').val() > 0){validMatchInfo = false;}
+        if($('#teamNumber').val() == "" || $('#teamNumber').val() == null && $('#teamNumber').val() > 0){validMatchInfo = false;}
 
         if(validMatchInfo){$('#continueMatchInfo').prop('disabled', false)} else { $('#continueMatchInfo').prop('disabled', true);}
 
@@ -522,28 +615,7 @@
     <script>
       var savedTabPanel = document.getElementById("nav-matches-tab");
       savedTabPanel.addEventListener('shown.bs.tab', function(event){
-
-        getAllMatches().then(data =>{
-          if(data.length == $("#savedMatchesList").children().length){return;}
-          let sortedData = data.sort(
-            (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
-          data.forEach(match => {
-            $('#savedMatchesList').append(
-              '<div class="list-group-item text-align-left">' +
-                  '<div class="d-flex">' +  
-                    //'<div class="form-check">' +
-                    //  '<input class="form-check-input" type="checkbox" id="transfer'+match.id+'">'+
-                    //'</div>' + 
-                    '<div>Team ' + match.team_number + '</div>'+
-                    '<div class="mx-2"> - </div>' + 
-                    '<div>'+match.type+': ' + match.match_number + '</div>' +
-                  '</div>'+
-                  '<div class="text-secondary">'+match.date+'</div>'+ 
-                  '<div class="text-secondary ms-auto">'+match.recorded_date+'</div>'+ 
-                '</div>')
-          })
-
-        })
+        populateMatchesList('savedMatchesList');
 
       });
 
@@ -551,6 +623,14 @@
 
     <!-- Transfer Tab -->
     <script>
+
+      var dataToTransfer = [];
+      var transferTabPanel = document.getElementById("nav-transfer-tab");
+      transferTabPanel.addEventListener('shown.bs.tab', function(event){
+        populateMatchesList('sendSavedMatchesList', true);
+
+      });
+
       $('#transfer_send').click(function(){
         $('#receive-data-section').hide()
         $('#send-data-section').show()
@@ -559,6 +639,36 @@
         $('#send-data-section').hide()
         $('#receive-data-section').show()
       })
+
+      function generateQRCodeToTransfer(){
+        getAllSelectedMatches().then(data =>{
+          console.log("dataToTransfer: ", dataToTransfer)
+          generateQRCode('qrCodeBlock', dataToTransfer);
+        });
+
+        
+      }
+
+      function getAllSelectedMatches(){
+        return new Promise((resolve, reject) =>{
+          $('.matchcheckbox:checkbox:checked').each(function(){
+            getMatchById($(this).val()).then(data =>{
+              console.log("data: ", data)
+              dataToTransfer.push(data);
+            });
+          });
+          resolve("success");
+        });
+      }
+
+      $('.matchcheckbox:checkbox').change(function(){
+        console.log('match cehckbox change')
+        if($('.matchcheckbox:checkbox:checked').length > 0){
+          $('#generateQrCodeBtn').prop('disabled', false);
+        } else {
+          $('#generateQrCodeBtn').prop('disabled', true);
+        }
+      });
     </script>
     
     <!-- Helper Functions -->
@@ -587,6 +697,40 @@
   }
       
       function pad(num, size){     return ('000000000' + num).substr(-size); }
+
+      function generateQRCode(eleId, data){
+        console.log(data);
+        var qrcode = new QRCode(eleId);
+        qrcode.makeCode(JSON.stringify(data));
+      }
+
+      function populateMatchesList(eleId, showCheckboxes){
+        getAllMatches().then(data =>{
+          if(data.length == $("#" + eleId).children().length){return;}
+          let sortedData = data.sort(
+            (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
+          data.forEach(match => {
+              var divStr = '<div class="list-group-item text-align-left">' +
+                  '<div class="d-flex">';
+              if(showCheckboxes){
+                divStr += '<div class="form-check">' +
+                  '<input class="form-check-input matchcheckbox" type="checkbox" id="transfer'+match.id+' value="'+match.id+' ">'+
+                  '</div>';
+              }
+
+                divStr += '<div>Team ' + match.team_number + '</div>'+
+                    '<div class="mx-2"> - </div>' + 
+                    '<div>'+match.type+': ' + match.match_number + '</div>' +
+                  '</div>'+
+                  '<div class="text-secondary">'+match.date+'</div>'+ 
+                  '<div class="text-secondary ms-auto">'+match.recorded_date+'</div>'+ 
+                '</div>';
+
+                $('#'  +eleId).append(divStr);
+          })
+
+        })
+      }
 
     </script>
 

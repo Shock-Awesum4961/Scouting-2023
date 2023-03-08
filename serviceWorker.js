@@ -18,6 +18,7 @@ const assets = [
   "/Scouting-2023/images/icons/arrow-counterclockwise.svg",
   "/Scouting-2023/images/icons/pause-fill.svg",
   "/Scouting-2023/images/icons/play-fill.svg",
+  "/Scouting-2023/images/icons/icons8-home-page-30.png",
 ];
 
 self.addEventListener("install", installEvent => {

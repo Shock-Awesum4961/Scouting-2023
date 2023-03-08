@@ -75,6 +75,16 @@ req.onupgradeneeded = function (evt) {
         };
     }
 
+    function getMatchById(id){
+      return new Promise((resolve, reject) =>{
+        var store = getMatchesStore();
+        req = store.get(id);
+        req.onsuccess = function(event) {
+          resolve(event.target.result);
+        };
+      });
+    }
+
     function getAllMatches(){
       return new Promise((resolve, reject) =>{
         var store = getMatchesStore();
