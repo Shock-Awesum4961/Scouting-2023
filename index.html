@@ -258,11 +258,11 @@
 
                     </div>
                     <div class="text-center d-flex justify-content-around my-2" id="numTransferInfo" style="display:none!important">
-                      <div><button class="btn btn-primary" id="qrPrevBtn">Prev</button></div>
+                      <div><button class="btn btn-primary" id="qrPrevBtn" style="display:none">Prev</button></div>
                       <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
                       <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
                     </div>
-                    <div class="text-center"><button class="btn btn-danger" id="doneTransferBtn" style="display:none">Finished</button></div>
+                    <div class="text-center my-2"><button class="btn btn-danger" id="doneTransferBtn" style="display:none">Finished</button></div>
 
                   </div>
                 </div>
@@ -634,6 +634,7 @@
       var dataToTransfer = {};
       var matchesNotTransfered = {};
       var splitDataToTransfer = [];
+      var currQrCode = 0;
 
       var transferTabPanel = document.getElementById("nav-transfer-tab");
       transferTabPanel.addEventListener('shown.bs.tab', function(event){
@@ -671,6 +672,7 @@
       }
 
       function showQRCodeForMatches(){
+        splitDataToTransfer = [];
         let stringifiedData = JSON.stringify(dataToTransfer);
         if(stringifiedData.length > maxQRCodeStrLen){
           let storedStrLen = 0;
@@ -683,9 +685,9 @@
           $('#numQrCodes').html(splitDataToTransfer.length)
           $('#numTransferInfo').show();
           $('#currentQrCode').html(1)
-          qrcode.makeCode(splitDataToTransfer[0]);
+          generateQRCode(splitDataToTransfer[0]);
         } else {
-          qrcode.makeCode(stringifiedData);
+          generateQRCode(stringifiedData);
         }
 
         $('#generateQrCodeBtn').prop('disabled', true);
@@ -695,14 +697,35 @@
       }
 
       $('#qrPrevBtn').click(function(){
+        let prevQRCode = --currQrCode;
+        let displayQrCode =prevQRCode+1;
+        $('#currentQrCode').html(displayQrCode)
+        generateQRCode(splitDataToTransfer[prevQRCode]);
+
+        if(currQrCode == 0){
+          $('#qrPrevBtn').hide();
+        }
+        
+        $('#qrNextBtn').show();
 
       });
       $('#qrNextBtn').click(function(){
+        let nextQRCode = ++currQrCode;
+        let displayQrCode = nextQRCode+1;
+        $('#currentQrCode').html(displayQrCode)
+        generateQRCode(splitDataToTransfer[nextQRCode]);
+
+        if(currQrCode == splitDataToTransfer.length-1){
+          $('#qrNextBtn').hide();
+        }
+        
+        $('#qrPrevBtn').show();
+
 
       });
       $('#doneTransferBtn').click(function(){
         if(confirm("Are you sure you're done transfering?")){
-          markMatchesAsTransfered();
+          markMatchesAsTransfered()
           qrcode.clear();
           $('#numTransferInfo').hide();
           $('#doneTransferBtn').hide();
@@ -710,11 +733,15 @@
 
           populateTransferList();
         }
-
       });
 
       function markMatchesAsTransfered(){
-
+          Object.keys(dataToTransfer).forEach(key =>{
+            dataToTransfer[key]['transfered'] = 1;
+            updateMatch(key, dataToTransfer[key]).then(data =>{
+              dataToTransfer[key].delete;
+            });
+        });
       }
     </script>
     

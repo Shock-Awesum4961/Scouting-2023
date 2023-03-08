@@ -106,5 +106,16 @@ req.onupgradeneeded = function (evt) {
       });
     }
 
+    function updateMatch(id, data){
+      return new Promise((resolve, reject) =>{
+        let store = getMatchesStore();
+        req = store.put(data);
+        req.onsuccess = function(event){
+        resolve("updated match: ", id)
+        }
+      });
+    }
+
+
 
 openDb();
