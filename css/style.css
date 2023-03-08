@@ -47,6 +47,11 @@ h1 {
   --bx-gutter-x:0!important;
   padding-bottom:1rem;
 }
+
+.container { 
+  max-width: none!important;
+}
+
 .card {
   display: flex;
   align-items: center;
