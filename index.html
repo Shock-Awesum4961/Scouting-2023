@@ -246,21 +246,25 @@
               <div class="send-data-section mt-4" id="send-data-section">
                 <div class="row">
                   <div class="col">
+                    <h4>Matches Needing Transfer</h4>
                     <div class="list-group mt-4 text-left" id="sendSavedMatchesList"></div>
                   </div>
                   <div class="col">
                     <div class="text-center">
-                      <button class="btn btn-primary" onClick="generateQRCodeToTransfer('qrCodeBlock')"  id="generateQrCodeBtn">Generate QR Code</button>
+                      <button class="btn btn-primary" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
                     </div>
-                    <div id="numtransferInfo" style="display:none">
-                      Transfering <span id="numberOfMatches"></span> matches
+                                    <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
+                    <div class="text-center mt-2" id="qrCodeBlock">
+
+                    </div>
+                    <div class="text-center d-flex justify-content-around mt-2" id="numTransferInfo" style="display:none!important">
+                      <div><button class="btn btn-primary" id="qrPrevBtn">Prev</button></div>
+                      <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
+                      <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
                     </div>
                   </div>
                 </div>
-                <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
-                <div id="qrCodeBlock">
 
-                </div>
               </div>
               <div class="recieve-data-section mt-4 text-center" id="receive-data-section" style="display:none">
                 Receive
@@ -280,7 +284,7 @@
     <script src="js/jquery-3.6.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/umd.js"></script>
-    <script src="js/qrcode.min.js"></script>
+    <script src="js/qrcode.js"></script>
     <script src="js/html5-qrcode.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/database.js"></script>
@@ -625,8 +629,9 @@
     <!-- Transfer Tab -->
     <script>
 
-      var dataToTransfer = [];
+      var dataToTransfer = {};
       var matchesNotTransfered = {};
+      var splitDataToTransfer = [];
 
       var transferTabPanel = document.getElementById("nav-transfer-tab");
       transferTabPanel.addEventListener('shown.bs.tab', function(event){
@@ -644,23 +649,59 @@
       })
 
       function generateQRCodeToTransfer(){
-        console.log("dataToTransfer: ", dataToTransfer)
         generateQRCode('qrCodeBlock', dataToTransfer);
       }
 
+      function handleTransferCheckbox(ele,id){
+        if($(ele).prop("checked")){
+          dataToTransfer[id] = matchesNotTransfered[id];
+        } else {
+         delete dataToTransfer[id];
+        }
 
-      $('.matchcheckbox:checkbox').change(function(){
-        console.log('match cehckbox change')
-        if($('.matchcheckbox:checkbox:checked').length > 0){
+        if(Object.keys(dataToTransfer).length > 0){
           $('#generateQrCodeBtn').prop('disabled', false);
         } else {
           $('#generateQrCodeBtn').prop('disabled', true);
         }
+
+
+      }
+
+      function showQRCodeForMatches(){
+        let stringifiedData = JSON.stringify(dataToTransfer);
+        if(stringifiedData.length > maxQRCodeStrLen){
+          let storedStrLen = 0;
+          while(storedStrLen < stringifiedData.length){
+            splitDataToTransfer.push(stringifiedData.slice(storedStrLen, storedStrLen+maxQRCodeStrLen));
+            storedStrLen += maxQRCodeStrLen;
+            //allow to click through qr codes
+          }
+
+          $('#numTransferInfo').show();
+          $('#numQrCodes').html(splitDataToTransfer.length)
+          $('#currentQrCode').html(1)
+          qrcode.makeCode(splitDataToTransfer[0]);
+        } else {
+          qrcode.makeCode(stringifiedData);
+        }
+
+
+      }
+
+      $('#qrPrevBtn').click(function(){
+
+      });
+      $('#qrNextBtn').click(function(){
+
       });
     </script>
     
     <!-- Helper Functions -->
     <script>
+      var qrcode; // QRCode OBJ
+      const maxQRCodeStrLen = 800;
+
       function setCookie(cName, cValue, expHours) {
         let date = new Date();
         date.setTime(date.getTime() + (expHours * 60 * 60 * 1000));
@@ -686,15 +727,22 @@
       
       function pad(num, size){     return ('000000000' + num).substr(-size); }
 
-      function generateQRCode(eleId, data){
-        console.log(data);
-        var qrcode = new QRCode(eleId);
-        qrcode.makeCode(JSON.stringify(data));
+      $().ready(function(){
+        qrcode = new QRCode('qrCodeBlock',{
+          height:512,
+          width:512
+        });
+      })
+
+
+      function generateQRCode(data){
+        qrcode.clear(); 
+        qrcode.makeCode(data)
       }
 
       function populateMatchesList(eleId, showCheckboxes){
         getAllMatches().then(data =>{
-          if(data.length == $("#" + eleId).children().length){return;}
+          if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
           let sortedData = data.sort(
             (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
           data.forEach(match => {
@@ -715,20 +763,24 @@
 
       function populateTransferList(eleId){
         getAllMatchesIndexed('transfered',0).then(data =>{
-          if(data.length == $("#" + eleId).children().length){return;}
+          if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
           let sortedData = data.sort(
             (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
           data.forEach(match => {
             matchesNotTransfered[match.id] = match;
               var divStr = '<div class="list-group-item text-align-left">' +
-                  '<div class="d-flex">';
-
-                divStr += '<div>Team ' + match.team_number + '</div>'+
-                    '<div class="mx-2"> - </div>' + 
-                    '<div>'+match.type+': ' + match.match_number + '</div>' +
-                  '</div>'+
-                  '<div class="text-secondary">'+match.date+'</div>'+ 
-                  '</div>';
+                  '<div class="form-check" >'+
+                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" id="transferMatch_'+match.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
+                    '<label class="w-100" for="transferMatch_'+match.id+'">'+
+                      '<div class="d-flex">' +
+                        '<div>Team ' + match.team_number + '</div>'+
+                        '<div class="mx-2"> - </div>' + 
+                        '<div>'+match.type+': ' + match.match_number + '</div>' +
+                      '</div>'+
+                      '<div class="text-secondary">'+match.date+'</div>'+ 
+                    '</label>'+
+                  '</div>' +
+                '</div>';
                 $('#'  +eleId).append(divStr);
           })
 
