@@ -257,19 +257,21 @@
                     <div class="text-center mt-2" id="qrCodeBlock">
 
                     </div>
-                    <div class="text-center d-flex justify-content-around my-2" id="numTransferInfo" style="display:none!important">
-                      <div><button class="btn btn-primary" id="qrPrevBtn" style="display:none">Prev</button></div>
-                      <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
-                      <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
+                    <div class="text-center my-2" id="numTransferInfo" style="display:none!important">
+                      <div class=" d-flex justify-content-around ">
+                        <div><button class="btn btn-primary" id="qrPrevBtn" style="display:none">Prev</button></div>
+                        <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
+                        <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
+                      </div>
                     </div>
                     <div class="text-center my-2"><button class="btn btn-danger" id="doneTransferBtn" style="display:none">Finished</button></div>
-
                   </div>
                 </div>
 
               </div>
               <div class="recieve-data-section mt-4 text-center" id="receive-data-section" style="display:none">
                 Receive
+                <div id="reader" width="600px"></div>
               </div>
             </div>
 
@@ -725,25 +727,53 @@
       });
       $('#doneTransferBtn').click(function(){
         if(confirm("Are you sure you're done transfering?")){
-          markMatchesAsTransfered()
-          qrcode.clear();
-          $('#numTransferInfo').hide();
-          $('#doneTransferBtn').hide();
-          $('#generateQrCodeBtn').prop('disabled', false);
+          //markMatchesAsTransfered()
+          let promiseArr = Object.keys(dataToTransfer).map(function(key){
+            dataToTransfer[key]['transfered'] = 1;
+            return updateMatch(key, dataToTransfer[key]).then(function(res){
+              
+              return res;
+            })
+          })
 
-          populateTransferList();
+          Promise.all(promiseArr).then(function(resultsArray){
+            qrcode.clear();
+            Object.keys(dataToTransfer).forEach(function(key){
+              $('#transferMatch_' + key).remove();
+            })
+            dataToTransfer = [];
+            $('#qrCodeBlock').html("");
+            $('#doneTransferBtn').hide();
+            $('#numTransferInfo').hide();
+            $('#generateQrCodeBtn').prop('disabled', false);
+            
+            populateTransferList();
+          })
         }
       });
 
-      function markMatchesAsTransfered(){
-          Object.keys(dataToTransfer).forEach(key =>{
-            dataToTransfer[key]['transfered'] = 1;
-            updateMatch(key, dataToTransfer[key]).then(data =>{
-              dataToTransfer[key].delete;
-            });
-        });
-      }
     </script>
+
+    <!-- QRCode Scanning -->
+    <script>
+      function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
+        console.log(`Code matched = ${decodedText}`, decodedResult);
+      }
+      
+      function onScanFailure(error) {
+        // handle scan failure, usually better to ignore and keep scanning.
+        // for example:
+        console.warn(`Code scan error = ${error}`);
+      }
+      
+      let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: {width: 250, height: 250} },
+        /* verbose= */ false);
+      html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+
     
     <!-- Helper Functions -->
     <script>
@@ -816,9 +846,9 @@
             (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
           data.forEach(match => {
             matchesNotTransfered[match.id] = match;
-              var divStr = '<div class="list-group-item text-align-left">' +
+              var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+match.id+'">' +
                   '<div class="form-check" >'+
-                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" id="transferMatch_'+match.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
+                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
                     '<label class="w-100" for="transferMatch_'+match.id+'">'+
                       '<div class="d-flex">' +
                         '<div>Team ' + match.team_number + '</div>'+
