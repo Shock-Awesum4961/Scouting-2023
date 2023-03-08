@@ -257,11 +257,13 @@
                     <div class="text-center mt-2" id="qrCodeBlock">
 
                     </div>
-                    <div class="text-center d-flex justify-content-around mt-2" id="numTransferInfo" style="display:none!important">
+                    <div class="text-center d-flex justify-content-around my-2" id="numTransferInfo" style="display:none!important">
                       <div><button class="btn btn-primary" id="qrPrevBtn">Prev</button></div>
                       <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
                       <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
                     </div>
+                    <div class="text-center"><button class="btn btn-danger" id="doneTransferBtn" style="display:none">Finished</button></div>
+
                   </div>
                 </div>
 
@@ -678,13 +680,16 @@
             //allow to click through qr codes
           }
 
-          $('#numTransferInfo').show();
           $('#numQrCodes').html(splitDataToTransfer.length)
+          $('#numTransferInfo').show();
           $('#currentQrCode').html(1)
           qrcode.makeCode(splitDataToTransfer[0]);
         } else {
           qrcode.makeCode(stringifiedData);
         }
+
+        $('#generateQrCodeBtn').prop('disabled', true);
+        $('#doneTransferBtn').show()
 
 
       }
@@ -695,6 +700,22 @@
       $('#qrNextBtn').click(function(){
 
       });
+      $('#doneTransferBtn').click(function(){
+        if(confirm("Are you sure you're done transfering?")){
+          markMatchesAsTransfered();
+          qrcode.clear();
+          $('#numTransferInfo').hide();
+          $('#doneTransferBtn').hide();
+          $('#generateQrCodeBtn').prop('disabled', false);
+
+          populateTransferList();
+        }
+
+      });
+
+      function markMatchesAsTransfered(){
+
+      }
     </script>
     
     <!-- Helper Functions -->
