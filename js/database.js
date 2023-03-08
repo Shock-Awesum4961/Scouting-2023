@@ -1,6 +1,7 @@
 const DB_NAME = 'scouting-2023';
 const DB_VERSION = 1; // Use a long long for this value (don't use a float)
-const DB_STORE_NAME = 'matches';
+const DB_MATCH_STORE_NAME = 'matches';
+const DB_PIT_STORE_NAME = 'pits';
 
 var db;
 
@@ -21,12 +22,18 @@ req.onerror = function (evt) {
 
 req.onupgradeneeded = function (evt) {
     console.log("openDb.onupgradeneeded");
-    var store = evt.currentTarget.result.createObjectStore(
-    DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+    var matchStore = evt.currentTarget.result.createObjectStore(
+    DB_MATCH_STORE_NAME, { keyPath: 'id', autoIncrement: true });
 
-    store.createIndex('team_number', 'team_number', { unique: false });
-    store.createIndex('match_number', 'match_number', { unique: false });
-    store.createIndex('transfered', 'transfered', { unique: false });
+    matchStore.createIndex('team_number', 'team_number', { unique: false });
+    matchStore.createIndex('match_number', 'match_number', { unique: false });
+    matchStore.createIndex('transfered', 'transfered', { unique: false });
+
+    var pitStore = evt.currentTarget.result.createObjectStore(
+    DB_PIT_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+
+    pitStore.createIndex('team_number', 'team_number', { unique: false });
+    pitStore.createIndex('transfered', 'transfered', { unique: false });
 };
 }
 
@@ -55,6 +62,11 @@ req.onupgradeneeded = function (evt) {
     function getMatchesStore() {
         var tx = db.transaction("matches", 'readwrite');
         return tx.objectStore("matches");
+    }
+
+    function getPitStore() {
+        var tx = db.transaction("pits", 'readwrite');
+        return tx.objectStore("pits");
     }
 
     function addMatch(obj) {
@@ -114,6 +126,25 @@ req.onupgradeneeded = function (evt) {
         resolve("updated match: ", id)
         }
       });
+    }
+
+    function addPit(obj) {
+        var store = getPitStore();
+        var req;
+        try {
+          req = store.add(obj);
+        } catch (e) {
+          if (e.name == 'DataCloneError')
+            displayActionFailure("This engine doesn't know how to clone a Blob, " +
+                                 "use Firefox");
+          throw e;
+        }
+        req.onsuccess = function (evt) {
+          console.log("Insertion in DB successful");
+        };
+        req.onerror = function() {
+          console.error("addPublication error", this.error);
+        };
     }
 
 

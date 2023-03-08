@@ -34,7 +34,7 @@
               <div class=" mt-4">
                 <h4 type="text" class="text-secondary text-center">4961 Scouting 2023</h4>
               </div>
-              <div class="mt-4 mx-auto"style="width:50%">
+              <div class="mt-4 mx-auto"style="width:70%">
                 <input type="text" class="form-control" placeholder="Name (Required)" aria-label="Name" id="scout_name">
               </div>
               <div class=" mt-4 d-flex justify-content-around">
@@ -221,9 +221,113 @@
 
             <!-- Pit Scouting Tab -->
             <div class="tab-pane" id="nav-pit" role="tabpanel" aria-labelledby="nav-pit-tab" tabindex="0">
-              <div>
-                Pit Scouting
-              </div>
+              <form class="mt-2" id="pitScoutingForm">
+                <div class="d-flex w-100 justify-content-around">
+                  <div class="mx-2">
+                    <div class="mb-2">
+                      <label class="form-label" for="pitTeamNumber">Team #</label>
+                      <input class="form-control" type="tel" name="pitTeamNumber" id="pitTeamNumber" placeholder="" value="" autocomplete="off">
+                    </div>
+                                      <!-- 
+                      Can you interact with the charger during auton? -->
+                    <div class="mb-2">
+                      <label class="form-label" for="pitAutonCharger">Auton Charger?</label>
+                      <select class="form-select" name="pitAutonCharger" id="pitAutonCharger">
+                        <option value="" selected disabled class="text-secondary"></option>
+                        <option value="docked" class="text-black">Docked</option>
+                        <option value="engaged" class="text-black">Engaged</option>
+                        <option value="no" class="text-black">No</option>
+                      </select>
+                    </div>
+
+                    <div class="mb-2">
+                      <label class="form-label" for="pitTeleopCharger">Teleop Charger?</label>
+                      <select class="form-select" name="pitTeleopCharger" id="pitTeleopCharger">
+                        <option value="" selected disabled class="text-secondary"></option>
+                        <option value="docked" class="text-black">Docked</option>
+                        <option value="engaged" class="text-black">Engaged</option>
+                        <option value="no" class="text-black">No</option>
+                      </select>
+                    </div>
+                      
+                    <!-- How many game pieces can you score during auton?-->
+                    <div class="mb-2">
+                      <label class="form-label" for="pitNumGamePieces"># Game Pieces during Auton</label>
+                      <input class="form-control" type="tel" name="pitNumGamePieces" id="pitNumGamePieces" placeholder="" value="" autocomplete="off">
+                    </div>
+
+                    <!-- Drivetrain -->
+                    <div class="mb-2">
+                      <label class="form-label" for="pitDrivetrain">What's your drivetrain?</label>
+                      <select class="form-select" name="pitDrivetrain" id="pitDrivetrain">
+                        <option value="" selected disabled class="text-secondary"></option>
+                        <option value="swerve" class="text-black">Swerve</option>
+                        <option value="tank" class="text-black">Tank</option>
+                        <option value="omni-h-drive" class="text-black">Omni/H-Drive</option>
+                        <option value="mecanum" class="text-black">Mecanum</option>
+                        <option value="other" class="text-black">other</option>
+                      </select>
+                      <input type="text" class="form-control mt-1" placeholder="Other" aria-label="other drivetrain" id="otherDrivetrain" style="display:none;">
+                    </div>
+                  </div>
+                  <div class="mx-2">
+                    <!-- Do you do cones cubes or both? -->
+                    <div class="mb-2">
+                      <label class="form-label" for="pitTypeGamePiece">What game pieces can you score?</label>
+                      <select class="form-select" name="pitTypeGamePiece" id="pitTypeGamePiece">
+                        <option value="" selected disabled class="text-secondary"></option>
+                        <option value="cone" class="text-black">Cone</option>
+                        <option value="cube" class="text-black">Cube</option>
+                        <option value="both" class="text-black">Both</option>
+                      </select>
+                    </div>
+
+                    <!-- Best Game piece -->
+                    <div class="mb-2">
+                      <label class="form-label" for="pitBestGamePiece">Best game piece?</label>
+                      <select class="form-select" name="pitBestGamePiece" id="pitBestGamePiece">
+                        <option value="" selected disabled class="text-secondary"></option>
+                        <option value="cone" class="text-black">Cone</option>
+                        <option value="cube" class="text-black">Cube</option>
+                        <option value="both" class="text-black">Both</option>
+                      </select>
+                    </div>
+
+                    <div class="mb-2">
+                      <label class="form-label" for="pitProgramLang">What Programming language?</label>
+                      <input class="form-control" type="text" name="pitProgramLang" id="pitProgramLang" placeholder="" value="" autocomplete="off">
+                    </div>
+
+                    <div class="mb-2">
+                      <label class="form-label" for="pitOrientGamepieces">How do you orient game pieces?</label>
+                      <input class="form-control" type="text" name="pitOrientGamepieces" id="pitOrientGamepieces" placeholder="" value="" autocomplete="off">
+                    </div>
+
+                    <div class="mb-2">
+                      <label class="form-label" for="pitBestGamePiece">Human player preffered substation</label>
+                      <select class="form-select" name="pitBestGamePiece" id="pitBestGamePiece">
+                        <option value="" selected disabled class="text-secondary"></option>
+                        <option value="cone" class="text-black">drawer</option>
+                        <option value="cube" class="text-black">portal</option>
+                        <option value="both" class="text-black">either</option>
+                      </select>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div class="form-floating my-2 mx-4 ">
+                  <textarea class="form-control" placeholder="Leave a comment here" id="pitComments" style="height: 100px"></textarea>
+                  <label for="pitComments">Comments</label>
+                </div>
+
+                <div class="d-flex justify-content-around my-2">
+                  <button class="btn btn-primary" onclick="resetPitScout()"; id="resetPitScout">Reset</button>
+                  <button class="btn btn-primary" type="submit" id="savePitScout">Save</button>
+                </div>
+              </form>
+              
             </div>
 
             <!-- Saved Tab -->
@@ -271,7 +375,9 @@
               </div>
               <div class="recieve-data-section mt-4 text-center" id="receive-data-section" style="display:none">
                 Receive
-                <div id="reader" width="600px"></div>
+                <button class="btn btn-primary" id="initCameraScanning">Start Scanning</button>
+                <button class="btn btn-primary" id="stopCameraScanning">Stop Scanning</button>
+                <div id="reader"  width="20rem" height="20rem"></div>
               </div>
             </div>
 
@@ -481,6 +587,25 @@
 
     </script>
 
+    <!--Pit Scouting -->
+    <script>
+      $('#pitDrivetrain').change(function(){
+        if($('#pitDrivetrain').val() == "other"){
+          $('#otherDrivetrain').show()
+        } else{
+          $('#otherDrivetrain').hide()
+          
+        }
+      })
+
+      $('#pitScoutingForm').submit(function(event){
+        event.preventDefault();
+        let value = $(('#pitScoutingForm')).serializeArray();
+        value.push({name:"pitComments",value:$('#pitComments').val()});
+
+      });
+    </script>
+
     <!-- All Timings & UI Stuff -->
     <script>
       // Constants of durations of match events
@@ -630,7 +755,7 @@
 
     </script>
 
-    <!-- Transfer Tab -->
+    <!-- Send Transfer Tab -->
     <script>
 
       var dataToTransfer = {};
@@ -773,11 +898,65 @@
         console.warn(`Code scan error = ${error}`);
       }
       
-      let html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader",
-        { fps: 10, qrbox: {width: 250, height: 250} },
-        /* verbose= */ false);
-      html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+      //let html5QrcodeScanner = new Html5QrcodeScanner(
+      //  "reader",
+      //  { fps: 10, qrbox: {width: 250, height: 250} },
+      //  /* verbose= */ false);
+      //html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+
+      $('#initCameraScanning').click(function(){
+        requestCamera();
+      })
+
+      $('#stopCameraScanning').click(function(){
+        stopCamera();
+      })
+
+      // Custom code now::
+      // This method will trigger user permissions
+      const html5QrCode = new Html5Qrcode(/* element id */ "reader");
+
+      function requestCamera(){
+        Html5Qrcode.getCameras().then(devices => {
+          /**
+           * devices would be an array of objects of type:
+           * { id: "id", label: "label" }
+           */
+          if (devices && devices.length) {
+            var cameraId = devices[0].id;
+            // .. use this to start scanning.
+
+            html5QrCode.start(
+              cameraId, 
+              {
+                fps: 10,    // Optional, frame per seconds for qr code scanning
+                qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
+              },
+              (decodedText, decodedResult) => {
+                // do something when code is read
+              },
+              (errorMessage) => {
+                // parse error, ignore it.
+              })
+            .catch((err) => {
+              // Start failed, handle it.
+});
+          }
+        }).catch(err => {
+          // handle err
+        });
+      }
+
+      function stopCamera(){
+        html5QrCode.stop().then((ignore) => {
+          // QR Code scanning is stopped.
+        }).catch((err) => {
+          // Stop failed, handle it.
+        });
+      }
+
+
     </script>
 
     
