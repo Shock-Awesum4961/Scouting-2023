@@ -343,26 +343,28 @@
             <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">
               <div class="btn-group w-100 mt-2" role="group" aria-label="Basic radio toggle button group" id="transfer_choice">
                 <input type="radio" class="btn-check" name="transfer_choice" id="transfer_send" value="Send" autocomplete="off" checked>
-                <label class="btn btn-outline-primary  flex-fill " for="transfer_send">Send</label>
+                <label class="btn btn-outline-danger  flex-fill " for="transfer_send">Send</label>
                 <input type="radio" class="btn-check" name="transfer_choice" id="transfer_receive" value="Receive" autocomplete="off">
-                <label class="btn btn-outline-primary flex-fill " for="transfer_receive">Receive</label>
+                <label class="btn btn-outline-danger flex-fill " for="transfer_receive">Receive</label>
               </div>
-              <div class="send-data-section mt-4" id="send-data-section">
+              <div class="send-data-section mt-2" id="send-data-section">
                 <div class="d-flex justify-content-between">
                   <div class="w-100 pe-2">
-                    <!-- <div class="btn-group w-100 mt-2" role="group" aria-label="Basic radio toggle button group" id="send_choice">
+                    <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="send_choice">
                       <input type="radio" class="btn-check" name="send_choice" id="transfer_send_matches" value="SendMatches" autocomplete="off" checked>
                       <label class="btn btn-outline-primary  flex-fill " for="transfer_send_matches">Matches</label>
                       <input type="radio" class="btn-check" name="send_choice" id="transfer_send_pits" value="SendPits" autocomplete="off">
                       <label class="btn btn-outline-primary flex-fill " for="transfer_send_pits">Pits</label>
-                    </div> -->
-                    <div class="send-matches-section" id="send-matches-section">
-                      <h4>Matches Needing Transfer</h4>
-                      <div class="list-group mt-4 text-left" id="sendSavedMatchesList"></div>
                     </div>
-                    <div class="send-pits-section" style="display:none!important" id="send-pits-section">
-                      <h4>Pit Info Needing Transfer</h4>
-                      <div class="list-group mt-4 text-left" id="sendSavedPitsList"></div>
+                    <div id="send-list-section">
+                      <div class="send-matches-section" id="send-matches-section">
+                        <h4>Matches Needing Transfer</h4>
+                        <div class="list-group mt-4 text-left" id="sendSavedMatchesList"></div>
+                      </div>
+                      <div class="send-pits-section" style="display:none!important" id="send-pits-section">
+                        <h4>Pit Info Needing Transfer</h4>
+                        <div class="list-group mt-4 text-left" id="sendSavedPitsList"></div>
+                      </div>
                     </div>
                     <div class="mt-4 text-center" id="qrCodeSection" style="display:none;">
                       <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
@@ -377,10 +379,10 @@
                         </div>
                       </div>
                     </div>
-                    <div class="text-center d-flex">
-                      <button class="btn btn-primary" onClick="backToSelectTransfer()"  id="generateQrCodeBtn" style="display:none;">Back</button>
-                      <button class="btn btn-danger" id="doneTransferBtn" style="display:none">Finished</button>
-                      <button class="btn btn-primary" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
+                    <div class="text-center d-flex flex-end mt-2">
+                      <button class="btn btn-primary" onClick="backToSelectTransfer()"  id="generateQrCodeBackBtn" style="display:none;">Back</button>
+                      <button class="btn btn-danger ms-auto" id="doneTransferBtn" style="display:none">Finished</button>
+                      <button class="btn btn-primary ms-auto" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
                     </div>
                   </div>
                 </div>
@@ -824,9 +826,12 @@
       function handleTransferCheckbox(ele,id){
         if($(ele).prop("checked")){
           dataToTransfer[id] = matchesNotTransfered[id];
+          console.log(dataToTransfer)
         } else {
          delete dataToTransfer[id];
         }
+
+
 
         if(Object.keys(dataToTransfer).length > 0){
           $('#generateQrCodeBtn').prop('disabled', false);
@@ -837,8 +842,20 @@
 
       }
 
+      function backToSelectTransfer(){
+        $('#generateQrCodeBackBtn').hide()
+        $('#qrCodeSection').hide()
+        $('#send-list-section').show()
+        $('#generateQrCodeBtn').show()
+        $('#doneTransferBtn').hide()
+
+      }
+
       function showQRCodeForMatches(){
 
+        $('#send-list-section').hide()
+        $('#generateQrCodeBtn').hide()
+        $('#generateQrCodeBackBtn').show()
         $('#qrCodeSection').show()
         $('#qrNextBtn').show();
         $('#qrPrevBtn').hide();
