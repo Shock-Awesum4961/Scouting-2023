@@ -1,5 +1,5 @@
 const DB_NAME = 'scouting-2023';
-const DB_VERSION = 1; // Use a long long for this value (don't use a float)
+const DB_VERSION = 2; // Use a long long for this value (don't use a float)
 const DB_MATCH_STORE_NAME = 'matches';
 const DB_PIT_STORE_NAME = 'pits';
 
@@ -22,18 +22,32 @@ req.onerror = function (evt) {
 
 req.onupgradeneeded = function (evt) {
     console.log("openDb.onupgradeneeded");
-    var matchStore = evt.currentTarget.result.createObjectStore(
-    DB_MATCH_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+    var thisDB = evt.target.result;
+    var tx = evt.target.transaction;
+    
+    // Matches
+    if(!thisDB.objectStoreNames.contains(DB_MATCH_STORE_NAME)) {
+      var matchStore = evt.currentTarget.result.createObjectStore(
+      DB_MATCH_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+    }
 
-    matchStore.createIndex('team_number', 'team_number', { unique: false });
-    matchStore.createIndex('match_number', 'match_number', { unique: false });
-    matchStore.createIndex('transfered', 'transfered', { unique: false });
+    var matchStore = tx.objectStore(DB_MATCH_STORE_NAME);
 
-    var pitStore = evt.currentTarget.result.createObjectStore(
-    DB_PIT_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+    if(!matchStore.indexNames.contains('team_number')){matchStore.createIndex('team_number', 'team_number', { unique: false });}
+    if(!matchStore.indexNames.contains('match_number')){matchStore.createIndex('match_number', 'match_number', { unique: false });}
+    if(!matchStore.indexNames.contains('transfered')){matchStore.createIndex('transfered', 'transfered', { unique: false });}
 
-    pitStore.createIndex('team_number', 'team_number', { unique: false });
-    pitStore.createIndex('transfered', 'transfered', { unique: false });
+    //Pits
+    if(!thisDB.objectStoreNames.contains(DB_PIT_STORE_NAME)) {
+      var pitStore = evt.currentTarget.result.createObjectStore(
+      DB_PIT_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+    }
+
+    var pitStore = tx.objectStore(DB_PIT_STORE_NAME);
+
+    if(!pitStore.indexNames.contains('team_number')){pitStore.createIndex('team_number', 'team_number', { unique: false });}
+    if(!pitStore.indexNames.contains('transfered')){pitStore.createIndex('transfered', 'transfered', { unique: false });}
+    
 };
 }
 

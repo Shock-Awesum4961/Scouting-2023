@@ -190,19 +190,19 @@
                   <h4>Endgame</h4>
                   <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="teleop_charger_container">
                     <div class="btn-group-vertical flex-fill">
-                      <input type="radio" class="btn-check" name="endgame_charger" id="endgame_nocharger" value="no" autocomplete="off" checked>
+                      <input type="radio" class="btn-check" name="teleop_charger" id="endgame_nocharger" value="no" autocomplete="off" checked>
                       <label class="btn btn-outline-warning  flex-fill " for="endgame_nocharger">No</label>
-                      <input type="radio" class="btn-check" name="endgame_charger" id="endgame_failed" value="failed" autocomplete="off">
+                      <input type="radio" class="btn-check" name="teleop_charger" id="endgame_failed" value="failed" autocomplete="off">
                       <label class="btn btn-outline-danger flex-fill " for="endgame_failed">Failed</label>
                     </div>
 
-                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_community"  value="park" autocomplete="off">
+                    <input type="radio" class="btn-check" name="teleop_charger" id="endgame_community"  value="park" autocomplete="off">
                     <label class="btn btn-outline-primary  flex-fill " for="endgame_community">Park</label>
           
-                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_docked" value="docked" autocomplete="off">
+                    <input type="radio" class="btn-check" name="teleop_charger" id="endgame_docked" value="docked" autocomplete="off">
                     <label class="btn btn-outline-primary flex-fill " for="endgame_docked">Docked</label>
                     
-                    <input type="radio" class="btn-check" name="endgame_charger" id="endgame_engaged" value="engaged" autocomplete="off">
+                    <input type="radio" class="btn-check" name="teleop_charger" id="endgame_engaged" value="engaged" autocomplete="off">
                     <label class="btn btn-outline-primary flex-fill " for="endgame_engaged">Engaged</label>
                   </div>
                 </div>
@@ -341,15 +341,15 @@
 
             <!-- Transfer Tab -->
             <div class="tab-pane " id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab" tabindex="0">
-              <div class="btn-group w-100 mt-4" role="group" aria-label="Basic radio toggle button group" id="transfer_choice">
+              <div class="btn-group w-100 mt-2" role="group" aria-label="Basic radio toggle button group" id="transfer_choice">
                 <input type="radio" class="btn-check" name="transfer_choice" id="transfer_send" value="Send" autocomplete="off" checked>
                 <label class="btn btn-outline-primary  flex-fill " for="transfer_send">Send</label>
                 <input type="radio" class="btn-check" name="transfer_choice" id="transfer_receive" value="Receive" autocomplete="off">
                 <label class="btn btn-outline-primary flex-fill " for="transfer_receive">Receive</label>
               </div>
               <div class="send-data-section mt-4" id="send-data-section">
-                <div class="d-flex">
-                  <div class="">
+                <div class="d-flex justify-content-between">
+                  <div class="w-100 pe-2">
                     <!-- <div class="btn-group w-100 mt-2" role="group" aria-label="Basic radio toggle button group" id="send_choice">
                       <input type="radio" class="btn-check" name="send_choice" id="transfer_send_matches" value="SendMatches" autocomplete="off" checked>
                       <label class="btn btn-outline-primary  flex-fill " for="transfer_send_matches">Matches</label>
@@ -452,6 +452,7 @@
       });
 
       function initData(){
+        $('#matchType').val(getCookie('matchType') || '');
         currentMatchData['mobility'] = $("#mobility").is(':checked');
         currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
         currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
@@ -466,6 +467,9 @@
         currentMatchData['teleop_top_cone'] = 0;
         currentMatchData['teleop_middle_cube'] = 0;
         currentMatchData['teleop_top_cube'] = 0;
+        currentMatchData['teleop_pickup_portal_slide'] = 0;
+        currentMatchData['teleop_pickup_portal_shelf'] = 0;
+        currentMatchData['teleop_pickup_ground'] = 0;
         currentMatchData['events'] = [];
 
       }
@@ -582,7 +586,7 @@
         currentMatchData['transfered'] = 0;
         addMatch(currentMatchData);
 
-        currentMatchData = [];
+        currentMatchData = {};
         $('#matchType').val("");
         $('#matchNumber').val("");
         $('#teamNumber').val("");
@@ -594,7 +598,8 @@
 
 
         showInfo();
-        $('#nav-matches-tab' ).trigger('click');
+        initData();
+        //$('#nav-matches-tab' ).trigger('click');
       }
 
     </script>
@@ -831,6 +836,11 @@
       }
 
       function showQRCodeForMatches(){
+
+        $('#qrNextBtn').show();
+        $('#qrPrevBtn').hide();
+        currQrCode = 0;
+
         splitDataToTransfer = [];
         let stringifiedData = JSON.stringify(dataToTransfer);
         if(stringifiedData.length > maxQRCodeStrLen){
@@ -1032,6 +1042,7 @@
 
       function generateQRCode(data){
         qrcode.clear(); 
+        if(data.length <= 217 && data.length >= 192){data+="                          ";}
         qrcode.makeCode(data)
       }
 
@@ -1084,7 +1095,9 @@
           let sortedData = data.sort(
             (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
           data.forEach(match => {
+            if($.isArray(match)){console.log(match); newMatch = Object.fromEntries(match.entries());console.log(newMatch)}
             matchesNotTransfered[match.id] = match;
+            
               var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+match.id+'">' +
                   '<div class="form-check" >'+
                     '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" id="matchCheck_'+match.id+'" name="matchCheck_'+match.id+'"onclick="handleTransferCheckbox(this, '+match.id+')">' +
@@ -1095,6 +1108,7 @@
                         '<div>'+match.type+': ' + match.match_number + '</div>' +
                       '</div>'+
                       '<div class="text-secondary">'+match.date+'</div>'+ 
+                      '<div class="text-secondary">'+match.id+'</div>'+ 
                     '</label>'+
                   '</div>' +
                 '</div>';
