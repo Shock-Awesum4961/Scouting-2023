@@ -364,6 +364,24 @@
                       <h4>Pit Info Needing Transfer</h4>
                       <div class="list-group mt-4 text-left" id="sendSavedPitsList"></div>
                     </div>
+                    <div class="mt-4 text-center" id="qrCodeSection" style="display:none;">
+                      <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
+                      <div class="text-center mt-2" id="qrCodeBlock">
+
+                      </div>
+                      <div class="text-center my-2" id="numTransferInfo" style="display:none!important">
+                        <div class=" d-flex justify-content-around ">
+                          <div><button class="btn btn-primary" id="qrPrevBtn" style="display:none">Prev</button></div>
+                          <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
+                          <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-center d-flex">
+                      <button class="btn btn-primary" onClick="backToSelectTransfer()"  id="generateQrCodeBtn" style="display:none;">Back</button>
+                      <button class="btn btn-danger" id="doneTransferBtn" style="display:none">Finished</button>
+                      <button class="btn btn-primary" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
+                    </div>
                   </div>
                 </div>
 
@@ -374,24 +392,7 @@
                 <button class="btn btn-primary" id="stopCameraScanning">Stop Scanning</button>
                 <div id="reader"  width="20rem" height="20rem"></div>
               </div>
-              <div class="mt-4 text-center" id="qrCodeSection" style="display:none;">
-                                <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
-                <div class="text-center mt-2" id="qrCodeBlock">
 
-                </div>
-                <div class="text-center my-2" id="numTransferInfo" style="display:none!important">
-                  <div class=" d-flex justify-content-around ">
-                    <div><button class="btn btn-primary" id="qrPrevBtn" style="display:none">Prev</button></div>
-                    <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
-                    <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center d-flex">
-                <button class="btn btn-primary" onClick="backToSelectTransfer()"  id="generateQrCodeBtn" style="display:none;">Back</button>
-                <button class="btn btn-danger" id="doneTransferBtn" style="display:none">Finished</button>
-                <button class="btn btn-primary" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
-              </div>
             </div>
 
             <div class="tab-pane" id="nav-analyze" role="tabpanel" aria-labelledby="nav-analyze-tab" tabindex="0">
