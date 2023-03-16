@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="canonical" href="https://shock-awesum4961.github.io/Scouting-2023/" />
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="manifest" href="/src/manifest.json">
+    <meta name="apple-mobile-web-app-status-bar" content="#db4938">
+    <meta name="theme-color" content="#db4938">
+    <title>4961 Scouting</title>
+    </head>
+    <body>
+        <main>
+            <div class="main-container">
+                <nav>
+                    <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
+                        <a class="nav-link nav-fill " id="nav-home-tab" type="button" role="tab" aria-controls="nav-home" aria-selected="false" href="/index.html">Home</a>
+                        <a class="nav-link nav-fill active" id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="true" href="#">Match Scout</a>
+                        <button class="nav-link nav-fill " id="nav-pit-tab" data-bs-toggle="tab" data-bs-target="#nav-pit" type="button" role="tab" aria-controls="nav-pit" aria-selected="false">Pit Scout</button>
+                        <button class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</button>
+                        <button class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</button>
+                        <button class="nav-link nav-fill " id="nav-analyze-tab" data-bs-toggle="tab" data-bs-target="#nav-analyze" type="button" role="tab" aria-controls="nav-analyze" aria-selected="false" >Analyze</button>
+                    </div>
+                </nav>
+                <div class="container">
+                    <form id="matchScoutingForm">
+                     <!-- Match # / Team # / Alliance / Match Date / Match Type -->
+                        <div class="info-section mt-4" id="record-info">
+                            <h4>Match Details </h4>
+                            <input type="hidden" name="scout_name" id="scout_name">
+                            <input type="hidden" name="match_section" id="match_section">
+                            <div class="d-flex w-100 justify-content-around">
+
+                            <div class="mb-3">
+                                <label class="form-label" for="matchDate">Date</label>
+                                <input class="form-control" type="date" name="matchDate" id="matchDate" placeholder="Match Date" disabled>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label" for="matchType">Type<span class="text-danger">*</span></label>
+                                <select class="form-select" name="matchType" id="matchType">
+                                <option value="" selected disabled class="text-secondary">Required</option>
+                                <option value="Test" class="text-black">Test</option>
+                                <option value="Practice" class="text-black">Practice</option>
+                                <option value="Qualifications" class="text-black">Qualifications</option>
+                                <option value="Semi-Finals" class="text-black">Semi-Finals</option>
+                                <option value="Finals" class="text-black" >Finals</option>
+                                </select>
+                            </div>
+                            </div>
+
+                            <div class="d-flex  justify-content-around">
+                            <div class="mb-2">
+                                <label class="form-label" for="teamNumber">Match Number<span class="text-danger">*</span></label>
+                                <input class="form-control" type="tel" name="matchNumber" id="matchNumber" placeholder="#" autocomplete="off">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="teamNumber">Team Number<span class="text-danger">*</span></label>
+                                <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="#" autocomplete="off">
+                            </div>
+                            </div>
+                            <div class="d-flex justify-content-center my-4">
+                            <label class="form-check-label me-2" >Blue</label>
+                            <label class="switch">
+                                <input type="checkbox" id="allianceSwitch">
+                                <span class="slider round"></span>
+                            </label>
+                            <label class="form-check-label ms-2" >Red</label>
+                            </div>
+                            <div class="d-flex justify-content-around my-2">
+                            <button class="btn btn-danger" id="resetMatchInfo" style="display:none;" >Reset</button>
+                            <button class="btn btn-primary" id="continueMatchInfo" disabled>Continue</button>
+                            </div>
+
+                        </div>
+
+                        <!-- Timer Section -->
+                        <div class="timer-section mt-4 text-center" style="display:none">
+                            <div>
+                                #<span id="matchInfoTeamNum"></span> <span id="matchInfoAllianceColor"></span>
+                                
+                            </div>
+                            <div class="start-button">
+                            <a class="btn btn-danger" onclick="startTimer()" id="startTimer">Start Match Timer</a>
+                            <a class="btn btn-outline-secondary" onclick="stopTimer()" id="stopTimer" style="display:none"><img src="/images/icons/pause-fill.svg"/></a>
+                            <a class="btn btn-outline-secondary" onclick="resumeTimer()" id="resumeTimer" style="display:none"><img src="/images/icons/play-fill.svg"/></a>
+                            <a class="btn btn-outline-secondary" onclick="restartTimer()" id="restartRecording" style="display:none"><img src="/images/icons/arrow-counterclockwise.svg" /></a>
+                            </div>
+                            <div class="countdown" style="display:none">
+                            <div id="progressBar">
+                                <div><span id="countdownTime" style="padding: 10px"></span></div>
+                            </div>
+                            Match Period: <span id="currentMatchPeriod" class="fw-bolder"></span> 
+                            </div>
+                            <hr>
+                        </div>
+
+                        <!-- Auton -->
+                        <div class="auton-section mt-4 text-center" id="record-auton" style="display:none">
+                            <h4>Auton Scoring</h4>
+                            <div class="d-flex w-100 justify-content-around">
+                                <div class="me-2 flex-fill" style="margin-top:1.75rem!important">
+                                    <input type="checkbox" class="btn-check flex-fill " id="mobility" name="mobility" autocomplete="off">
+                                    <label class="btn btn-outline-success flex-fill " for="mobility">Mobility</label>
+                                </div>
+                                <div class="flex-grow-1 flex-fill">
+                                    <h6>Charger</h6>
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="auton_charger_container">
+                                    <div class="btn-group-vertical flex-grow">
+                                        <input type="radio" class="btn-check" name="auton_charger" id="auton_docked" value="docked" autocomplete="off">
+                                        <label class="btn btn-outline-primary flex-fill " for="auton_docked">Docked</label>
+                                        <input type="radio" class="btn-check" name="auton_charger" id="auton_nocharger" value="no" autocomplete="off" checked>
+                                        <label class="btn btn-outline-warning flex-fill " for="auton_nocharger">No</label>
+                                    </div>
+                                    <div class="btn-group-vertical flex-grow">
+                                        <input type="radio" class="btn-check" name="auton_charger" id="auton_engaged" value="engaged" autocomplete="off">
+                                        <label class="btn btn-outline-primary flex-fill " for="auton_engaged">Engaged</label>
+                                        <input type="radio" class="btn-check" name="auton_charger" id="auton_failed" value="failed" autocomplete="off">
+                                        <label class="btn btn-outline-danger flex-fill " for="auton_failed">Failed</label>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="btn-group-vertical flex-fill mt-4">
+                                <div class="d-flex w-100">
+                                    <a class="btn btn-success btn-lg flex-fill" id="auton_top_cone">Cone Top</a>
+                                    <a class="btn btn-success btn-lg flex-fill" id="auton_top_cube">Cube Top</a>
+                                </div>
+                                <div class="d-flex w-100">
+                                    <a class="btn btn-warning btn-lg flex-fill" id="auton_mid_cone"> Cone Mid</a>
+                                    <a class="btn btn-warning btn-lg flex-fill" id="auton_mid_cube">Cube Mid</a>
+                                </div>
+                                <a class="btn btn-dark btn-lg flex-fill" id="auton_bot">Bottom</a>
+                            </div> -->
+                            <div class="auton-grid-scoring mt-2">
+                                <h4>Grids</h4>
+                                <div class=" d-flex justify-content-center">
+                                    <div class="left-grid border-left">
+                                        <div class="d-flex justify-content-center pb-1">
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cone-btn" id="a1" autocomplete="off">
+                                                <label class="node-btn" for="a1"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cube-btn" id="a2" autocomplete="off">
+                                                <label class="node-btn" for="a2"></label>
+                                            </div>
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="a3" autocomplete="off">
+                                                <label class="node-btn" for="a3"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center pb-1">
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="b1" autocomplete="off">
+                                                <label class="node-btn" for="b1"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cube-btn" id="b2" autocomplete="off">
+                                                <label class="node-btn" for="b2"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cone-btn" id="b3" autocomplete="off">
+                                                <label class="node-btn" for="b3"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="node-container">
+                                                <input type="range" class="btn-check hybrid-btn" id="c1" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c1" onclick="hybridNodeClick('c1')"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="range" class="btn-check hybrid-btn" id="c2" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c2" onclick="hybridNodeClick('c2')"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="range" class="btn-check hybrid-btn" id="c3" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c3" onclick="hybridNodeClick('c3')"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="coop-grid border-left">
+                                        <div class="d-flex justify-content-center pb-1">
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="a4" autocomplete="off">
+                                                <label class="node-btn" for="a4"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cube-btn" id="a5" autocomplete="off">
+                                                <label class="node-btn" for="a5"></label>
+                                            </div>
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="a6" autocomplete="off">
+                                                <label class="node-btn" for="a6"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center pb-1">
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="b4" autocomplete="off">
+                                                <label class="node-btn" for="b4"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cube-btn" id="b5" autocomplete="off">
+                                                <label class="node-btn" for="b5"></label>
+                                            </div>
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="b6" autocomplete="off">
+                                                <label class="node-btn" for="b6"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="node-container ">
+                                                <input type="range" class="btn-check hybrid-btn" id="c4" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c4" onclick="hybridNodeClick('c4')"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="range" class="btn-check hybrid-btn" id="c5" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c5" onclick="hybridNodeClick('c5')"></label>
+                                            </div>
+                                            <div class="node-container ">
+                                                <input type="range" class="btn-check hybrid-btn" id="c6" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c6" onclick="hybridNodeClick('c6')"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="right-grid border-left border-right">
+                                        <div class="d-flex justify-content-center pb-1">
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="a7" autocomplete="off">
+                                                <label class="node-btn" for="a7"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cube-btn" id="a8" autocomplete="off">
+                                                <label class="node-btn" for="a8"></label>
+                                            </div>
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="a9" autocomplete="off">
+                                                <label class="node-btn" for="a9"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center pb-1">
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="b7" autocomplete="off">
+                                                <label class="node-btn" for="b7"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="checkbox" class="btn-check cube-btn" id="b8" autocomplete="off">
+                                                <label class="node-btn" for="b8"></label>
+                                            </div>
+                                            <div class="node-container ">
+                                                <input type="checkbox" class="btn-check cone-btn" id="b9" autocomplete="off">
+                                                <label class="node-btn" for="b9"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="node-container ">
+                                                <input type="range" class="btn-check hybrid-btn" id="c7" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c7" onclick="hybridNodeClick('c7')"></label>
+                                            </div>
+                                            <div class="node-container">
+                                                <input type="range" class="btn-check hybrid-btn" id="c8" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c8" onclick="hybridNodeClick('c8')"></label>
+                                            </div>
+                                            <div class="node-container ">
+                                                <input type="range" class="btn-check hybrid-btn" id="c9" min="1" max="3" autocomplete="off" step="1" value="1">
+                                                <label class="node-btn" for="c9" onclick="hybridNodeClick('c9')"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex mt-4 justify-content-between">
+                                <button class="btn btn-primary" id="autonBack">Back</button>
+                                <button class="btn btn-primary" id="autonContinue">Teleop</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Tele-op -->
+                        <div class="teleop-section mt-4 text-center" id="record-teleop" style="display:none">
+                            <h4>Teleop Scoring</h4>
+                            <div class="">
+                            <input type="checkbox" class="btn-check" id="teleop_defensive" name="teleop_defensive" autocomplete="off">
+                            <label class="btn btn-outline-info " for="teleop_defensive">Defensive</label>
+                            </div>
+                            <div class=" mt-2">
+                            <h4>Game Piece pick-up</h4>
+                            <div class="d-flex w-100">
+                                <a class="btn btn-secondary btn-lg flex-fill" id="teleop_pickup_portal_slide">Portal Slide</a>
+                                <a class="btn btn-info btn-lg flex-fill" id="teleop_pickup_portal_shelf">Portal Shelf</a>
+                                <a class="btn btn-warning btn-lg flex-fill" id="teleop_pickup_ground">Ground</a>
+                            </div>
+                            </div>
+                            <div class=" mt-2">
+                            <h4>Score</h4>
+                            <div class="btn-group-vertical flex-fill">
+                                <div class="d-flex w-100">
+                                <a class="btn btn-success btn-lg flex-fill" id="teleop_top_cone">Cone Top</a>
+                                <a class="btn btn-success btn-lg flex-fill" id="teleop_top_cube">Cube Top</a>
+                                </div>
+                                <div class="d-flex w-100">
+                                <a class="btn btn-warning btn-lg flex-fill" id="teleop_mid_cone"> Cone Mid</a>
+                                <a class="btn btn-warning btn-lg flex-fill" id="teleop_mid_cube">Cube Mid</a>
+                                </div>
+                                <a class="btn btn-dark btn-lg flex-fill" id="teleop_bot">Bottom</a>
+                            </div>
+                            </div>
+                            <hr>
+                            <div class="mt-4">
+                            <h4>Endgame</h4>
+                            <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="teleop_charger_container">
+                                <div class="btn-group-vertical flex-fill">
+                                <input type="radio" class="btn-check" name="teleop_charger" id="endgame_nocharger" value="no" autocomplete="off" checked>
+                                <label class="btn btn-outline-warning  flex-fill " for="endgame_nocharger">No</label>
+                                <input type="radio" class="btn-check" name="teleop_charger" id="endgame_failed" value="failed" autocomplete="off">
+                                <label class="btn btn-outline-danger flex-fill " for="endgame_failed">Failed</label>
+                                </div>
+
+                                <input type="radio" class="btn-check" name="teleop_charger" id="endgame_community"  value="park" autocomplete="off">
+                                <label class="btn btn-outline-primary  flex-fill " for="endgame_community">Park</label>
+                    
+                                <input type="radio" class="btn-check" name="teleop_charger" id="endgame_docked" value="docked" autocomplete="off">
+                                <label class="btn btn-outline-primary flex-fill " for="endgame_docked">Docked</label>
+                                
+                                <input type="radio" class="btn-check" name="teleop_charger" id="endgame_engaged" value="engaged" autocomplete="off">
+                                <label class="btn btn-outline-primary flex-fill " for="endgame_engaged">Engaged</label>
+                            </div>
+                            </div>
+                        <div class="form-floating mt-4">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="comments" style="height: 100px"></textarea>
+                            <label for="comments">Comments</label>
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <div class="col"><button class="btn btn-primary" id="teleopBack">Auton</button></div>
+                            <div class="col"><button class="btn btn-primary" type="submit">Save</button></div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <script src="/js/jquery-3.6.3.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/umd.js"></script>
+        <script src="/js/qrcode.js"></script>
+        <script src="/js/html5-qrcode.min.js"></script>
+        <script src="/js/app.js"></script>
+        <script src="/js/database.js"></script>
+        <script src="/js/helper.js"></script>
+        <script src="/js/match-scouting.js"></script>
+    </body>
+</html>
+
+        

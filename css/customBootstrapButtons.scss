@@ -1,0 +1,11 @@
+@import "bootstrap";
+
+$coneColor:#fdfd0d;
+
+.btn-cone { 
+    @include button-variant($coneColor, darken($coneColor, 7.5%), darken($coneColor, 10%), lighten($coneColor,5%), lighten($coneColor, 10%), darken($coneColor,30%));
+}
+
+.btn-outline-cone {
+    @include button-outline-variant($coneColor, #222222, lighten($coneColor,5%), $coneColor);
+}

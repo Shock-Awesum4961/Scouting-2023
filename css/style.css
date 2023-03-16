@@ -1,8 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap");
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   font-size: 1.15rem!important;
   touch-action: manipulation;
 }
@@ -88,11 +85,6 @@ h1 {
   border-radius: 20px;
 }
 
-.btn {
-  text-align: center !important;
-  vertical-align: center !important;
-}
-
 #progressBar {
   width: 90%; 
   margin: 10px auto;
@@ -114,6 +106,8 @@ h1 {
 
 .btn-lg{
   height: 7rem !important;
+  padding-top: 2.375rem !important;
+  padding-bottom: 2.375rem !important;
 }
 
 
@@ -191,3 +185,87 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.node-btn { 
+  /* padding: .375rem .75rem; */
+  padding: 1rem 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  border-width: 1px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.075);
+  text-align: center;
+  text-decoration: none;
+  cursor:pointer;
+  vertical-align: middle;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  border-style:solid;
+  border-color: #000;
+
+  
+  /* --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #fdfd0d;
+  --bs-btn-hover-border-color: #fdfd0d;
+  --bs-btn-focus-shadow-rgb: 13,110,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #fdfd0d;
+  --bs-btn-active-border-color: #fdfd0d;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fdfd0d;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #fdfd0d;
+  --bs-gradient: none; */
+
+}
+
+.cone-btn + label {
+  border-radius: 3rem !important;
+  /* width: 1rem; */
+  /* height: 1rem; */
+}
+
+
+.cone-btn:checked + label{
+  color: #fff;
+  background: #fdfd0d;
+  border-color: #fdfd0d;
+}
+
+.cube-btn:checked + label{
+  color: #fff;
+  background: #790dfd;
+  border-color: #790dfd;
+}
+
+.hybrid-btn-cube + label{
+  color: #fff;
+  background: #790dfd;
+  border-color: #790dfd;
+}
+
+.hybrid-btn-cone + label{
+  color: #fff;
+  background: #fdfd0d;
+  border-color: #fdfd0d;
+  border-radius: 3rem !important;
+
+}
+
+.node-container {
+  padding: 0 .5rem !important;
+  border: 1px black;
+}
+
+.border-right {
+  border-right:solid;
+}
+
+.border-left {
+  border-left:solid;
+}
+
+.coop-grid { 
+  background-color: rgba(180, 36, 36, 0.23);
+}
+
+
+
