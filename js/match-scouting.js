@@ -11,6 +11,11 @@ var currentMatchTime;
 
 var validMatchInfo = false;
 
+var autoNodeList = [];
+var teleopNodeList = [];
+var autoLinkList = [];
+var teleopLinkList = [];
+
 var currentMatchData = {};
 
 function initData(){
@@ -18,19 +23,6 @@ function initData(){
     currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
     currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
     currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
-    currentMatchData['auton_bottom'] = 0;
-    currentMatchData['auton_middle_cone'] = 0;
-    currentMatchData['auton_top_cone'] = 0;
-    currentMatchData['auton_middle_cube'] = 0;
-    currentMatchData['auton_top_cube'] = 0;
-    currentMatchData['teleop_bottom'] = 0;
-    currentMatchData['teleop_middle_cone'] = 0;
-    currentMatchData['teleop_top_cone'] = 0;
-    currentMatchData['teleop_middle_cube'] = 0;
-    currentMatchData['teleop_top_cube'] = 0;
-    currentMatchData['teleop_pickup_portal_slide'] = 0;
-    currentMatchData['teleop_pickup_portal_shelf'] = 0;
-    currentMatchData['teleop_pickup_ground'] = 0;
     currentMatchData['events'] = [];
 
 }
@@ -47,6 +39,9 @@ $().ready(function(){
     }else{
         $('#matchType').removeClass("text-secondary");
     }
+
+    $("#auton-grid-container").load("grid-frag.html"); 
+    $("#teleop-grid-container").load("grid-frag.html"); 
 
     initData()
 });
@@ -259,39 +254,39 @@ $('#matchType').change(function(){
 
   });
 
-  $('#teleop_pickup_portal_slide').click(function(){
-    currentMatchData['teleop_pickup_portal_slide'] += 1;
-    addEvent('teleop_pickup_portal_slide');
-  });
-  $('#teleop_pickup_portal_shelf').click(function(){
-    currentMatchData['teleop_pickup_portal_shelf'] += 1;
-    addEvent('teleop_pickup_portal_shelf');
-  });
-  $('#teleop_pickup_ground').click(function(){
-    currentMatchData['teleop_pickup_ground'] += 1;
-    addEvent('teleop_pickup_ground');
-  });
+  // $('#teleop_pickup_portal_slide').click(function(){
+  //   currentMatchData['teleop_pickup_portal_slide'] += 1;
+  //   addEvent('teleop_pickup_portal_slide');
+  // });
+  // $('#teleop_pickup_portal_shelf').click(function(){
+  //   currentMatchData['teleop_pickup_portal_shelf'] += 1;
+  //   addEvent('teleop_pickup_portal_shelf');
+  // });
+  // $('#teleop_pickup_ground').click(function(){
+  //   currentMatchData['teleop_pickup_ground'] += 1;
+  //   addEvent('teleop_pickup_ground');
+  // });
 
-  $('#teleop_bot').click(function(){
-    currentMatchData['teleop_bottom'] += 1;
-    addEvent('teleop_bottom');
-  });
-  $('#teleop_mid_cone').click(function(){
-    currentMatchData['teleop_middle_cone'] += 1;
-    addEvent('teleop_middle_cone');
-  });
-  $('#teleop_top_cone').click(function(){
-    currentMatchData['teleop_top_cone'] += 1;
-    addEvent('teleop_top_cone');
-  });
-  $('#teleop_mid_cube').click(function(){
-    currentMatchData['teleop_middle_cube'] += 1;
-    addEvent('teleop_middle_cube');
-  });
-  $('#teleop_top_cube').click(function(){
-    currentMatchData['teleop_top_cube'] += 1;
-    addEvent('teleop_top_cube');
-  });
+  // $('#teleop_bot').click(function(){
+  //   currentMatchData['teleop_bottom'] += 1;
+  //   addEvent('teleop_bottom');
+  // });
+  // $('#teleop_mid_cone').click(function(){
+  //   currentMatchData['teleop_middle_cone'] += 1;
+  //   addEvent('teleop_middle_cone');
+  // });
+  // $('#teleop_top_cone').click(function(){
+  //   currentMatchData['teleop_top_cone'] += 1;
+  //   addEvent('teleop_top_cone');
+  // });
+  // $('#teleop_mid_cube').click(function(){
+  //   currentMatchData['teleop_middle_cube'] += 1;
+  //   addEvent('teleop_middle_cube');
+  // });
+  // $('#teleop_top_cube').click(function(){
+  //   currentMatchData['teleop_top_cube'] += 1;
+  //   addEvent('teleop_top_cube');
+  // });
 
   function addEvent(type){
     var newEvent ={
@@ -331,6 +326,7 @@ $('#matchType').change(function(){
     //$('#nav-matches-tab' ).trigger('click');
   }
 
+  //Save value after it has 'settled'
   function hybridNodeClick(id){
     val = parseInt($("#" + id).val(),10) + 1;
     if(val <= 3){
@@ -349,5 +345,8 @@ $('#matchType').change(function(){
         $('#'+id).removeClass('hybrid-btn-cube');
         $('#'+id).addClass('hybrid-btn-cone');
     }
-
   }
+
+  $('input.cone-btn, input.cube-btn').change(function(e){
+    console.log("node clicked: ", $(this).attr("id"))
+  });
