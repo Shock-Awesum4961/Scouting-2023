@@ -18,14 +18,17 @@
     <main>
       <div class="main-container">
         <nav>
-          <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
+          <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            <img src="/images/icons/menu-bars.svg"/>
+          </a>
+          <!-- <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
             <a class="nav-link nav-fill active" id="nav-home-tab" type="button" role="tab" aria-selected="true">Home</a>
             <a class="nav-link nav-fill " id="nav-record-tab" type="button" role="tab" aria-controls="nav-record" aria-selected="false" disabled href="pages/match-scouting.html">Match Scout</a>
-            <button class="nav-link nav-fill " id="nav-pit-tab" data-bs-toggle="tab" data-bs-target="#nav-pit" type="button" role="tab" aria-controls="nav-pit" aria-selected="false" disabled>Pit Scout</button>
-            <button class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</button>
-            <button class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</button>
+            <a class="nav-link nav-fill " id="nav-pit-tab" data-bs-toggle="tab" data-bs-target="#nav-pit" type="button" role="tab" aria-controls="nav-pit" aria-selected="false" disabled href="pages/pit-scouting.html">Pit Scout</a>
+            <a class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</a>
+            <a class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</a>
             <button class="nav-link nav-fill " id="nav-analyze-tab" data-bs-toggle="tab" data-bs-target="#nav-analyze" type="button" role="tab" aria-controls="nav-analyze" aria-selected="false" >Analyze</button>
-          </div>
+          </div> -->
         </nav>
         <div class="container">
           <div class="tab-content" id="nav-tabContent">
@@ -42,118 +45,6 @@
                 <button class="btn btn-success btn-lg" onclick="$('#nav-pit-tab' ).trigger('click');saveScoutName();" id="pitScouting" disabled>Pit Scouting</button>
               </div>
             </div>
-
-            <!-- Pit Scouting Tab -->
-            <div class="tab-pane" id="nav-pit" role="tabpanel" aria-labelledby="nav-pit-tab" tabindex="0">
-              <form class="mt-2" id="pitScoutingForm">
-                <div class="d-flex w-100 justify-content-around">
-                  <div class="mx-2">
-                    <div class="mb-2">
-                      <label class="form-label" for="pitTeamNumber">Team #<span class="text-danger">*</span></label>
-                      <input class="form-control" type="tel" name="pitTeamNumber" id="pitTeamNumber" placeholder="" value="" autocomplete="off">
-                    </div>
-                                      <!-- 
-                      Can you interact with the charger during auton? -->
-                    <div class="mb-2">
-                      <label class="form-label" for="pitAutonCharger">Auton Charger?</label>
-                      <select class="form-select" name="pitAutonCharger" id="pitAutonCharger">
-                        <option value="" selected disabled class="text-secondary"></option>
-                        <option value="docked" class="text-black">Docked</option>
-                        <option value="engaged" class="text-black">Engaged</option>
-                        <option value="no" class="text-black">No</option>
-                      </select>
-                    </div>
-
-                    <div class="mb-2">
-                      <label class="form-label" for="pitTeleopCharger">Teleop Charger?</label>
-                      <select class="form-select" name="pitTeleopCharger" id="pitTeleopCharger">
-                        <option value="" selected disabled class="text-secondary"></option>
-                        <option value="docked" class="text-black">Docked</option>
-                        <option value="engaged" class="text-black">Engaged</option>
-                        <option value="no" class="text-black">No</option>
-                      </select>
-                    </div>
-                      
-                    <!-- How many game pieces can you score during auton?-->
-                    <div class="mb-2">
-                      <label class="form-label" for="pitNumGamePieces"># Game Pieces during Auton</label>
-                      <input class="form-control" type="tel" name="pitNumGamePieces" id="pitNumGamePieces" placeholder="" value="" autocomplete="off">
-                    </div>
-
-                    <!-- Drivetrain -->
-                    <div class="mb-2">
-                      <label class="form-label" for="pitDrivetrain">What's your drivetrain?</label>
-                      <select class="form-select" name="pitDrivetrain" id="pitDrivetrain">
-                        <option value="" selected disabled class="text-secondary"></option>
-                        <option value="swerve" class="text-black">Swerve</option>
-                        <option value="tank" class="text-black">Tank</option>
-                        <option value="omni-h-drive" class="text-black">Omni/H-Drive</option>
-                        <option value="mecanum" class="text-black">Mecanum</option>
-                        <option value="other" class="text-black">other</option>
-                      </select>
-                      <input type="text" class="form-control mt-1" placeholder="Other" aria-label="other drivetrain" id="otherDrivetrain" style="display:none;">
-                    </div>
-                  </div>
-                  <div class="mx-2">
-                    <!-- Do you do cones cubes or both? -->
-                    <div class="mb-2">
-                      <label class="form-label" for="pitTypeGamePiece">What game pieces can you score?</label>
-                      <select class="form-select" name="pitTypeGamePiece" id="pitTypeGamePiece">
-                        <option value="" selected disabled class="text-secondary"></option>
-                        <option value="cone" class="text-black">Cone</option>
-                        <option value="cube" class="text-black">Cube</option>
-                        <option value="both" class="text-black">Both</option>
-                      </select>
-                    </div>
-
-                    <!-- Best Game piece -->
-                    <div class="mb-2">
-                      <label class="form-label" for="pitBestGamePiece">Best game piece?</label>
-                      <select class="form-select" name="pitBestGamePiece" id="pitBestGamePiece">
-                        <option value="" selected disabled class="text-secondary"></option>
-                        <option value="cone" class="text-black">Cone</option>
-                        <option value="cube" class="text-black">Cube</option>
-                        <option value="both" class="text-black">Both</option>
-                      </select>
-                    </div>
-
-                    <div class="mb-2">
-                      <label class="form-label" for="pitProgramLang">What Programming language?</label>
-                      <input class="form-control" type="text" name="pitProgramLang" id="pitProgramLang" placeholder="" value="" autocomplete="off">
-                    </div>
-
-                    <div class="mb-2">
-                      <label class="form-label" for="pitOrientGamepieces">How do you orient game pieces?</label>
-                      <input class="form-control" type="text" name="pitOrientGamepieces" id="pitOrientGamepieces" placeholder="" value="" autocomplete="off">
-                    </div>
-
-                    <div class="mb-2">
-                      <label class="form-label" for="pitBestGamePiece">Human player preffered substation</label>
-                      <select class="form-select" name="pitBestGamePiece" id="pitBestGamePiece">
-                        <option value="" selected disabled class="text-secondary"></option>
-                        <option value="cone" class="text-black">Single</option>
-                        <option value="cube" class="text-black">Double</option>
-                        <option value="both" class="text-black">Either</option>
-                      </select>
-                    </div>
-
-
-                  </div>
-                </div>
-
-                <div class="form-floating my-2 mx-4 ">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="pitComments" style="height: 100px"></textarea>
-                  <label for="pitComments">Comments</label>
-                </div>
-
-                <div class="d-flex justify-content-around my-2">
-                  <button class="btn btn-primary" onclick="resetPitScout()"; id="resetPitScout">Reset</button>
-                  <button class="btn btn-primary" type="submit" id="savePitScout">Save</button>
-                </div>
-              </form>
-              
-            </div>
-
             <!-- Saved Tab -->
             <div class="tab-pane " id="nav-matches" role="tabpanel" aria-labelledby="nav-matches-tab" tabindex="0">
               <div class="mt-4">
@@ -227,6 +118,43 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">4961 Scouting</h5>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/pages/match-scouting.html">Match Scouting</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/pages/pit-scouting.html">Pit Scouting</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="/pages/saved.html">Disabled</a>
+            </li>
+          </ul>s="list-group-item">And a fifth one</li>
+          </ul>
+          <!-- <div>
+            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+          </div>
+          <div class="dropdown mt-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+              Dropdown button
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div> -->
         </div>
       </div>
     </main>
