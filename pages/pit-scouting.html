@@ -18,14 +18,9 @@
         <main>
             <div class="main-container">
                 <nav>
-                    <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
-                        <a class="nav-link nav-fill " id="nav-home-tab" type="button" role="tab" aria-controls="nav-home" aria-selected="false" href="/index.html">Home</a>
-                        <a class="nav-link nav-fill active" id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="true" href="#">Match Scout</a>
-                        <a class="nav-link nav-fill " id="nav-pit-tab" data-bs-toggle="tab" data-bs-target="#nav-pit" type="button" role="tab" aria-controls="nav-pit" aria-selected="false">Pit Scout</a>
-                        <button class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</button>
-                        <button class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</button>
-                        <button class="nav-link nav-fill " id="nav-analyze-tab" data-bs-toggle="tab" data-bs-target="#nav-analyze" type="button" role="tab" aria-controls="nav-analyze" aria-selected="false" >Analyze</button>
-                    </div>
+                    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                        <img src="/images/icons/menu-bars.svg"/>
+                      </a>
                 </nav>
                 <div class="container">
                     <form class="mt-2" id="pitScoutingForm">
@@ -136,6 +131,36 @@
                       </form>
                 </div>
             </div>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">4961 Scouting</h5>
+                </div>
+                <div class="offcanvas-body">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/pages/match-scouting.html">Match Scouting</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/pages/pit-scouting.html">Pit Scouting</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/pages/saved.html">Saved</a>
+                    </li>
+                    <li class="nav-item">
+                      Transfer
+                      <ul class="nav flex-column">
+                        <li><a class="nav-link" href="/pages/transfer-send.html">Send</a></li>
+                        <li><a class="nav-link" href="/pages/transfer-receive.html">Receive</a></li>
+        
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
         </main>
         <script src="/js/jquery-3.6.3.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>

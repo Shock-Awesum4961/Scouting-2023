@@ -18,18 +18,81 @@
         <main>
             <div class="main-container">
                 <nav>
-                    <div class="nav nav-tabs w-100 nav-fill justify-content-center" id="nav-tab" role="tablist">
-                        <a class="nav-link nav-fill " id="nav-home-tab" type="button" role="tab" aria-controls="nav-home" aria-selected="false" href="/index.html">Home</a>
-                        <a class="nav-link nav-fill active" id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="true" href="#">Match Scout</a>
-                        <button class="nav-link nav-fill " id="nav-pit-tab" data-bs-toggle="tab" data-bs-target="#nav-pit" type="button" role="tab" aria-controls="nav-pit" aria-selected="false">Pit Scout</button>
-                        <button class="nav-link nav-fill " id="nav-matches-tab" data-bs-toggle="tab" data-bs-target="#nav-matches" type="button" role="tab" aria-controls="nav-matches" aria-selected="false">Saved</button>
-                        <button class="nav-link nav-fill " id="nav-transfer-tab" data-bs-toggle="tab" data-bs-target="#nav-transfer" type="button" role="tab" aria-controls="nav-transfer" aria-selected="false" >Transfer</button>
-                        <button class="nav-link nav-fill " id="nav-analyze-tab" data-bs-toggle="tab" data-bs-target="#nav-analyze" type="button" role="tab" aria-controls="nav-analyze" aria-selected="false" >Analyze</button>
-                    </div>
+                    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                        <img src="/images/icons/menu-bars.svg"/>
+                      </a>
                 </nav>
                 <div class="container">
+                    <div class="d-flex justify-content-between">
+                        <div class="w-100 pe-2">
+                          <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="send_choice">
+                            <input type="radio" class="btn-check" name="send_choice" id="transfer_send_matches" value="SendMatches" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary  flex-fill " for="transfer_send_matches">Matches</label>
+                            <input type="radio" class="btn-check" name="send_choice" id="transfer_send_pits" value="SendPits" autocomplete="off">
+                            <label class="btn btn-outline-primary flex-fill " for="transfer_send_pits">Pits</label>
+                          </div>
+                          <div id="send-list-section">
+                            <div class="send-matches-section" id="send-matches-section">
+                              <h4>Matches Needing Transfer</h4>
+                              <div class="list-group mt-4 text-left" id="sendSavedMatchesList"></div>
+                            </div>
+                            <div class="send-pits-section" style="display:none!important" id="send-pits-section">
+                              <h4>Pit Info Needing Transfer</h4>
+                              <div class="list-group mt-4 text-left" id="sendSavedPitsList"></div>
+                            </div>
+                          </div>
+                          <div class="mt-4 text-center" id="qrCodeSection" style="display:none;">
+                            <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
+                            <div class="text-center mt-2" id="qrCodeBlock">
+      
+                            </div>
+                            <div class="text-center my-2" id="numTransferInfo" style="display:none!important">
+                              <div class=" d-flex justify-content-around ">
+                                <div><button class="btn btn-primary" id="qrPrevBtn" style="display:none">Prev</button></div>
+                                <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
+                                <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="text-center d-flex flex-end mt-2">
+                            <button class="btn btn-primary" onClick="backToSelectTransfer()"  id="generateQrCodeBackBtn" style="display:none;">Back</button>
+                            <button class="btn btn-danger ms-auto" id="doneTransferBtn" style="display:none">Finished</button>
+                            <button class="btn btn-primary ms-auto" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
+                          </div>
+                        </div>
+                      </div>
                 </div>
             </div>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">4961 Scouting</h5>
+                </div>
+                <div class="offcanvas-body">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/pages/match-scouting.html">Match Scouting</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/pages/pit-scouting.html">Pit Scouting</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/pages/saved.html">Saved</a>
+                    </li>
+                    <li class="nav-item">
+                      Transfer
+                      <ul class="nav flex-column">
+                        <li><a class="nav-link" href="/pages/transfer-send.html">Send</a></li>
+                        <li><a class="nav-link" href="/pages/transfer-receive.html">Receive</a></li>
+        
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
         </main>
         <script src="/js/jquery-3.6.3.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>

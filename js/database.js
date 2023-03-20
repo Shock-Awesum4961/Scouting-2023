@@ -74,6 +74,7 @@ req.onupgradeneeded = function (evt) {
   }
 
     function getMatchesStore() {
+      console.log("is db null ", db == null)
         var tx = db.transaction("matches", 'readwrite');
         return tx.objectStore("matches");
     }

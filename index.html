@@ -63,51 +63,11 @@
                 <label class="btn btn-outline-danger flex-fill " for="transfer_receive">Receive</label>
               </div>
               <div class="send-data-section mt-2" id="send-data-section">
-                <div class="d-flex justify-content-between">
-                  <div class="w-100 pe-2">
-                    <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group" id="send_choice">
-                      <input type="radio" class="btn-check" name="send_choice" id="transfer_send_matches" value="SendMatches" autocomplete="off" checked>
-                      <label class="btn btn-outline-primary  flex-fill " for="transfer_send_matches">Matches</label>
-                      <input type="radio" class="btn-check" name="send_choice" id="transfer_send_pits" value="SendPits" autocomplete="off">
-                      <label class="btn btn-outline-primary flex-fill " for="transfer_send_pits">Pits</label>
-                    </div>
-                    <div id="send-list-section">
-                      <div class="send-matches-section" id="send-matches-section">
-                        <h4>Matches Needing Transfer</h4>
-                        <div class="list-group mt-4 text-left" id="sendSavedMatchesList"></div>
-                      </div>
-                      <div class="send-pits-section" style="display:none!important" id="send-pits-section">
-                        <h4>Pit Info Needing Transfer</h4>
-                        <div class="list-group mt-4 text-left" id="sendSavedPitsList"></div>
-                      </div>
-                    </div>
-                    <div class="mt-4 text-center" id="qrCodeSection" style="display:none;">
-                      <!-- <button class="btn btn-primary" onClick="generateQRCode('qrCodeBlock',{name:'test'})">Generate test QR Code</button> -->
-                      <div class="text-center mt-2" id="qrCodeBlock">
 
-                      </div>
-                      <div class="text-center my-2" id="numTransferInfo" style="display:none!important">
-                        <div class=" d-flex justify-content-around ">
-                          <div><button class="btn btn-primary" id="qrPrevBtn" style="display:none">Prev</button></div>
-                          <div>QR Code (<span id="currentQrCode"></span> of <span id="numQrCodes"></span>)</div>
-                          <div><button class="btn btn-primary" id="qrNextBtn">Next</button></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="text-center d-flex flex-end mt-2">
-                      <button class="btn btn-primary" onClick="backToSelectTransfer()"  id="generateQrCodeBackBtn" style="display:none;">Back</button>
-                      <button class="btn btn-danger ms-auto" id="doneTransferBtn" style="display:none">Finished</button>
-                      <button class="btn btn-primary ms-auto" onClick="showQRCodeForMatches()"  id="generateQrCodeBtn" disabled>Generate QR Code</button>
-                    </div>
-                  </div>
-                </div>
 
               </div>
               <div class="recieve-data-section mt-4 text-center" id="receive-data-section" style="display:none">
-                Receive
-                <button class="btn btn-primary" id="initCameraScanning">Start Scanning</button>
-                <button class="btn btn-primary" id="stopCameraScanning">Stop Scanning</button>
-                <div id="reader"  width="20rem" height="20rem"></div>
+
               </div>
 
             </div>
@@ -138,23 +98,17 @@
               <a class="nav-link" href="/pages/pit-scouting.html">Pit Scouting</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="/pages/saved.html">Disabled</a>
+              <a class="nav-link" href="/pages/saved.html">Saved</a>
             </li>
-          </ul>s="list-group-item">And a fifth one</li>
+            <li class="nav-item">
+              Transfer
+              <ul class="nav flex-column">
+                <li><a class="nav-link" href="/pages/transfer-send.html">Send</a></li>
+                <li><a class="nav-link" href="/pages/transfer-receive.html">Receive</a></li>
+
+              </ul>
+            </li>
           </ul>
-          <!-- <div>
-            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-          </div>
-          <div class="dropdown mt-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-              Dropdown button
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div> -->
         </div>
       </div>
     </main>
@@ -259,226 +213,14 @@
     <!-- Send Transfer Tab -->
     <script>
 
-      var dataToTransfer = {};
-      var matchesNotTransfered = {};
-      var pitNotTransfered = {};
-      var splitDataToTransfer = [];
-      var currQrCode = 0;
 
-      var transferTabPanel = document.getElementById("nav-transfer-tab");
-      transferTabPanel.addEventListener('shown.bs.tab', function(event){
-        populateTransferList('sendSavedMatchesList');
-        // populateTransferPitList('sendSavedPitsList');
-
-      });
-
-      $('#transfer_send').click(function(){
-        $('#receive-data-section').hide()
-        $('#send-data-section').show()
-      })
-      $('#transfer_receive').click(function(){
-        $('#send-data-section').hide()
-        $('#receive-data-section').show()
-      })
-
-      function generateQRCodeToTransfer(){
-        generateQRCode('qrCodeBlock', dataToTransfer);
-      }
-
-      function handleTransferCheckbox(ele,id){
-        if($(ele).prop("checked")){
-          dataToTransfer[id] = matchesNotTransfered[id];
-          console.log(dataToTransfer)
-        } else {
-         delete dataToTransfer[id];
-        }
-
-
-
-        if(Object.keys(dataToTransfer).length > 0){
-          $('#generateQrCodeBtn').prop('disabled', false);
-        } else {
-          $('#generateQrCodeBtn').prop('disabled', true);
-        }
-
-
-      }
-
-      function backToSelectTransfer(){
-        $('#generateQrCodeBackBtn').hide()
-        $('#qrCodeSection').hide()
-        $('#send-list-section').show()
-        $('#generateQrCodeBtn').show()
-        $('#doneTransferBtn').hide()
-
-      }
-
-      function showQRCodeForMatches(){
-
-        $('#send-list-section').hide()
-        $('#generateQrCodeBtn').hide()
-        $('#generateQrCodeBackBtn').show()
-        $('#qrCodeSection').show()
-        $('#qrNextBtn').show();
-        $('#qrPrevBtn').hide();
-        currQrCode = 0;
-
-        splitDataToTransfer = [];
-        let stringifiedData = JSON.stringify(dataToTransfer);
-        if(stringifiedData.length > maxQRCodeStrLen){
-          let storedStrLen = 0;
-          while(storedStrLen < stringifiedData.length){
-            splitDataToTransfer.push(stringifiedData.slice(storedStrLen, storedStrLen+maxQRCodeStrLen));
-            storedStrLen += maxQRCodeStrLen;
-            //allow to click through qr codes
-          }
-
-          $('#numQrCodes').html(splitDataToTransfer.length)
-          $('#numTransferInfo').show();
-          $('#currentQrCode').html(1)
-          generateQRCode(splitDataToTransfer[0]);
-        } else {
-          generateQRCode(stringifiedData);
-        }
-
-        $('#generateQrCodeBtn').prop('disabled', true);
-        $('#doneTransferBtn').show()
-
-
-      }
-
-      $('#qrPrevBtn').click(function(){
-        let prevQRCode = --currQrCode;
-        let displayQrCode =prevQRCode+1;
-        $('#currentQrCode').html(displayQrCode)
-        generateQRCode(splitDataToTransfer[prevQRCode]);
-
-        if(currQrCode == 0){
-          $('#qrPrevBtn').hide();
-        }
-        
-        $('#qrNextBtn').show();
-
-      });
-      $('#qrNextBtn').click(function(){
-        let nextQRCode = ++currQrCode;
-        let displayQrCode = nextQRCode+1;
-        $('#currentQrCode').html(displayQrCode)
-        generateQRCode(splitDataToTransfer[nextQRCode]);
-
-        if(currQrCode == splitDataToTransfer.length-1){
-          $('#qrNextBtn').hide();
-        }
-        
-        $('#qrPrevBtn').show();
-
-
-      });
-      $('#doneTransferBtn').click(function(){
-        if(confirm("Are you sure you're done transfering?")){
-          //markMatchesAsTransfered()
-          let promiseArr = Object.keys(dataToTransfer).map(function(key){
-            dataToTransfer[key]['transfered'] = 1;
-            return updateMatch(key, dataToTransfer[key]).then(function(res){
-              
-              return res;
-            })
-          })
-
-          Promise.all(promiseArr).then(function(resultsArray){
-            qrcode.clear();
-            Object.keys(dataToTransfer).forEach(function(key){
-              $('#transferMatch_' + key).remove();
-            })
-            dataToTransfer = [];
-            $('#qrCodeBlock').html("");
-            $('#doneTransferBtn').hide();
-            $('#numTransferInfo').hide();
-            $('#generateQrCodeBtn').prop('disabled', false);
-            
-            populateTransferList();
-          })
-        }
-      });
 
     </script>
 
     <!-- QRCode Scanning -->
     <!-- https://github.com/mebjas/html5-qrcode#pro-mode---if-you-want-to-implement-your-own-user-interface -->
     <script>
-      function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
-        console.log(`Code matched = ${decodedText}`, decodedResult);
-        html5QrcodeScanner.stop().then((ignore) => {
-          // QR Code scanning is stopped.
-        }).catch((err) => {
-          // Stop failed, handle it.
-        });
-      }
-      
-      function onScanFailure(error) {
-        // handle scan failure, usually better to ignore and keep scanning.
-        // for example:
-        console.warn(`Code scan error = ${error}`);
-      }
-      
-      //let html5QrcodeScanner = new Html5QrcodeScanner(
-      //  "reader",
-      //  { fps: 10, qrbox: {width: 250, height: 250} },
-      //  /* verbose= */ false);
-      //html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
-
-      $('#initCameraScanning').click(function(){
-        requestCamera();
-      })
-
-      $('#stopCameraScanning').click(function(){
-        stopCamera();
-      })
-
-      // Custom code now::
-      // This method will trigger user permissions
-      const html5QrCode = new Html5Qrcode(/* element id */ "reader");
-
-      function requestCamera(){
-        Html5Qrcode.getCameras().then(devices => {
-          /**
-           * devices would be an array of objects of type:
-           * { id: "id", label: "label" }
-           */
-          if (devices && devices.length) {
-            var cameraId = devices[0].id;
-            // .. use this to start scanning.
-
-            html5QrCode.start(
-              cameraId, 
-              {
-                fps: 10,    // Optional, frame per seconds for qr code scanning
-                qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
-              },
-              (decodedText, decodedResult) => {
-                // do something when code is read
-              },
-              (errorMessage) => {
-                // parse error, ignore it.
-              })
-            .catch((err) => {
-              // Start failed, handle it.
-});
-          }
-        }).catch(err => {
-          // handle err
-        });
-      }
-
-      function stopCamera(){
-        html5QrCode.stop().then((ignore) => {
-          // QR Code scanning is stopped.
-        }).catch((err) => {
-          // Stop failed, handle it.
-        });
-      }
+     
 
 
     </script>
@@ -486,96 +228,7 @@
     
     <!-- Helper Functions -->
     <script>
-      var qrcode; // QRCode OBJ
-      const maxQRCodeStrLen = 800;
-
-
-
-      $().ready(function(){
-        qrcode = new QRCode('qrCodeBlock',{
-          height:512,
-          width:512
-        });
-      })
-
-
-      function generateQRCode(data){
-        qrcode.clear(); 
-        if(data.length <= 217 && data.length >= 192){data+="                          ";}
-        qrcode.makeCode(data)
-      }
-
-      function populateMatchesList(eleId, showCheckboxes){
-        getAllMatches().then(data =>{
-          if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
-          let sortedData = data.sort(
-            (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
-          data.forEach(match => {
-              var divStr = '<div class="list-group-item text-align-left">' +
-                  '<div class="d-flex">';
-
-                divStr += '<div>Team ' + match.team_number + '</div>'+
-                    '<div class="mx-2"> - </div>' + 
-                    '<div>'+match.type+': ' + match.match_number + '</div>' +
-                  '</div>'+
-                  '<div class="text-secondary">'+match.date+'</div>'+ 
-                  '</div>';
-                $('#'  +eleId).append(divStr);
-          })
-
-        })
-      }
-
-      function populateTransferPitList(eleId){
-        getAllPitsIndexed('transfered',0).then(data =>{
-          if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
-          let sortedData = data.sort(
-            (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
-          data.forEach(pit => {
-            pitNotTransfered[pit.id] = pit;
-              var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+pit.id+'">' +
-                  '<div class="form-check" >'+
-                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+pit.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
-                    '<label class="w-100" for="transferMatch_'+pit.id+'">'+
-                      '<div class="d-flex">' +
-                        '<div>Team ' + pit.team_number + '</div>'+
-                      '</div>'+
-                    '</label>'+
-                  '</div>' +
-                '</div>';
-                $('#'  +eleId).append(divStr);
-          })
-
-        })
-      }
-      function populateTransferList(eleId){
-        getAllMatchesIndexed('transfered',0).then(data =>{
-          if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
-          let sortedData = data.sort(
-            (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
-          data.forEach(match => {
-            if($.isArray(match)){console.log(match); newMatch = Object.fromEntries(match.entries());console.log(newMatch)}
-            matchesNotTransfered[match.id] = match;
-            
-              var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+match.id+'">' +
-                  '<div class="form-check" >'+
-                    '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" id="matchCheck_'+match.id+'" name="matchCheck_'+match.id+'"onclick="handleTransferCheckbox(this, '+match.id+')">' +
-                    '<label class="form-check-label" for="matchCheck_'+match.id+'">'+
-                      '<div class="d-flex">' +
-                        '<div>Team ' + match.team_number + '</div>'+
-                        '<div class="mx-2"> - </div>' + 
-                        '<div>'+match.type+': ' + match.match_number + '</div>' +
-                      '</div>'+
-                      '<div class="text-secondary">'+match.date+'</div>'+ 
-                      '<div class="text-secondary">'+match.id+'</div>'+ 
-                    '</label>'+
-                  '</div>' +
-                '</div>';
-                $('#'  +eleId).append(divStr);
-          })
-
-        })
-      }
+     
 
     </script>
 
