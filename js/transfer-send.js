@@ -4,11 +4,11 @@ var pitNotTransfered = {};
 var splitDataToTransfer = [];
 var currQrCode = 0;
 
-var transferTabPanel = document.getElementById("nav-transfer-tab");
-transferTabPanel.addEventListener('shown.bs.tab', function(event){
-  // populateTransferPitList('sendSavedPitsList');
+// var transferTabPanel = document.getElementById("nav-transfer-tab");
+// transferTabPanel.addEventListener('shown.bs.tab', function(event){
+//   // populateTransferPitList('sendSavedPitsList');
 
-});
+// });
 
 $('#transfer_send').click(function(){
   $('#receive-data-section').hide()
@@ -145,12 +145,16 @@ const maxQRCodeStrLen = 500;
 
 
 $().ready(function(){
-    populateTransferList('sendSavedMatchesList');
     qrcode = new QRCode('qrCodeBlock',{
         height:256,
         width:256
     });
 })
+
+function afterDBLoad(){
+    populateTransferList('sendSavedMatchesList');
+
+}
 
 
 function generateQRCode(data){
@@ -203,30 +207,30 @@ function populateTransferPitList(eleId){
   })
 }
 function populateTransferList(eleId){
-  getAllMatchesIndexed('transfered',0).then(data =>{
-    if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
-    let sortedData = data.sort(
-      (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
-    data.forEach(match => {
-      if($.isArray(match)){console.log(match); newMatch = Object.fromEntries(match.entries());console.log(newMatch)}
-      matchesNotTransfered[match.id] = match;
-      
-        var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+match.id+'">' +
-            '<div class="form-check" >'+
-              '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" id="matchCheck_'+match.id+'" name="matchCheck_'+match.id+'"onclick="handleTransferCheckbox(this, '+match.id+')">' +
-              '<label class="form-check-label" for="matchCheck_'+match.id+'">'+
-                '<div class="d-flex">' +
-                  '<div>Team ' + match.team_number + '</div>'+
-                  '<div class="mx-2"> - </div>' + 
-                  '<div>'+match.type+': ' + match.match_number + '</div>' +
-                '</div>'+
-                '<div class="text-secondary">'+match.date+'</div>'+ 
-                '<div class="text-secondary">'+match.id+'</div>'+ 
-              '</label>'+
-            '</div>' +
-          '</div>';
-          $('#'  +eleId).append(divStr);
-    })
+    getAllMatchesIndexed('transfered',0).then(data =>{
+        if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
+        let sortedData = data.sort(
+        (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
+        data.forEach(match => {
+        if($.isArray(match)){console.log(match); newMatch = Object.fromEntries(match.entries());console.log(newMatch)}
+        matchesNotTransfered[match.id] = match;
+        
+            var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+match.id+'">' +
+                '<div class="form-check" >'+
+                '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+match.id+'" id="matchCheck_'+match.id+'" name="matchCheck_'+match.id+'"onclick="handleTransferCheckbox(this, '+match.id+')">' +
+                '<label class="form-check-label" for="matchCheck_'+match.id+'">'+
+                    '<div class="d-flex">' +
+                    '<div>Team ' + match.team_number + '</div>'+
+                    '<div class="mx-2"> - </div>' + 
+                    '<div>'+match.type+': ' + match.match_number + '</div>' +
+                    '</div>'+
+                    '<div class="text-secondary">'+match.date+'</div>'+ 
+                    '<div class="text-secondary">'+match.id+'</div>'+ 
+                '</label>'+
+                '</div>' +
+            '</div>';
+            $('#'  +eleId).append(divStr);
+        })
 
-  })
+        })
 }

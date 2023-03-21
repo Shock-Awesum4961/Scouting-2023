@@ -4,6 +4,7 @@ const DB_MATCH_STORE_NAME = 'matches';
 const DB_PIT_STORE_NAME = 'pits';
 
 var db;
+var dbFuncQueue = [];
 
 // Used to keep track of which view is displayed to avoid uselessly reloading it
 var current_view_pub_key;
@@ -15,6 +16,7 @@ req.onsuccess = function (evt) {
     // Equal to: db = req.result;
     db = this.result;
     console.log("openDb DONE");
+    afterDBLoad();
 };
 req.onerror = function (evt) {
     console.error("openDb:", evt.target.errorCode);
@@ -174,4 +176,4 @@ req.onupgradeneeded = function (evt) {
 
 
 
-openDb();
+  openDb();
