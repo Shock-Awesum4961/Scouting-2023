@@ -16,7 +16,9 @@ req.onsuccess = function (evt) {
     // Equal to: db = req.result;
     db = this.result;
     console.log("openDb DONE");
-    afterDBLoad();
+    if (typeof afterDBLoad === "function") { 
+      afterDBLoad();
+  }
 };
 req.onerror = function (evt) {
     console.error("openDb:", evt.target.errorCode);
@@ -135,6 +137,15 @@ req.onupgradeneeded = function (evt) {
       });
     }
 
+    function getAllPits(){
+      return new Promise((resolve, reject) =>{
+        let store = getPitStore();
+        req = store.getAll();
+        req.onsuccess = function(event) {
+          resolve(event.target.result);
+        };
+      });
+    }
     function getAllPitsIndexed(index, qry){
       return new Promise((resolve, reject) =>{
         let store = getPitStore().index(index);

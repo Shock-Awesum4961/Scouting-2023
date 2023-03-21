@@ -10,13 +10,25 @@ var currQrCode = 0;
 
 // });
 
-$('#transfer_send').click(function(){
-  $('#receive-data-section').hide()
-  $('#send-data-section').show()
-})
-$('#transfer_receive').click(function(){
-  $('#send-data-section').hide()
-  $('#receive-data-section').show()
+// $('#transfer_send').click(function(){
+//   $('#receive-data-section').hide()
+//   $('#send-data-section').show()
+// })
+// $('#transfer_receive').click(function(){
+//   $('#send-data-section').hide()
+//   $('#receive-data-section').show()
+// })
+
+$('input[name="send_choice"]').change(function(){
+    console.log("change: ", $(this).val())
+    if($(this).val() == "SendMatches"){
+        $('#send-pits-section').hide();
+        $('#send-matches-section').show();
+    }    
+    if($(this).val() == "SendPits"){
+        $('#send-matches-section').hide();
+        $('#send-pits-section').show();
+    }    
 })
 
 function generateQRCodeToTransfer(){
@@ -25,8 +37,11 @@ function generateQRCodeToTransfer(){
 
 function handleTransferCheckbox(ele,id){
   if($(ele).prop("checked")){
-    dataToTransfer[id] = matchesNotTransfered[id];
-    console.log(dataToTransfer)
+    if($(ele).hasClass("transferMatchCheckbox") == "SendMatches"){
+        dataToTransfer[id] = matchesNotTransfered[id];
+    }else {
+        dataToTransfer[id] = pitNotTransfered[id];
+    }
   } else {
    delete dataToTransfer[id];
   }
@@ -153,7 +168,7 @@ $().ready(function(){
 
 function afterDBLoad(){
     populateTransferList('sendSavedMatchesList');
-
+    populateTransferPitList('sendSavedPitsList');
 }
 
 
@@ -185,23 +200,42 @@ function populateMatchesList(eleId, showCheckboxes){
 }
 
 function populateTransferPitList(eleId){
-  getAllPitsIndexed('transfered',0).then(data =>{
+//   getAllPitsIndexed('transfered',0).then(data =>{
+//     if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
+//     let sortedData = data.sort(
+//       (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
+//     data.forEach(pit => {
+//       pitNotTransfered[pit.id] = pit;
+//         var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+pit.id+'">' +
+//             '<div class="form-check" >'+
+//               '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+pit.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
+//               '<label class="w-100" for="transferMatch_'+pit.id+'">'+
+//                 '<div class="d-flex">' +
+//                   '<div>Team ' + pit.team_number + '</div>'+
+//                 '</div>'+
+//               '</label>'+
+//             '</div>' +
+//           '</div>';
+//           $('#'  +eleId).append(divStr);
+//     })
+
+//   })
+  getAllPits().then(data =>{
     if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
     let sortedData = data.sort(
       (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
     data.forEach(pit => {
       pitNotTransfered[pit.id] = pit;
-        var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+pit.id+'">' +
-            '<div class="form-check" >'+
-              '<input class="form-check-input transferMatchCheckbox" type="checkbox" value="'+pit.id+'" onclick="handleTransferCheckbox(this, '+match.id+')">' +
-              '<label class="w-100" for="transferMatch_'+pit.id+'">'+
-                '<div class="d-flex">' +
-                  '<div>Team ' + pit.team_number + '</div>'+
-                '</div>'+
-              '</label>'+
-            '</div>' +
-          '</div>';
-          $('#'  +eleId).append(divStr);
+      var divStr = '<div class="list-group-item text-align-left" id="transferPit_'+pit.id+'">' +
+      '<div class="form-check" >'+
+      '<input class="form-check-input transferPitCheckbox" type="checkbox" value="'+pit.id+'" id="pitCheck_'+pit.id+'" name="pitCheck_'+pit.id+'"onclick="handleTransferCheckbox(this, '+pit.id+')">' +
+      '<label class="form-check-label" for="pitCheck_'+pit.id+'">'+
+          '<div>Team ' + pit.pitTeamNumber + '</div>'+
+          '<div class="text-secondary">'+pit.date+'</div>'+ 
+      '</label>'+
+      '</div>' +
+  '</div>';
+  $('#'  +eleId).append(divStr);
     })
 
   })
@@ -225,7 +259,6 @@ function populateTransferList(eleId){
                     '<div>'+match.type+': ' + match.match_number + '</div>' +
                     '</div>'+
                     '<div class="text-secondary">'+match.date+'</div>'+ 
-                    '<div class="text-secondary">'+match.id+'</div>'+ 
                 '</label>'+
                 '</div>' +
             '</div>';

@@ -1,6 +1,8 @@
 function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
     console.log(`Code matched = ${decodedText}`, decodedResult);
+    console.log('isJSON: ', isJSON(decodedText))
+
     stopCamera()
     // html5QrcodeScanner.stop().then((ignore) => {
     //   // QR Code scanning is stopped.

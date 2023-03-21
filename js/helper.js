@@ -22,3 +22,11 @@ function setCookie(cName, cValue, expHours) {
 }
   
   function pad(num, size){     return ('000000000' + num).substr(-size); }
+
+  function isJSON(str) {
+    try {
+        return (JSON.parse(str) && !!str);
+    } catch (e) {
+        return false;
+    }
+}
