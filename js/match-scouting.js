@@ -13,8 +13,6 @@ var validMatchInfo = false;
 
 var autoNodeList = [];
 var teleopNodeList = [];
-var autoLinkList = [];
-var teleopLinkList = [];
 
 var currentMatchData = {};
 
@@ -23,6 +21,9 @@ function initData(){
     currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
     currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
     currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
+    currentMatchData['auton_grid_total'] = 0;
+    currentMatchData['teleop_grid_total'] = 0;
+    currentMatchData['linksMade'] = 0;
     currentMatchData['events'] = [];
 
 }
@@ -40,8 +41,36 @@ $().ready(function(){
         $('#matchType').removeClass("text-secondary");
     }
 
-    $("#auton-grid-container").load("grid-frag.html"); 
-    $("#teleop-grid-container").load("grid-frag.html"); 
+    $("#auton-grid-container").load("grid-frag.html", function(){
+      $('#auton-grid-container').find('input').each(function(){
+        $(this).attr('id',$(this).attr('id')+"_auton");
+        $(this).parent().find('label').attr('for',$(this).attr('id'));
+        if( $(this).parent().find('label').attr('onclick') !== undefined){
+          $(this).parent().find('label').attr('onclick',"hybridNodeClick('"+$(this).attr('id')+"')");
+        }
+
+      })
+
+
+    });
+
+
+
+    $("#teleop-grid-container").load("grid-frag.html",function(){
+      $('#teleop-grid-container').find('input').each(function(){
+        $(this).attr('id',$(this).attr('id')+"_teleop");
+        $(this).parent().find('label').attr('for',$(this).attr('id'));
+        if( $(this).parent().find('label').attr('onclick') !== undefined){
+          $(this).parent().find('label').attr('onclick',"hybridNodeClick('"+$(this).attr('id')+"')");
+        }
+
+      })
+
+      finishedLoadingGrid()
+    }); 
+
+
+
 
     initData()
 });
@@ -296,15 +325,17 @@ $('#matchType').change(function(){
     currentMatchData['events'].push(newEvent);
   }
 
-  $('#matchScoutingForm').submit(function(){
+  $('#matchScoutingForm').submit(function(e){
+    e.preventDefault()
     console.log('submitting form')
+    saveRecording();
   })
 
 
 
 
   function saveRecording(){
-    currentMatchData['comments'] = $('#comments').val();
+    // currentMatchData['comments'] = $('#comments').val();
     currentMatchData['recorded_date'] = new Date();
     currentMatchData['transfered'] = 0;
     addMatch(currentMatchData);
@@ -327,8 +358,36 @@ $('#matchType').change(function(){
   }
 
   //Save value after it has 'settled'
+
+  $('.hybrid-btn-label').on('click',function(){
+    console.log("hybrid button label pressed")
+    hybridNodeClick($(this).attr('id'));
+  })
+
+
+  function finishedLoadingGrid(){
+    $('.cone-btn, .cube-btn').change(function(){
+      let checked = $(this).is(':checked')
+      let pointValue = getPointValueForNode($(this).attr("id"));
+      let isAuton = $(this).attr("id").includes("auton");
+      let nodeCoord = $(this).attr("id").substring(0,2);
+      addEvent($(this).attr("id")+","+checked);
+
+      insertNodeData(checked, isAuton, pointValue, nodeCoord)
+
+
+    });
+
+  }
+
+
+
   function hybridNodeClick(id){
     val = parseInt($("#" + id).val(),10) + 1;
+    let isAuton = id.includes("auton");
+    let pointValue = getPointValueForNode(id);
+
+    console.log("isAuton: " , isAuton)
     if(val <= 3){
         $("#" + id).val(val)
     } else {
@@ -339,14 +398,58 @@ $('#matchType').change(function(){
     if(val === 1){
         $('#'+id).removeClass('hybrid-btn-cube');
         $('#'+id).removeClass('hybrid-btn-cone');
+
     } else if (val === 2){
         $('#'+id).addClass('hybrid-btn-cube');
     } else if(val === 3){
         $('#'+id).removeClass('hybrid-btn-cube');
         $('#'+id).addClass('hybrid-btn-cone');
     }
+
+
+
+    
   }
 
-  $('input.cone-btn, input.cube-btn').change(function(e){
-    console.log("node clicked: ", $(this).attr("id"))
-  });
+  function getPointValueForNode(nodeId){
+    let pointVal = 0;
+    if(nodeId.startsWith("a")) {
+      pointVal = 5
+    } else if(nodeId.startsWith("b")) {
+      pointVal = 3
+    } else {
+      pointVal = 2
+    }
+
+    if(nodeId.includes("auton")){
+      pointVal++;
+    }
+
+    return pointVal;
+
+
+  }
+
+  function insertNodeData(checked, isAuton, pointValue, nodeCoord){
+    if(checked){
+      if(isAuton){
+        currentMatchData["auton_grid_total"] += pointValue;
+        autoNodeList.push(nodeCoord)
+
+      } else {
+        currentMatchData["teleop_grid_total"] += pointValue;
+        teleopNodeList.push(nodeCoord)
+
+      }
+    } else {
+      if(isAuton){
+        currentMatchData["auton_grid_total"] -= pointValue;
+        autoNodeList = autoNodeList.filter(item => item !== nodeCoord)
+      } else {
+        currentMatchData["teleop_grid_total"] -= pointValue;
+        teleopNodeList = autoNodeList.filter(item => item !== nodeCoord)
+
+      }
+    }
+  }
+

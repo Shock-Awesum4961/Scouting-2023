@@ -1,4 +1,4 @@
-var dataToTransfer = {};
+var dataToTransfer = [];
 var matchesNotTransfered = {};
 var pitNotTransfered = {};
 var splitDataToTransfer = [];
@@ -38,9 +38,9 @@ function generateQRCodeToTransfer(){
 function handleTransferCheckbox(ele,id){
   if($(ele).prop("checked")){
     if($(ele).hasClass("transferMatchCheckbox") == "SendMatches"){
-        dataToTransfer[id] = matchesNotTransfered[id];
+        dataToTransfer.push(matchesNotTransfered[id]);
     }else {
-        dataToTransfer[id] = pitNotTransfered[id];
+        dataToTransfer.push(pitNotTransfered[id]);
     }
   } else {
    delete dataToTransfer[id];
@@ -155,7 +155,7 @@ $('#doneTransferBtn').click(function(){
 });
 
 var qrcode; // QRCode OBJ
-const maxQRCodeStrLen = 500;
+const maxQRCodeStrLen = 300;
 
 
 
@@ -225,7 +225,7 @@ function populateTransferPitList(eleId){
     let sortedData = data.sort(
       (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
     data.forEach(pit => {
-      pitNotTransfered[pit.id] = pit;
+      pitNotTransfered[pit.id] = SimplifyPitJson(pit);
       var divStr = '<div class="list-group-item text-align-left" id="transferPit_'+pit.id+'">' +
       '<div class="form-check" >'+
       '<input class="form-check-input transferPitCheckbox" type="checkbox" value="'+pit.id+'" id="pitCheck_'+pit.id+'" name="pitCheck_'+pit.id+'"onclick="handleTransferCheckbox(this, '+pit.id+')">' +
@@ -266,4 +266,47 @@ function populateTransferList(eleId){
         })
 
         })
+}
+
+/*
+    0: type (test/)
+    1: pitTeamNumber
+    2: recorded_date
+    3:
+
+    ~: events
+*/
+
+function SimplifyMatchJson(matchObj){
+
+}
+
+/*
+    0: type ("pit")
+    1: pitTeamNumber
+    2: recorded_date
+    3: pitBestGamePiece
+    4: pitDriveTrain
+    5: pitAutonCharger
+    6: pitTeleopCharger
+    7: pitNumGamepieces
+    9: pitOrientGamepieces
+    9: pitProgramLang
+    10: comments
+
+*/
+function SimplifyPitJson(pitObj){
+    let pitArray = []
+    pitArray.push(pitObj['type']);
+    pitArray.push(pitObj['pitTeamNumber']);
+    pitArray.push(pitObj['recorded_date']);
+    pitArray.push(pitObj['pitBestGamePiece']);
+    pitArray.push(pitObj['pitDriveTrain']);
+    pitArray.push(pitObj['pitAutonCharger']);
+    pitArray.push(pitObj['pitTeleopCharger']);
+    pitArray.push(pitObj['pitNumGamepieces']);
+    pitArray.push(pitObj['pitOrientGamepieces']);
+    pitArray.push(pitObj['type']);
+    pitArray.push(pitObj['comments']);
+
 }

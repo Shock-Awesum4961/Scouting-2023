@@ -1,7 +1,24 @@
+var decodedTextConcat = "";
+
 function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
-    console.log(`Code matched = ${decodedText}`, decodedResult);
-    console.log('isJSON: ', isJSON(decodedText))
+    // console.log(`Code matched = ${decodedText}`, decodedResult);
+    // console.log('isJSON: ', isJSON(decodedText))
+    stopCamera()
+    // Show 'scan next button'
+
+    if(isJSON(decodedText)){
+        handleJson(decodedText);
+    } else {
+        decodedTextConcat = decodedTextConcat + decodedText;
+        // console.log(decodedTextConcat)
+        if(isJSON(decodedTextConcat)){
+            handleJson(decodedTextConcat);
+            //print Scanning complete
+        }
+
+    }
+    
 
     stopCamera()
     // html5QrcodeScanner.stop().then((ignore) => {
@@ -10,6 +27,12 @@ function onScanSuccess(decodedText, decodedResult) {
     //   // Stop failed, handle it.
     // });
   }
+
+  function handleJson(jsonString){
+    let jsonObj = JSON.parse(jsonString);
+    console.log(jsonObj)
+  }
+
   
   function onScanFailure(error) {
     // handle scan failure, usually better to ignore and keep scanning.
