@@ -245,7 +245,7 @@ function populateTransferList(eleId){
         if(data.length == $("#" + eleId).children().length){return;}else{$('#'+eleId).html("")}
         let sortedData = data.sort(
         (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
-        data.forEach(match => {
+        sortedData.forEach(match => {
         if($.isArray(match)){console.log(match); newMatch = Object.fromEntries(match.entries());console.log(newMatch)}
         matchesNotTransfered[match.id] = match;
         

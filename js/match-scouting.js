@@ -41,6 +41,12 @@ $().ready(function(){
         $('#matchType').removeClass("text-secondary");
     }
 
+    if($('#tabletNum').find(":selected").is(":disabled")){
+        $('#tabletNum').addClass("text-secondary");
+    }else{
+        $('#tabletNum').removeClass("text-secondary");
+    }
+
     $("#auton-grid-container").load("grid-frag.html", function(){
       $('#auton-grid-container').find('input').each(function(){
         $(this).attr('id',$(this).attr('id')+"_auton");
@@ -216,6 +222,14 @@ $('#matchType').change(function(){
     }else{
       $('#matchType').removeClass("text-secondary");
       setCookie('matchType', $('#matchType').val(), 4);
+    }
+  });
+$('#tabletNum').change(function(){
+    if($('#tabletNum').find(":selected").is(":disabled")){
+      $('#tabletNum').addClass("text-secondary");
+    }else{
+      $('#tabletNum').removeClass("text-secondary");
+      setCookie('tabletNum', $('#tabletNum').val(), 4);
     }
   });
 

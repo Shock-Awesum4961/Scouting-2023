@@ -59,13 +59,25 @@
                                 <input class="form-control" type="tel" name="teamNumber" id="teamNumber" placeholder="#" autocomplete="off">
                             </div>
                             </div>
-                            <div class="d-flex justify-content-center my-4">
-                            <label class="form-check-label me-2" >Blue</label>
-                            <label class="switch">
-                                <input type="checkbox" id="allianceSwitch">
-                                <span class="slider round"></span>
-                            </label>
-                            <label class="form-check-label ms-2" >Red</label>
+                            <!-- <div class="d-flex justify-content-center my-4">
+                                <label class="form-check-label me-2" >Blue</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="allianceSwitch">
+                                    <span class="slider round"></span>
+                                </label>
+                                <label class="form-check-label ms-2" >Red</label>
+                            </div> -->
+                            <div class="mb-3">
+                                <label class="form-label" for="tabletNum">Tablet #<span class="text-danger">*</span></label>
+                                <select class="form-select" name="tabletNum" id="tabletNum">
+                                <option value="" selected disabled class="text-secondary">Required</option>
+                                <option value="blue1" class="text-black">Blue 1</option>
+                                <option value="blue2" class="text-black">Blue 2</option>
+                                <option value="blue3" class="text-black">Blue 3</option>
+                                <option value="red1" class="text-black">Red 1</option>
+                                <option value="red2" class="text-black" >Red 2</option>
+                                <option value="red3" class="text-black" >Red 3</option>
+                                </select>
                             </div>
                             <div class="d-flex justify-content-around my-2">
                             <button class="btn btn-danger" id="resetMatchInfo" style="display:none;" >Reset</button>
