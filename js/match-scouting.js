@@ -14,17 +14,28 @@ var validMatchInfo = false;
 var autonNodeList = [];
 var teleopNodeList = [];
 
+var autonLinkCounter = 0;
+var teleopLinkCounter = 0;
+
 var currentMatchData = {};
 
 function initData(){
-    currentMatchData['mobility'] = $("#mobility").is(':checked');
-    currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
-    currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
-    currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
-    currentMatchData['auton_grid_total'] = 0;
-    currentMatchData['teleop_grid_total'] = 0;
-    currentMatchData['linksMade'] = 0;
-    currentMatchData['events'] = [];
+  autonNodeList = [];
+  teleopNodeList = [];
+  autonLinkCounter = 0;
+  teleopLinkCounter = 0;
+
+  currentMatchData['mobility'] = $("#mobility").is(':checked');
+  currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
+  currentMatchData['auton_charger'] = $('input[name=auton_charger]:checked', "#auton_charger_container").val();
+  currentMatchData['teleop_charger'] = $('input[name=teleop_charger]:checked', "#teleop_charger_container").val();
+  currentMatchData['auton_grid_total'] = 0;
+  currentMatchData['teleop_grid_total'] = 0;
+  currentMatchData['linksMade'] = 0;
+  currentMatchData['events'] = [];
+
+
+    
 
 }
 
@@ -136,6 +147,15 @@ $('#autonContinue').click(function(e){
 $('#teleopBack').click(function(e){
     e.preventDefault()
     showAuton();
+})
+
+$('#madeTeleopLink').click(function(e){
+  e.preventDefault();
+  teleopLinkCounter++;
+})
+$('#madeAutonLink').click(function(e){
+  e.preventDefault();
+  autonLinkCounter++;
 })
 
 function showAuton(){
@@ -324,6 +344,8 @@ $('#tabletNum').change(function(){
     currentMatchData['comments'] = $('#comments').val();
     currentMatchData['autonNodeList'] = autonNodeList;
     currentMatchData['teleopNodeList'] = teleopNodeList;
+    currentMatchData['autonLinkCount'] = autonLinkCounter;
+    currentMatchData['teleopLinkCount'] = teleopLinkCounter;
     currentMatchData['recorded_date'] = new Date();
     currentMatchData['transfered'] = 0;
     addMatch(currentMatchData);
