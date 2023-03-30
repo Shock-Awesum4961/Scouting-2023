@@ -9,3 +9,4 @@ if ("serviceWorker" in navigator) {
 
 $('#nav-bar').load('/pages/fragments/nav.html');
 
+  

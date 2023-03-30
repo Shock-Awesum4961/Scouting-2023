@@ -32,6 +32,7 @@ function initData(){
 
 $().ready(function(){
     $('#scout_name').val(getCookie('scout_name') || '');
+    $('#tabletNum').val(getCookie('tabletNum') || '').change();
 
     $('#matchDate').val(new Date().toISOString().slice(0, 10) );
 
@@ -279,30 +280,6 @@ $('#tabletNum').change(function(){
 
   });
 
-  $('#auton_bot').click(function(){
-    currentMatchData['auton_bottom'] += 1;
-    addEvent('auton_bottom');
-
-  });
-  $('#auton_mid_cube').click(function(){
-    currentMatchData['auton_middle_cube'] += 1;
-    addEvent('auton_middle_cube');
-  });
-  $('#auton_top_cube').click(function(){
-    currentMatchData['auton_top_cube'] += 1;
-    addEvent('auton_top_cube');
-  });
-  $('#auton_mid_cone').click(function(){
-    currentMatchData['auton_middle_cone'] += 1;
-    addEvent('auton_middle_cone');
-
-  });
-  $('#auton_top_cone').click(function(){
-    currentMatchData['auton_top_cone'] += 1;
-    addEvent('auton_top_cone');
-
-  });
-
   $('#teleop_defensive').change(function(){
     currentMatchData['defensive'] = $("#teleop_defensive").is(':checked');
   });
@@ -313,39 +290,18 @@ $('#tabletNum').change(function(){
 
   });
 
-  // $('#teleop_pickup_portal_slide').click(function(){
-  //   currentMatchData['teleop_pickup_portal_slide'] += 1;
-  //   addEvent('teleop_pickup_portal_slide');
-  // });
-  // $('#teleop_pickup_portal_shelf').click(function(){
-  //   currentMatchData['teleop_pickup_portal_shelf'] += 1;
-  //   addEvent('teleop_pickup_portal_shelf');
-  // });
-  // $('#teleop_pickup_ground').click(function(){
-  //   currentMatchData['teleop_pickup_ground'] += 1;
-  //   addEvent('teleop_pickup_ground');
-  // });
-
-  // $('#teleop_bot').click(function(){
-  //   currentMatchData['teleop_bottom'] += 1;
-  //   addEvent('teleop_bottom');
-  // });
-  // $('#teleop_mid_cone').click(function(){
-  //   currentMatchData['teleop_middle_cone'] += 1;
-  //   addEvent('teleop_middle_cone');
-  // });
-  // $('#teleop_top_cone').click(function(){
-  //   currentMatchData['teleop_top_cone'] += 1;
-  //   addEvent('teleop_top_cone');
-  // });
-  // $('#teleop_mid_cube').click(function(){
-  //   currentMatchData['teleop_middle_cube'] += 1;
-  //   addEvent('teleop_middle_cube');
-  // });
-  // $('#teleop_top_cube').click(function(){
-  //   currentMatchData['teleop_top_cube'] += 1;
-  //   addEvent('teleop_top_cube');
-  // });
+  $('#teleop_pickup_portal_slide').click(function(){
+    currentMatchData['teleop_pickup_portal_slide'] += 1;
+    addEvent('teleop_pickup_portal_slide');
+  });
+  $('#teleop_pickup_portal_shelf').click(function(){
+    currentMatchData['teleop_pickup_portal_shelf'] += 1;
+    addEvent('teleop_pickup_portal_shelf');
+  });
+  $('#teleop_pickup_ground').click(function(){
+    currentMatchData['teleop_pickup_ground'] += 1;
+    addEvent('teleop_pickup_ground');
+  });
 
   function addEvent(type){
     var newEvent ={
@@ -357,7 +313,6 @@ $('#tabletNum').change(function(){
 
   $('#matchScoutingForm').submit(function(e){
     e.preventDefault()
-    console.log('submitting form')
     saveRecording();
   })
 
@@ -365,9 +320,10 @@ $('#tabletNum').change(function(){
 
 
   function saveRecording(){
-    // currentMatchData['comments'] = $('#comments').val();
-    currentMatchData['autonNodeList'] = autonNodeList();
-    currentMatchData['teleopNodeList'] = teleopNodeList();
+    currentMatchData['win'] = $("#win").is(':checked');
+    currentMatchData['comments'] = $('#comments').val();
+    currentMatchData['autonNodeList'] = autonNodeList;
+    currentMatchData['teleopNodeList'] = teleopNodeList;
     currentMatchData['recorded_date'] = new Date();
     currentMatchData['transfered'] = 0;
     addMatch(currentMatchData);
@@ -377,6 +333,7 @@ $('#tabletNum').change(function(){
     $('#matchType').val(currentMatchData['type']);
     $('#matchNumber').val(currentMatchData['match_number']++);
     $('#scout_name').val(getCookie('scout_name') || '');
+    $('#tabletNum').val(getCookie('tabletNum') || '').change();
 
 
     currentMatchData = {};
@@ -392,7 +349,6 @@ $('#tabletNum').change(function(){
   //Save value after it has 'settled'
 
   $('.hybrid-btn-label').on('click',function(){
-    console.log("hybrid button label pressed")
     hybridNodeClick($(this).attr('id'));
   })
 
@@ -419,7 +375,6 @@ $('#tabletNum').change(function(){
     let isAuton = id.includes("auton");
     let pointValue = getPointValueForNode(id);
 
-    console.log("isAuton: " , isAuton)
     if(val <= 3){
         $("#" + id).val(val)
     } else {

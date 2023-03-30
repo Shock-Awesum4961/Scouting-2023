@@ -22,16 +22,14 @@
             <nav id="nav-bar">
             </nav>
             <div class="container">
-                <table class="datatable-container" id="datatable-container">
+                <table class="datatable-container w-100" id="datatable-container">
                     <thead>
                         <tr>
                             <th>Team Number</th>
-                            <th>Avg total score</th>
-                            <th>Lowest total score</th>
-                            <th>Highest total score</th>
-                            <th>Avg auton score</th>
-                            <th>Most common game piece</th>
-                            <th>Is Defensive</th>
+                            <th>Avg score</th>
+                            <th>Avg auto score</th>
+                            <th>Fav game piece</th>
+                            <th>Def</th>
                             <th>Win %</th>
                         </tr>
                     </thead>
@@ -40,28 +38,28 @@
             </div>
         </div>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
+          <div class="offcanvas-header">
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">4961 Scouting</h5>
-        </div>
-        <div class="offcanvas-body">
+          </div>
+          <div class="offcanvas-body">
             <ul class="nav flex-column">
-            <li class="nav-item">
+              <li class="nav-item">
                 <a class="nav-link active" href="/index.html">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pages/match-scouting.html">Match Scouting</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pages/pit-scouting.html">Pit Scouting</a>
-            </li>
-            <li><a class="nav-link" href="/pages/transfer-send.html">Send</a></li>
-            <li><a class="nav-link" href="/pages/transfer-receive.html">Receive</a></li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="offcanvas-match-scout" href="/pages/match-scouting.html">Match Scouting</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="offcanvas-pit-scout" href="/pages/pit-scouting.html">Pit Scouting</a>
+              </li>
+              <li><a class="nav-link" href="/pages/transfer-send.html">Send</a></li>
+              <li><a class="nav-link" href="/pages/transfer-receive.html">Receive</a></li>
+              <li class="nav-item">
                 <a class="nav-link" href="/pages/saved.html">Saved</a>
-            </li>
+              </li>
             </ul>
-        </div>
+          </div>
         </div>
     </main>
     

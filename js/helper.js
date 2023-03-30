@@ -30,3 +30,8 @@ function setCookie(cName, cValue, expHours) {
         return false;
     }
 }
+
+if(getCookie('scout_name') != ""){
+  $('#offcanvas-match-scout').removeClass('disabled');
+  $('#offcanvas-pit-scout').removeClass('disabled');
+}

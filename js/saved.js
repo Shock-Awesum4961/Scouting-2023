@@ -1,24 +1,18 @@
 function afterDBLoad(){
-    console.log("after db load")
 
-    getAllMatchesIndexed("team_number").then(function(matchData){
+    buildAggregateData().then(function(matchData){
+        console.log(typeof matchData)
+        console.log(matchData)
+        console.log(matchData.length)
         $('#datatable-container').dataTable( {
             dataType: 'json',
             columns: [
                 { data: 'team_number' },
-            ],
-            columnDefs: [
-                {
-                    // The `data` parameter refers to the data for the cell (defined by the
-                    // `data` option, which defaults to the column being worked with, in
-                    // this case `data: 0`.
-                    render: function (data, type, row) {
-                        console.log(row);
-                        // return data + ' (' + row[3] + ')';
-                    },
-                    targets: 0,
-                },
-                { visible: false, targets: [3] },
+                { data: 'avg_score'},   
+                { data: 'avg_auto_score'},
+                { data: 'fav_game_piece'},
+                { data: 'defensive'},
+                { data: 'win_percent'},
             ],
             data: matchData
         });
