@@ -40,11 +40,6 @@
       "type": "image/icp",
       "sizes": "16x16",
       "purpose": "any"
-    },       
-    {
-      "src": "/Scouting-2023/images/icons/icons8-home-page-30.png",
-      "type": "image/icp",
-      "sizes": "30x30"
-    }       
+    }      
   ]
 }
