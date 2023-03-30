@@ -37,7 +37,8 @@ function generateQRCodeToTransfer(){
 
 function handleTransferCheckbox(ele,id){
   if($(ele).prop("checked")){
-    if($(ele).hasClass("transferMatchCheckbox") == "SendMatches"){
+    console.log($(ele).hasClass("transferMatchCheckbox"))
+    if($(ele).hasClass("transferMatchCheckbox")){
         dataToTransfer.push(matchesNotTransfered[id]);
     }else {
         dataToTransfer.push(pitNotTransfered[id]);
@@ -247,7 +248,7 @@ function populateTransferList(eleId){
         (p1, p2) => (p1.recorded_date < p2.recorded_date) ? 1 : (p1.recorded_date > p2.recorded_date) ? -1 : 0);
         sortedData.forEach(match => {
         if($.isArray(match)){console.log(match); newMatch = Object.fromEntries(match.entries());console.log(newMatch)}
-        matchesNotTransfered[match.id] = match;
+        matchesNotTransfered[match.id] = SimplifyMatchJson(match);
         
             var divStr = '<div class="list-group-item text-align-left" id="transferMatch_'+match.id+'">' +
                 '<div class="form-check" >'+
@@ -270,15 +271,42 @@ function populateTransferList(eleId){
 
 /*
     0: type (test/)
-    1: pitTeamNumber
+    1: team_number
     2: recorded_date
-    3:
-
-    ~: events
+    3: match_number
+    4: tablet # / team color
+    5: mobility
+    6: autonCharger
+    7: autonNodeList
+    8: defensive
+    9: teleopNodeList
+    10: linksMade
+    11: endgameCharger
+    12: comments
+    13: events
 */
 
 function SimplifyMatchJson(matchObj){
+  let matchArray = [];
+  matchArray.push(matchObj['type']);
+  matchArray.push(matchObj['team_number']);
+  matchArray.push(matchObj['recorded_date']);
+  matchArray.push(matchObj['match_number']);
+  if('tabletNum' in matchObj){
+    matchArray.push(matchObj['tabletNum']);
+  } else {
+    matchArray.push(matchObj['alliance']);
+  }
+  matchArray.push(matchObj['mobility'])
+  matchArray.push(matchObj['auton_charger'])
+  matchArray.push(matchObj['autonNodeList'])
+  matchArray.push(matchObj['defensive'])
+  
 
+
+
+
+  return matchArray;
 }
 
 /*
@@ -308,5 +336,7 @@ function SimplifyPitJson(pitObj){
     pitArray.push(pitObj['pitOrientGamepieces']);
     pitArray.push(pitObj['type']);
     pitArray.push(pitObj['comments']);
+
+    return pitArray;
 
 }

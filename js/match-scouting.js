@@ -11,7 +11,7 @@ var currentMatchTime;
 
 var validMatchInfo = false;
 
-var autoNodeList = [];
+var autonNodeList = [];
 var teleopNodeList = [];
 
 var currentMatchData = {};
@@ -448,7 +448,7 @@ $('#tabletNum').change(function(){
     if(checked){
       if(isAuton){
         currentMatchData["auton_grid_total"] += pointValue;
-        autoNodeList.push(nodeCoord)
+        autonNodeList.push(nodeCoord)
 
       } else {
         currentMatchData["teleop_grid_total"] += pointValue;
@@ -458,10 +458,10 @@ $('#tabletNum').change(function(){
     } else {
       if(isAuton){
         currentMatchData["auton_grid_total"] -= pointValue;
-        autoNodeList = autoNodeList.filter(item => item !== nodeCoord)
+        autonNodeList = autonNodeList.filter(item => item !== nodeCoord)
       } else {
         currentMatchData["teleop_grid_total"] -= pointValue;
-        teleopNodeList = autoNodeList.filter(item => item !== nodeCoord)
+        teleopNodeList = teleopNodeList.filter(item => item !== nodeCoord)
 
       }
     }
