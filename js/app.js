@@ -7,6 +7,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-$('#nav-bar').load('/pages/fragments/nav.html');
+$('#nav-bar').load('/Scouting-2023/pages/fragments/nav.html');
 
   
