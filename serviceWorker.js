@@ -2,6 +2,13 @@ const staticDevScouting2023 = "dev-scouting-2023-v1";
 const assets = [
   "/Scouting-2023/",
   "/Scouting-2023/index.html",
+  "/Scouting-2023/pages/fragments/nav.html",
+  "/Scouting-2023/pages/grid-frag.html",
+  "/Scouting-2023/pages/match-scouting.html",
+  "/Scouting-2023/pages/pit-scouting.html",
+  "/Scouting-2023/pages/saved.html",
+  "/Scouting-2023/pages/transfer-receive.html",
+  "/Scouting-2023/pages/transfer-send.html",
   "/Scouting-2023/css/style.css",
   "/Scouting-2023/css/bootstrap.min.css",
   "/Scouting-2023/css/bootstrap.min.css.map",
