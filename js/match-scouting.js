@@ -91,13 +91,27 @@ function validateMatchInfo(){
   if($('#matchNumber').val() == "" || $('#matchNumber').val() == null && $('#matchNumber').val() > 0){validMatchInfo = false;}
   if($('#teamNumber').val() == "" || $('#teamNumber').val() == null && $('#teamNumber').val() > 0){validMatchInfo = false;}
 
-  if(validMatchInfo){$('#continueMatchInfo').prop('disabled', false)} else { $('#continueMatchInfo').prop('disabled', true);}
+  if(validMatchInfo){ 
+    $('#continueMatchInfo').prop('disabled', false); 
+  } else { 
+    $('#continueMatchInfo').prop('disabled', true);
+  }
 
 
 }
 
 $('#continueMatchInfo').click(function(e){
     e.preventDefault();
+    $('#matchInfoTeamNum').html($('#teamNumber').val());
+    $('#matchInfoAllianceColor').html($('#tabletNum').val().toUpperCase());
+    if($('#tabletNum').val().includes('blue')){
+      $('#matchInfoAllianceColor').css("color","blue")
+    } else {
+      $('#matchInfoAllianceColor').css("color","red")
+
+    }
+
+
 
     showAuton()
 
@@ -124,6 +138,7 @@ $('#teleopBack').click(function(e){
 })
 
 function showAuton(){
+    $('#matchInfoNumColor').show();
     $('.timer-section').show();
     $('#record-info').hide();
     $('#record-teleop').hide();
@@ -140,6 +155,7 @@ function showTeleop(){
 }
 
 function showInfo(){
+  $('#matchInfoNumColor').hide();
   $('.timer-section').hide();
   $('#record-auton').hide();
   $('#record-teleop ').hide();
@@ -350,6 +366,8 @@ $('#tabletNum').change(function(){
 
   function saveRecording(){
     // currentMatchData['comments'] = $('#comments').val();
+    currentMatchData['autonNodeList'] = autonNodeList();
+    currentMatchData['teleopNodeList'] = teleopNodeList();
     currentMatchData['recorded_date'] = new Date();
     currentMatchData['transfered'] = 0;
     addMatch(currentMatchData);

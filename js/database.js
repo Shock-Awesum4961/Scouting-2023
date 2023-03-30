@@ -118,6 +118,7 @@ req.onupgradeneeded = function (evt) {
     }
 
     function getAllMatches(qry){
+      console.log("getting all matches")
       return new Promise((resolve, reject) =>{
         let store = getMatchesStore();
         req = store.getAll();

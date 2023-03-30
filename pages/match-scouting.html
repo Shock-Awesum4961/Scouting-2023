@@ -17,8 +17,11 @@
     <body>
         <main>
             <div class="main-container">
-                <nav id="nav-bar">
-
+                <nav class="d-flex">
+                    <div id="nav-bar"></div>
+                    <div id="matchInfoNumColor" class="flex-fill text-center" style="display:none;">
+                        #<span id="matchInfoTeamNum"></span> - <span id="matchInfoAllianceColor"></span>
+                    </div>
                 </nav>
                 <div class="container">
                     <form id="matchScoutingForm">
@@ -65,9 +68,9 @@
                                 </label>
                                 <label class="form-check-label ms-2" >Red</label>
                             </div> -->
-                            <div class="mb-3">
+                            <div class="mb-3 text-center">
                                 <label class="form-label" for="tabletNum">Tablet #<span class="text-danger">*</span></label>
-                                <select class="form-select" name="tabletNum" id="tabletNum">
+                                <select class="form-select w-50 ms-auto me-auto" name="tabletNum" id="tabletNum">
                                 <option value="" selected disabled class="text-secondary">Required</option>
                                 <option value="blue1" class="text-black">Blue 1</option>
                                 <option value="blue2" class="text-black">Blue 2</option>
@@ -85,11 +88,7 @@
                         </div>
 
                         <!-- Timer Section -->
-                        <div class="timer-section mt-4 text-center" style="display:none">
-                            <div>
-                                #<span id="matchInfoTeamNum"></span> - <span id="matchInfoAllianceColor"></span>
-                                
-                            </div>
+                        <div class="timer-section text-center" style="display:none">
                             <div class="start-button">
                             <a class="btn btn-danger" onclick="startTimer()" id="startTimer">Start Match Timer</a>
                             <a class="btn btn-outline-secondary" onclick="stopTimer()" id="stopTimer" style="display:none"><img src="/images/icons/pause-fill.svg"/></a>
