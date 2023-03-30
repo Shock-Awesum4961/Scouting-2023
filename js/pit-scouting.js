@@ -19,3 +19,12 @@ $('#pitScoutingForm').submit(function(event){
   function resetPitScout(){
     $('#pitScoutingForm')[0].reset();
   }
+
+  $('#pitDrivetrain').change(function(){
+    if($('#pitDrivetrain').val() == "other"){
+      $('#otherDrivetrain').show()
+    } else{
+      $('#otherDrivetrain').hide()
+      
+    }
+  })
