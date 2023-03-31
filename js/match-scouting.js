@@ -354,6 +354,7 @@ $('#tabletNum').change(function(){
     $('#matchScoutingForm')[0].reset();
     $('#matchType').val(currentMatchData['type']);
     $('#matchNumber').val(currentMatchData['match_number']++);
+    $('#matchDate').val(new Date().toISOString().slice(0, 10) );
     $('#scout_name').val(getCookie('scout_name') || '');
     $('#tabletNum').val(getCookie('tabletNum') || '').change();
 
